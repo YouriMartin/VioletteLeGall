@@ -2,14 +2,17 @@
   <div id="app">
     <Navbar />
     <router-view />
+    <Footer />
   </div>
 </template>
 <script>
 import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
 export default {
   name: "App",
   components: {
     Navbar,
+    Footer,
   },
   mounted() {
     this.$store.dispatch("getScreenWidth", screen.width);
@@ -25,11 +28,6 @@ export default {
   padding: 0;
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f1f1f1;
-  height: 100vh;
-}
 @font-face {
   font-family: "Signatura Monoline Script";
   src: url("assets/fonts/Signatura Monoline.otf") format("embedded-opentype"),
@@ -37,12 +35,12 @@ body {
   font-weight: normal;
   font-style: normal;
 }
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+
+@font-face {
+  font-family: "Lulo Clean One";
+  src: url("assets/fonts/Lulo Clean One.otf") format("embedded-opentype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 :root {
@@ -51,12 +49,41 @@ body {
   --thirdly-color: #cb7666;
   --fourthly-color: #f1ece4;
 }
+
 h1 {
   font-family: "Signatura Monoline Script";
   color: var(--fourthly-color);
-  mix-blend-mode: hard-light;
+  text-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  font-size: 12vw;
+}
+h2 {
+  font-size: 8vw;
+}
+h3 {
+  font-size: 7vw;
+}
+h4 {
+  font-size: 5vw;
+}
+body {
+  font-family: "Lulo Clean One", sans-serif;
 }
 li {
   list-style: none;
+}
+section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.inline-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 </style>

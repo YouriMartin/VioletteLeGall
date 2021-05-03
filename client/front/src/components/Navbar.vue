@@ -124,8 +124,8 @@ a {
 .fa-times,
 .fa-bars {
   top: 2%;
-  right: 5%;
-  font-size: 7vw;
+  right: 6%;
+  font-size: 8vw;
 }
 .fa-times {
   position: absolute;

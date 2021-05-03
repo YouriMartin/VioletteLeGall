@@ -3,7 +3,7 @@
     <vueper-slides
       ref="myVueperSlides"
       autoplay
-      fixedHeight="100vh"
+      :fixedHeight="size"
       :arrows="false"
     >
       <vueper-slide
@@ -22,6 +22,7 @@ import "vueperslides/dist/vueperslides.css";
 
 export default {
   name: "Caroussel",
+  props: ["size"],
   components: {
     VueperSlides,
     VueperSlide,
@@ -49,6 +50,6 @@ export default {
 
 <style scoped>
 #caroussel {
-  z-index: -100;
+  z-index: 1;
 }
 </style>
