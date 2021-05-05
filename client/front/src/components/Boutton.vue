@@ -51,11 +51,10 @@ a {
   background-color: var(--thirdly-color);
   color: var(--fourthly-color);
 }
-.thirdly-invert-big {
+.thirdly-invert-borderless-big {
   padding: 15px;
   font-size: 20px;
   background-color: var(--fourthly-color);
   color: var(--thirdly-color);
-  border: 3px solid var(--thirdly-color);
 }
 </style>

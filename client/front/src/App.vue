@@ -79,6 +79,7 @@ section {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+  
 }
 .inline-flex {
   display: flex;
