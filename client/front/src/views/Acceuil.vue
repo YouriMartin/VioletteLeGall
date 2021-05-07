@@ -170,12 +170,10 @@ export default {
     };
   },
   mounted() {
-    console.log("tata");
     Axios.get(
       "https://www.googleapis.com/youtube/v3/search?key=AIzaSyAa_8XnoOsP9FFRwSjQgsq24b917C8AxLY&channelId=UC2pZC0DhtKP-zjXmVC5AxaA&part=snippet,id&order=date&maxResults=1"
     ).then((resp) => {
-      console.log("toto");
-      console.log(resp.data.items[0].id.videoId);
+      //console.log(resp.data.items[0].id.videoId);
       this.lienYoutube = resp.data.items[0].id.videoId;
     });
   },

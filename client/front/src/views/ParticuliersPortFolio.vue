@@ -1,7 +1,7 @@
 <template>
   <div id="particuliersPortFolio">
     <div id="first-section">
-      <h2>Particulier folio</h2>
+      <h2>Particulier Portfolio</h2>
 
       <Caroussel :size="'30vh'" />
       <p>

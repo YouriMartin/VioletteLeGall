@@ -1,81 +1,96 @@
-<template>
+<template >
   <nav>
+    <transition name="toggle">
+      <i
+        v-if="$store.state.mobile && !navBarShow"
+        @click="ToggleNavBar()"
+        class="fas fa-bars"
+      ></i>
+    </transition>
+    <transition name="toggle">
+      <i
+        v-if="navBarShow && $store.state.mobile"
+        @click="ToggleNavBar()"
+        class="fas fa-times"
+      ></i>
+    </transition>
     <i
       v-if="$store.state.mobile && !navBarShow"
-      @click="ToggleNavBar()"
-      class="fas fa-bars"
+      @click="ScrollTop()"
+      class="fas fa-chevron-up"
     ></i>
-    <i
-      v-if="navBarShow && $store.state.mobile"
-      @click="ToggleNavBar()"
-      class="fas fa-times"
-    ></i>
-    <ul v-if="navBarShow || !$store.state.mobile" id="navbar">
-      <li>
-        <router-link v-on:click.native="ToggleNavBar()" to="/"
-          >LOGO</router-link
-        >
-      </li>
-      <li class="deroulant">
-        <div @click="ToggleNavLink('particulier')" class="nav-link">
-          <p>Particuliers</p>
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <div v-if="particulierOptionShow" class="sous">
+    <transition name="toggle">
+      <ul v-if="navBarShow || !$store.state.mobile" id="navbar">
+        <li>
+          <router-link v-on:click.native="ToggleNavBar()" to="/"
+            ><img src="@/assets/logoblanc.svg" alt="logo"
+          /></router-link>
+        </li>
+        <li class="deroulant">
+          <div @click="ToggleNavLink('particulier')" class="nav-link">
+            <p>Particuliers</p>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <transition name="deroule">
+            <div v-if="particulierOptionShow" class="sous">
+              <router-link
+                v-on:click.native="ToggleNavBar()"
+                class="sous-link"
+                to="/particuliers/portfolio"
+                >PortFolio</router-link
+              >
+              <router-link
+                v-on:click.native="ToggleNavBar()"
+                class="sous-link"
+                to="/particuliers/tarifs"
+                >Tarifs</router-link
+              >
+            </div>
+          </transition>
+        </li>
+        <li class="deroulant">
+          <div @click="ToggleNavLink('professionnel')" class="nav-link">
+            <p>Professionnels</p>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <transition name="deroule">
+            <div v-if="professionnelOptionShow" class="sous">
+              <router-link
+                v-on:click.native="ToggleNavBar()"
+                class="sous-link"
+                to="/professionnels/portfolio"
+                >PortFolio</router-link
+              >
+              <router-link
+                v-on:click.native="ToggleNavBar()"
+                class="sous-link"
+                to="/professionnels/tarifs"
+                >Tarifs</router-link
+              >
+            </div>
+          </transition>
+        </li>
+        <li>
           <router-link
             v-on:click.native="ToggleNavBar()"
-            class="sous-link"
-            to="/particuliers/portfolio"
-            >PortFolio</router-link
+            class="nav-link"
+            to="/contact"
+            >Contact</router-link
           >
+        </li>
+        <li>
           <router-link
             v-on:click.native="ToggleNavBar()"
-            class="sous-link"
-            to="/particuliers/tarifs"
-            >Tarifs</router-link
+            class="nav-link"
+            to="/blog"
+            >Blog</router-link
           >
-        </div>
-      </li>
-      <li class="deroulant">
-        <div @click="ToggleNavLink('professionnel')" class="nav-link">
-          <p>Professionnels</p>
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <div v-if="professionnelOptionShow" class="sous">
-          <router-link
-            v-on:click.native="ToggleNavBar()"
-            class="sous-link"
-            to="/professionnels/portfolio"
-            >PortFolio</router-link
-          >
-          <router-link
-            v-on:click.native="ToggleNavBar()"
-            class="sous-link"
-            to="/professionnels/tarifs"
-            >Tarifs</router-link
-          >
-        </div>
-      </li>
-      <li>
-        <router-link
-          v-on:click.native="ToggleNavBar()"
-          class="nav-link"
-          to="/contact"
-          >Contact</router-link
-        >
-      </li>
-      <li>
-        <router-link
-          v-on:click.native="ToggleNavBar()"
-          class="nav-link"
-          to="/blog"
-          >Blog</router-link
-        >
-      </li>
-      <li v-on:click="ToggleNavBar()">
-        <a class="nav-link" href="#">Galerie Client </a>
-      </li>
-    </ul>
+        </li>
+        <li v-on:click="ToggleNavBar()">
+          <a class="nav-link" href="#">Galerie Client </a>
+        </li>
+      </ul>
+    </transition>
   </nav>
 </template>
 
@@ -90,11 +105,23 @@ export default Vue.extend({
       professionnelOptionShow: false,
     };
   },
+  created() {
+    window.addEventListener("scroll", this.ToggleNavBarScroll);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.ToggleNavBarScroll);
+  },
   methods: {
     ToggleNavBar() {
       this.navBarShow = !this.navBarShow;
       this.particulierOptionShow = false;
       this.professionnelOptionShow = false;
+      window.scrollTo(0, 0);
+    },
+    ToggleNavBarScroll() {
+      if (window.pageYOffset) {
+        this.navBarShow = false;
+      }
     },
     ToggleNavLink(link) {
       if (link === "particulier") {
@@ -108,6 +135,9 @@ export default Vue.extend({
           this.particulierOptionShow = !this.particulierOptionShow;
         }
       }
+    },
+    ScrollTop() {
+      window.scrollTo(0, 0);
     },
   },
 });
@@ -135,6 +165,14 @@ a {
 .fa-bars {
   position: fixed;
   color: black;
+  z-index: 4;
+}
+.fa-chevron-up {
+  position: fixed;
+  color: black;
+  font-size: 8vw;
+  bottom: 10%;
+  right: 10%;
   z-index: 4;
 }
 #navbar {
@@ -181,5 +219,31 @@ a {
 }
 .sous-link:active::after {
   transform: scale(0);
+}
+.toggle-enter-active {
+  transition: opacity 0.7s, transform 0.5s;
+}
+.toggle-leave-active {
+  transition: opacity 0.7s 0.2s, transform 0.5s 0.1s;
+}
+.toggle-enter,
+.toggle-leave-to {
+  opacity: 0;
+  transform: translateY(-100vh);
+}
+
+.deroule-enter-active {
+  transition: all 1s cubic-bezier(0.1, 0.2, 0.4, 0.1);
+}
+.deroule-leave-active {
+  transition: all 0.5s cubic-bezier(0.1, 0.2, 0.3, 0.4);
+}
+.deroule-enter,
+.deroule-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.deroule-leave-to {
+  height: 0%;
 }
 </style>

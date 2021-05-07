@@ -3,14 +3,14 @@
     <section>
       <div id="title-img-container">
         <h2>Particuliers Tarifs</h2>
-        <img id="img-acceuil" :src="bloc[0].img.src" :alt="bloc[0].img.alt" />
+        <img id="img-acceuil" :src="blocs[0].img.src" :alt="blocs[0].img.alt" />
       </div>
       <h3>Mes Prestations</h3>
       <div class="bloc-text">
-        <h4>{{ bloc[0].subtitle }}</h4>
+        <h4>{{ blocs[0].subtitle }}</h4>
         <p
           class="paragraphe"
-          v-for="paragraphe in bloc[0].paragraphes"
+          v-for="paragraphe in blocs[0].paragraphes"
           :key="paragraphe"
         >
           {{ paragraphe }}
@@ -26,119 +26,29 @@
         />
       </div>
     </section>
-    <section>
-      <img :src="bloc[1].img.src" :alt="bloc[1].img.alt" />
+    <section v-for="bloc in blocs.slice(1)" :key="bloc.id">
+      <img :src="bloc.img.src" :alt="bloc.img.alt" />
       <div class="bloc-text">
-        <h3>{{ bloc[1].title }}</h3>
-        <h4>{{ bloc[1].subtitle }}</h4>
+        <h3>{{ bloc.title }}</h3>
+        <h4>{{ bloc.subtitle }}</h4>
         <p
           class="paragraphe"
-          v-for="paragraphe in bloc[1].paragraphes"
+          v-for="paragraphe in bloc.paragraphes"
           :key="paragraphe"
         >
           {{ paragraphe }}
         </p>
         <Boutton
+          v-on:click.native="setMessage(bloc.id)"
+          v-if="bloc.id % 2 === 0"
           :texte="'Me Contacter'"
           :css="'thirdly-invert-borderless-big'"
           :route="'/contact'"
           :type="'router'"
         />
-      </div>
-    </section>
-    <section>
-      <img :src="bloc[2].img.src" :alt="bloc[2].img.alt" />
-      <div class="bloc-text">
-        <h3>{{ bloc[2].title }}</h3>
-        <h4>{{ bloc[2].subtitle }}</h4>
-        <p
-          class="paragraphe"
-          v-for="paragraphe in bloc[2].paragraphes"
-          :key="paragraphe"
-        >
-          {{ paragraphe }}
-        </p>
         <Boutton
-          :texte="'Me Contacter'"
-          :css="'thirdly-big'"
-          :route="'/contact'"
-          :type="'router'"
-        />
-      </div>
-    </section>
-    <section>
-      <img :src="bloc[3].img.src" :alt="bloc[3].img.alt" />
-      <div class="bloc-text">
-        <h3>{{ bloc[3].title }}</h3>
-        <h4>{{ bloc[3].subtitle }}</h4>
-        <p
-          class="paragraphe"
-          v-for="paragraphe in bloc[3].paragraphes"
-          :key="paragraphe"
-        >
-          {{ paragraphe }}
-        </p>
-        <Boutton
-          :texte="'Me Contacter'"
-          :css="'thirdly-invert-borderless-big'"
-          :route="'/contact'"
-          :type="'router'"
-        />
-      </div>
-    </section>
-    <section>
-      <img :src="bloc[4].img.src" :alt="bloc[4].img.alt" />
-      <div class="bloc-text">
-        <h3>{{ bloc[4].title }}</h3>
-        <h4>{{ bloc[4].subtitle }}</h4>
-        <p
-          class="paragraphe"
-          v-for="paragraphe in bloc[4].paragraphes"
-          :key="paragraphe"
-        >
-          {{ paragraphe }}
-        </p>
-        <Boutton
-          :texte="'Me Contacter'"
-          :css="'thirdly-big'"
-          :route="'/contact'"
-          :type="'router'"
-        />
-      </div>
-    </section>
-    <section>
-      <img :src="bloc[5].img.src" :alt="bloc[5].img.alt" />
-      <div class="bloc-text">
-        <h3>{{ bloc[5].title }}</h3>
-        <h4>{{ bloc[5].subtitle }}</h4>
-        <p
-          class="paragraphe"
-          v-for="paragraphe in bloc[5].paragraphes"
-          :key="paragraphe"
-        >
-          {{ paragraphe }}
-        </p>
-        <Boutton
-          :texte="'Me Contacter'"
-          :css="'thirdly-invert-borderless-big'"
-          :route="'/contact'"
-          :type="'router'"
-        />
-      </div>
-    </section>
-    <section>
-      <img :src="bloc[6].img.src" :alt="bloc[6].img.alt" />
-      <div class="bloc-text">
-        <h3>{{ bloc[6].title }}</h3>
-        <h4>{{ bloc[6].subtitle }}</h4>
-        <p
-          class="paragraphe"
-          v-for="paragraphe in bloc[6].paragraphes"
-          :key="paragraphe"
-        >
-          {{ paragraphe }}
-        </p>
-        <Boutton
+          v-on:click.native="setMessage(bloc.id)"
+          v-if="bloc.id % 2 != 0"
           :texte="'Me Contacter'"
           :css="'thirdly-big'"
           :route="'/contact'"
@@ -158,8 +68,9 @@ export default {
   },
   data() {
     return {
-      bloc: [
+      blocs: [
         {
+          id: 1,
           img: {
             src: require("@/assets/imgTest/prestation.jpg"),
             alt: "prestation",
@@ -171,6 +82,7 @@ export default {
           ],
         },
         {
+          id: 2,
           img: {
             src: require("@/assets/imgTest/portraitsFolio.jpg"),
             alt: "tarif portrait",
@@ -178,8 +90,10 @@ export default {
           title: "Portraits",
           subtitle: "A partir de 80€",
           paragraphes: ["Une séance photo en extérieur, où vous le souhaitez"],
+          message: "Je vous contacte pour réserver une séance de portraits",
         },
         {
+          id: 3,
           img: {
             src: require("@/assets/imgTest/ParticulierFolio7.jpg"),
             alt: "tarif naissance",
@@ -189,8 +103,10 @@ export default {
           paragraphes: [
             "Je vous propose une séance photo en extérieur ou à domicile pour des photos plus en intimité",
           ],
+          message: "Je vous contacte pour réserver une séance de naissance",
         },
         {
+          id: 4,
           img: {
             src: require("@/assets/imgTest/famille.jpg"),
             alt: "tarif Famille",
@@ -200,8 +116,10 @@ export default {
           paragraphes: [
             "Je vous propose une séance photo en extérieur ou à domicile, en famille.",
           ],
+          message: "Je vous contacte pour réserver une séance de famille",
         },
         {
+          id: 5,
           img: {
             src: require("@/assets/imgTest/proFolio.jpg"),
             alt: "tarif pro",
@@ -212,8 +130,11 @@ export default {
             "Vous avez besoin d'une photo pour votre CV ou votre profil Linkedin?",
             "Je vous propose une mini séance en studio où j'adapte mes photos à la personnalité et au type d'emploi recherché !",
           ],
+          message:
+            "Je vous contacte pour réserver une séance de photo professionnels",
         },
         {
+          id: 6,
           img: {
             src: require("@/assets/imgTest/coupleFolio.jpg"),
             alt: "tarif couples",
@@ -223,8 +144,10 @@ export default {
           paragraphes: [
             "Une séance avec votre amoureux ou votre amoureuse, au lever du soleil à la mer ou en ville la nuit, c'est vous qui choississez !",
           ],
+          message: "Je vous contacte pour réserver une séance de couple",
         },
         {
+          id: 7,
           img: {
             src: require("@/assets/imgTest/mariage.jpg"),
             alt: "tarif mariage",
@@ -235,9 +158,18 @@ export default {
             "A cause de la crise actuelle, les mariages qui étaient prévus cet été ont été déczlés à l'anné prochaine. Je n'ai donc pas pu faire de mariages depuis la création de mon entreprise. Je rêve de pouvoir couvrir le mariage de quelqu'un. C'est un style que j'affectionne tout particulièrement.",
             "Si mon style vous plaît, contactez moi et vous bénéficierez d'un tarif spécial !",
           ],
+          message: "Je vous contacte pour réserver une séance pour un mariage",
         },
       ],
     };
+  },
+  methods: {
+    setMessage(id) {
+      const index = this.blocs.findIndex((bloc) => bloc.id === id);
+      const message = this.blocs[index].message;
+      console.log(message);
+      this.$store.dispatch("getMessage", message);
+    },
   },
 };
 </script>
@@ -265,7 +197,7 @@ p {
   margin: 0% 10%;
 }
 #title-img-container {
-  height: 30%;
+  height: 40%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
