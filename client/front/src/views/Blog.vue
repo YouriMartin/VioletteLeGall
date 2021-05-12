@@ -76,7 +76,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #blog {
   background-color: var(--fourthly-color);
   color: var(--thirdly-color);
@@ -101,6 +101,24 @@ export default {
   color: var(--fourthly-color);
   margin: 5vh 0;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  #titre-date {
+    margin: 5% 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    p {
+      font-size: 2vh;
+      position: relative;
+      left: 80%;
+      transform: translateX(-100%);
+    }
+    h4 {
+      font-size: 3vh;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
 }
 img {
   height: 20%;
@@ -116,24 +134,5 @@ h2 {
   padding-bottom: 10%;
   line-height: 3vh;
   letter-spacing: 0.15vh;
-}
-
-#titre-date {
-  margin: 5% 0;
-  display: flex;
-  width: 100%;
-  align-items: center;
-}
-h4 {
-  font-size: 3vh;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-}
-#titre-date p {
-  font-size: 2vh;
-  position: relative;
-  left: 80%;
-  transform: translateX(-100%);
 }
 </style>

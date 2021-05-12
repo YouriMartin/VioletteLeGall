@@ -5,7 +5,7 @@ import router from "./router";
 import store from "./store";
 
 Vue.config.productionTip = false;
-Vue.prototype.https = Axios;
+Vue.prototype.http = Axios;
 new Vue({
   router,
   store,

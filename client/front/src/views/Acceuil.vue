@@ -5,10 +5,10 @@
       <Caroussel :size="'100vh'" />
     </div>
     <section id="first-section">
-      <h3 id="titre-hello">Hello !</h3>
+      <h3>Hello !</h3>
       <div id="float-container">
-        <img id="img-hello" :src="imageHello.img" :alt="imageHello.alt" />
-        <p id="texte-hello">{{ texte.hello }}</p>
+        <img :src="imageHello.img" :alt="imageHello.alt" />
+        <p>{{ texte.hello }}</p>
       </div>
       <Boutton
         :texte="'Me Contacter'"
@@ -90,16 +90,17 @@
         @click="GoToThisArticle(article.id)"
       >
         <img :src="article.img.src" :alt="article.img.alt" />
-        <h4>{{ article.titre }}</h4>
-        <p class="article-date">{{ article.date }}</p>
-        <p>{{ article.description.substring(0, 160) + "..." }}</p>
+        <div id="titre-date">
+          <h4>{{ article.titre }}</h4>
+          <p class="article-date">{{ article.date }}</p>
+        </div>
+        <p>{{ article.description.substring(0, 140) + "..." }}</p>
       </div>
     </section>
   </div>
 </template>
 
 <script >
-import Axios from "axios";
 import Caroussel from "../components/Caroussel.vue";
 import Boutton from "../components/Boutton.vue";
 export default {
@@ -170,11 +171,8 @@ export default {
     };
   },
   mounted() {
-    Axios.get(
-      "https://www.googleapis.com/youtube/v3/search?key=AIzaSyAa_8XnoOsP9FFRwSjQgsq24b917C8AxLY&channelId=UC2pZC0DhtKP-zjXmVC5AxaA&part=snippet,id&order=date&maxResults=1"
-    ).then((resp) => {
-      //console.log(resp.data.items[0].id.videoId);
-      this.lienYoutube = resp.data.items[0].id.videoId;
+    this.http.get("http://localhost:9000/youtube/getLastvideo").then((resp) => {
+      this.lienYoutube = resp.data;
     });
   },
   methods: {
@@ -185,7 +183,11 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+#acceuil {
+  overflow: scroll;
+  scroll-snap-type: y mandatory;
+}
 Caroussel {
   position: absolute;
 }
@@ -202,70 +204,94 @@ h1 {
 #fifth-section {
   background-color: var(--fourthly-color);
   color: var(--thirdly-color);
+  scroll-snap-align: start;
 }
 #second-section,
 #fourth-section {
   background-color: var(--primary-color);
   color: var(--fourthly-color);
+  scroll-snap-align: start;
 }
-#float-container {
-  padding: 10%;
-}
-#img-hello {
-  float: left;
-  margin-right: 2vw;
-  clip-path: circle(50%);
-  height: 42vw;
-  shape-outside: circle();
-}
-#texte-hello {
-  margin-top: 2vh;
-  font-size: 4.5vw;
-  letter-spacing: 0.2vw;
-  line-height: 3.5vh;
-}
-
-#second-section img {
-  height: 150px;
-  width: 150px;
-  object-fit: cover;
-}
-.img-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 3vh;
+#first-section {
+  #float-container {
+    padding: 10%;
+  }
+  img {
+    float: left;
+    margin-right: 2vw;
+    clip-path: circle(50%);
+    height: 42vw;
+    shape-outside: circle();
+  }
+  p {
+    margin-top: 2vh;
+    font-size: 2.5vh;
+    letter-spacing: 0.2vw;
+    line-height: 3.5vh;
+  }
 }
 
-#third-section img {
-  height: 30%;
-  object-fit: cover;
+#second-section {
+  img {
+    height: 15vh;
+    width: 40vw;
+    object-fit: cover;
+  }
+  .img-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2vh;
+  }
+}
+
+#third-section {
+  img {
+    height: 30%;
+    object-fit: cover;
+  }
+  p {
+    font-size: 2vh;
+    padding: 0% 5%;
+  }
 }
 
 .card-article {
+  height: 40%;
+  width: 80%;
   background-color: var(--primary-color);
   color: var(--fourthly-color);
-  height: 40%;
-  width: 70%;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border-radius: 10px;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  img {
+    height: 50%;
+    object-fit: cover;
+    width: 100%;
+  }
+  #titre-date {
+    display: flex;
+    width: 90%;
+    align-items: center;
+    p {
+      font-size: 2vh;
+      position: relative;
+      left: 85%;
+      transform: translateX(-100%);
+    }
+    h4 {
+      font-size: 3vh;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+  p {
+    padding: 5%;
+    font-size: 2.2vh;
+  }
 }
-.card-article img {
-  height: 50%;
-  object-fit: cover;
-  width: 100%;
-}
-.card-article p {
-  font-size: 4vw;
-  padding: 5%;
-}
-.article-date {
-  display: contents;
-}
-</style>>
+</style>
 

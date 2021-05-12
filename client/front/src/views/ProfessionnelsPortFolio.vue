@@ -2,7 +2,6 @@
   <div id="professionnelsPortFolio">
     <div id="first-section">
       <h2>Professionnels Portfolio</h2>
-
       <Caroussel :size="'30vh'" />
       <p>
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est odit enim
@@ -38,25 +37,13 @@
       </div>
     </section>
     <section>
-      <h3>Vidéo</h3>
-      <div class="video-bloc">
-        <h4>{{ videoYoutube1.titre }}</h4>
+      <h3>Vidéos</h3>
+      <div v-for="video in videos" :key="video.titre" class="video-bloc">
+        <h4>{{ video.titre }}</h4>
         <iframe
           width="100%"
           height="80%"
-          :src="'https://www.youtube.com/embed/' + videoYoutube1.lien"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
-      </div>
-      <div class="video-bloc">
-        <h4>{{ videoYoutube2.titre }}</h4>
-        <iframe
-          width="100%"
-          height="80%"
-          :src="'https://www.youtube.com/embed/' + videoYoutube2.lien"
+          :src="'https://www.youtube.com/embed/' + video.lien"
           title="YouTube video player"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -74,7 +61,6 @@
 </template>
 
 <script>
-import Axios from "axios";
 import Caroussel from "../components/Caroussel.vue";
 import Boutton from "../components/Boutton.vue";
 export default {
@@ -86,26 +72,15 @@ export default {
   data() {
     return {
       photos: null,
-      videoYoutube1: {
-        titre: "",
-        lien: "",
-      },
-      videoYoutube2: {
-        titre: "",
-        lien: "",
-      },
+      videos: "",
     };
   },
   mounted() {
-    Axios.get(
-      "https://www.googleapis.com/youtube/v3/search?key=AIzaSyAa_8XnoOsP9FFRwSjQgsq24b917C8AxLY&channelId=UC2pZC0DhtKP-zjXmVC5AxaA&part=snippet,id&order=date&maxResults=2"
-    ).then((resp) => {
-      console.log("reponse", resp);
-      this.videoYoutube1.lien = resp.data.items[0].id.videoId;
-      this.videoYoutube1.titre = resp.data.items[0].snippet.title;
-      this.videoYoutube2.lien = resp.data.items[1].id.videoId;
-      this.videoYoutube2.titre = resp.data.items[1].snippet.title;
-    });
+    this.http
+      .get("http://localhost:9000/youtube/getLast2videos")
+      .then((resp) => {
+        this.videos = resp.data;
+      });
   },
   methods: {
     getPhotos(categ) {

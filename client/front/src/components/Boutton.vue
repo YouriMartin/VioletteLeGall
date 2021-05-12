@@ -12,7 +12,7 @@
 <script>
 export default {
   name: "Boutton",
-  props: ["texte", "type", "route", "link", "css"],
+  props: ["texte", "type", "route", "css"],
 };
 </script>
 
@@ -40,8 +40,8 @@ a {
   color: var(--primary-color);
 }
 .primary-invert-borderless-small {
-  padding: 10px 20px;
-  font-size: 15px;
+  padding: 1vh 2.5vh;
+  font-size: 2vh;
   background-color: var(--fourthly-color);
   color: var(--primary-color);
 }

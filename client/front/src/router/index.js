@@ -7,6 +7,8 @@ import ProfessionnelsPortFolio from "../views/ProfessionnelsPortFolio.vue";
 import ProfessionnelsTarifs from "../views/ProfessionnelsTarifs.vue";
 import Blog from "../views/Blog.vue";
 import Contact from "../views/Contact.vue";
+import Admin from "../views/Admin.vue";
+import PageNotFound from "../views/404.vue";
 
 Vue.use(VueRouter);
 
@@ -45,6 +47,16 @@ const routes = [
     path: "/contact",
     name: "Contact",
     component: Contact,
+  },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: Admin,
+  },
+  {
+    path: "*",
+    name: PageNotFound,
+    component: PageNotFound,
   },
 ];
 
