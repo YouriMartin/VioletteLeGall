@@ -1,14 +1,9 @@
 const multer = require("multer");
 
-const MIME_TYPES = {
-  "image/jpg": "jpg",
-  "image/jpeg": "jpg",
-  "image/png": "png",
-};
-
 const storageImage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "photosBack");
+    let type = req.params.type;
+    callback(null, `photosBack/${type}`);
   },
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {

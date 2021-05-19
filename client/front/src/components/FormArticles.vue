@@ -1,15 +1,18 @@
 <template>
   <section id="form-article">
-    <h2>formulaire Articles</h2>
+    <h3>formulaire Articles</h3>
     <div class="form">
+      <label for="titre">Titre :</label>
       <input type="text" name="titre" v-model="titre" placeholder="titre" />
+      <label for="texte">Article : </label>
       <textarea name="texte" v-model="texte" placeholder="texte" />
+
       <input type="date" name="date" v-model="date" />
       <input type="text" name="alt" v-model="alt" placeholder="alt" />
       <input
         type="file"
-        id="photo"
-        name="photo"
+        id="photoArticle"
+        name="photoArticle"
         placeholder="ajouté photo ici"
       />
     </div>
@@ -29,14 +32,8 @@ export default {
   },
   methods: {
     envoyerArticle() {
-      let img = document.getElementById("photo").files[0];
-      /* let article = {
-        titre: this.titre,
-        texte: this.texte,
-        date: this.date,
-        src: img,
-        alt: this.alt,
-      };*/
+      let img = document.getElementById("photoArticle").files[0];
+
       let article = new FormData();
       article.append("titre", this.titre);
       article.append("texte", this.texte);
@@ -46,12 +43,18 @@ export default {
 
       console.log("article", article);
       this.http
-        .post("http://localhost:9000/articles/addArticle", article)
+        .post("http://localhost:9000/articles/addArticle/Articles", article)
         .then((resp) => {
           console.log("reponse", resp);
+          window.alert(resp.data);
+          this.titre = "";
+          this.texte = "";
+          this.alt = "";
+          document.getElementById("photo").value = "";
         })
         .catch((err) => {
           console.log("erreur", err.response);
+          window.alert(err.response.data);
         });
     },
   },
@@ -62,8 +65,14 @@ export default {
 .form {
   display: flex;
   flex-direction: column;
-  height: 50%;
+  height: 70%;
+  width: 90%;
   justify-content: space-evenly;
+  background-color: var(--thirdly-color);
+  color: var(--fourthly-color);
+  padding: 5%;
+  border-radius: 5px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 input,
 textarea {
@@ -75,5 +84,12 @@ textarea {
 textarea {
   resize: none;
   height: 50%;
+}
+button {
+  font-size: 3vh;
+  background-color: var(--thirdly-color);
+  color: var(--fourthly-color);
+  border: none;
+  padding: 2% 5%;
 }
 </style>

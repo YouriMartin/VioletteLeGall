@@ -3,6 +3,10 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const articlesRoutes = require("./route/articlesRoutes");
 const youtubeRoutes = require("./route/youtubeRoutes");
+const instaRoutes = require("./route/instagramRoutes");
+const adminRoutes = require("./route/adminRoutes");
+const photosRoutes = require("./route/photosRoutes");
+const contactRoutes = require("./route/contactRoutes");
 require("dotenv").config();
 
 //middleware
@@ -23,11 +27,15 @@ mongoose.set("useCreateIndex", true);
 mongoose.set("useUnifiedTopology", true);
 
 //MongoDB and Mongoose
-let db = mongoose.connect("mongodb://localhost/TestVioletteSite");
+let db = mongoose.connect("mongodb://localhost:27017/TestVioletteSite");
 
 //requêtes
 app.use("/articles", articlesRoutes);
 app.use("/youtube", youtubeRoutes);
+//app.use("/instagram", instaRoutes);
+app.use("/admin", adminRoutes);
+app.use("/photos", photosRoutes);
+app.use("/contact", contactRoutes);
 
 app.listen(process.env.PORT);
 console.log("le serveur écoute sur le port " + process.env.PORT);

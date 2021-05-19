@@ -1,13 +1,13 @@
 <template>
   <div id="formulaire-contact">
     <h4>Me contacter</h4>
-    <form @submit.prevent="submit">
+    <div id="form">
       <div class="form-element">
         <input
           type="text"
           name="name"
           id="name"
-          required=""
+          v-model="nom"
           placeholder="Nom"
         />
       </div>
@@ -30,7 +30,7 @@
             name="professionel"
             id="professionnel"
             value="professionnel"
-            v-model="selection.framework"
+            v-model="selection"
           />
           <label for="professionnel">Professionnel</label>
         </div>
@@ -40,7 +40,7 @@
             name="particulier"
             id="particulier"
             value="particulier"
-            v-model="selection.framework"
+            v-model="selection"
           />
           <label for="particulier">Particulier</label>
         </div>
@@ -55,13 +55,15 @@
           :maxlength="message.maxlength"
         ></textarea>
       </div>
+
       <div class="error-message">
         <p v-show="!email.valid">Votre adresse email est invalide</p>
+        <p>{{ erreurMessage }}</p>
       </div>
       <div>
-        <input id="envoyer" type="submit" value="Envoyer" />
+        <button id="envoyer" @click="submit">Envoyer</button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -75,19 +77,49 @@ export default {
         value: "",
         valid: true,
       },
-      selection: {
-        features: [],
-      },
+      selection: "professionnel",
       message: {
         text: "",
         maxlength: 255,
       },
-      submitted: false,
+      nom: "",
+      erreurMessage: "",
     };
   },
   methods: {
-    submit: function () {
-      this.submitted = true;
+    submit() {
+      let self = this;
+      window.grecaptcha.ready(function () {
+        window.grecaptcha
+          .execute("6Le2ZtoaAAAAAJYwB1PID_FGRSk0BevX_cXcm_08", {
+            action: "submit",
+          })
+          .then(function (token) {
+            console.log(token);
+            if (self.email.valid) {
+              if (self.email.value != "" && self.nom != "") {
+                let mail = {
+                  email: self.email.value,
+                  nom: self.nom,
+                  type: self.selection,
+                  message: self.message.text,
+                  token: token,
+                };
+                console.log(mail);
+                self.http
+                  .post("http://localhost:9000/contact/sendMail", mail)
+                  .then((resp) => {
+                    self.erreurMessage = resp.data;
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              } else {
+                self.erreurMessage = "il manque un element";
+              }
+            }
+          });
+      });
     },
 
     validate: function (type, value) {
@@ -95,13 +127,8 @@ export default {
         this.email.valid = this.isEmail(value) ? true : false;
       }
     },
-
     isEmail: function (value) {
       return this.emailRegExp.test(value);
-    },
-
-    checkAll: function (event) {
-      this.selection.features = event.target.checked ? this.features : [];
     },
   },
   mounted() {
@@ -127,7 +154,7 @@ export default {
 h4 {
   margin-bottom: 5%;
 }
-form {
+#form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;

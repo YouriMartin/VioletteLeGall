@@ -16,6 +16,19 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getScreenWidth", screen.width);
+    //
+    this.http
+      .get("http://localhost:9000/admin/isConnected", {
+        headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
+      })
+      .then((resp) => {
+        if (resp.data === true) {
+          this.$store.commit("isConnected");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 </script>
@@ -85,5 +98,8 @@ section {
   align-items: center;
   justify-content: space-evenly;
   flex-wrap: wrap;
+}
+.grecaptcha-badge {
+  visibility: hidden;
 }
 </style>

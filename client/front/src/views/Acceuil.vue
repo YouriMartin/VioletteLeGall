@@ -184,10 +184,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#acceuil {
-  overflow: scroll;
-  scroll-snap-type: y mandatory;
-}
 Caroussel {
   position: absolute;
 }
@@ -210,7 +206,6 @@ h1 {
 #fourth-section {
   background-color: var(--primary-color);
   color: var(--fourthly-color);
-  scroll-snap-align: start;
 }
 #first-section {
   #float-container {

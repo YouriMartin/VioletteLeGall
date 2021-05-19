@@ -49,7 +49,7 @@ p {
   font-size: 10px;
 }
 #logos {
-  font-size: 40px;
+  font-size: 5vh;
   width: 100%;
   display: flex;
   justify-content: space-around;

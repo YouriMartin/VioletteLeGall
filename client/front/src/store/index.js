@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     mobile: true,
     message: "Votre message",
+    admin: false,
   },
   mutations: {
     isMobile(state, width) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     setMessage(state, message) {
       state.message = message;
+    },
+    isConnected(state) {
+      state.admin = true;
     },
   },
   actions: {

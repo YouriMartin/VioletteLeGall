@@ -1,5 +1,5 @@
 <template>
-  <div id="404">
+  <div id="page-not-found">
     <section>
       <i class="fas fa-question"></i>
       <h3>Désolé la page est indisponible.</h3>
@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: "404",
+  name: "PageNotFound",
   methods: {
     GoAcceuil() {
       this.$router.push("/");

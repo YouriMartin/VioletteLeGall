@@ -48,22 +48,20 @@
         >
           {{ paragraphe }}
         </p>
-        <Boutton
+        <button
+          class="button-pair"
+          v-on:click="setMessage(bloc.id)"
           v-if="bloc.id % 2 === 0"
-          v-on:click.native="setMessage(bloc.id)"
-          :texte="'Me Contacter'"
-          :css="'primary-invert-borderless-big'"
-          :route="'/contact'"
-          :type="'router'"
-        />
-        <Boutton
+        >
+          Me Contacter
+        </button>
+        <button
+          class="button-impair"
+          v-on:click="setMessage(bloc.id)"
           v-if="bloc.id % 2 != 0"
-          v-on:click.native="setMessage(bloc.id)"
-          :texte="'Me Contacter'"
-          :css="'primary-big'"
-          :route="'/contact'"
-          :type="'router'"
-        />
+        >
+          Me Contacter
+        </button>
       </div>
     </section>
   </div>
@@ -144,6 +142,7 @@ export default {
       const message = this.blocs[index].message;
       console.log(message);
       this.$store.dispatch("getMessage", message);
+      this.$router.push("/contact");
     },
   },
 };
@@ -193,5 +192,19 @@ p {
 }
 .paragraphe {
   text-align: start;
+}
+.button-pair {
+  padding: 5%;
+  font-size: 3vh;
+  background-color: var(--fourthly-color);
+  color: var(--primary-color);
+  border: none;
+}
+.button-impair {
+  padding: 5%;
+  font-size: 3vh;
+  background-color: var(--primary-color);
+  color: var(--fourthly-color);
+  border: none;
 }
 </style>
