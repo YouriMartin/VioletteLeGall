@@ -4,6 +4,7 @@ require("../models/photos.js");
 const Photos = mongoose.model("Photos");
 const multer = require("../middleware/multer");
 const auth = require("../middleware/auth");
+const fs = require("fs");
 const router = express.Router();
 
 router.post("/addPhotos/:type", multer, (req, res) => {
@@ -29,6 +30,70 @@ router.post("/addPhotos/:type", multer, (req, res) => {
   } else {
     res.status(500).send("Il manque un element");
   }
+});
+
+router.get("/getPhotos/:type", (req, res) => {
+  console.log("param", req.params);
+  Photos.find({ categorie: req.params.type }, (err, data) => {
+    console.log(data);
+    if (err) {
+      res.send("erreur");
+    } else {
+      res.send(data);
+    }
+  });
+});
+
+router.get("/getSousCategories/:type", (req, res) => {
+  console.log("param", req.params);
+  Photos.find({ categorie: req.params.type }).distinct(
+    "sous_categorie",
+    function (error, ids) {
+      console.log(ids);
+      res.send(ids);
+    }
+  );
+});
+
+router.get("/getOne/:id", (req, res) => {
+  console.log("param", req.params);
+  Photos.findById(req.params.id, function (err, photo) {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(photo);
+    }
+  });
+});
+
+router.post("/update", (req, res) => {
+  console.log(req.body);
+  Photos.findOneAndUpdate(
+    { _id: req.body.id },
+    { $set: { alt: req.body.alt } },
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        res.status(500).send("erreur lors de la modification");
+      } else {
+        res.send("Photo modifier");
+      }
+    }
+  );
+});
+
+router.post("/delete", (req, res) => {
+  Photos.findOne({ _id: req.body.id })
+    .then((photo) => {
+      const filename = photo.src;
+      const folder = photo.categorie;
+      fs.unlink(`photosBack/${folder}/${filename}`, () => {
+        Photos.deleteOne({ _id: req.body.id })
+          .then(() => res.status(200).send("Photo supprimé !"))
+          .catch((error) => res.status(500).send(error));
+      });
+    })
+    .catch((error) => res.status(500).send(error));
 });
 
 module.exports = router;

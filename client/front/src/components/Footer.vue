@@ -17,6 +17,7 @@
         <i class="fab fa-youtube"></i>
       </a>
     </div>
+    <p @click="goRgpd()">Mentions Légales</p>
     <p>&copy; {{ getYear }} Copyright: www.violettelegall.com</p>
   </div>
 </template>
@@ -29,6 +30,11 @@ export default {
       let date = new Date();
       let annee = date.getFullYear();
       return annee;
+    },
+  },
+  methods: {
+    goRgpd() {
+      this.$router.push("/rgpd");
     },
   },
 };

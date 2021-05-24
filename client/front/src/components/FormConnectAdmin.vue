@@ -28,22 +28,32 @@ export default {
   },
   methods: {
     connexion() {
-      let infos = {
-        pseudo: this.pseudo,
-        password: this.password,
-      };
-      this.http
-        .post("http://localhost:9000/admin/connexion", infos)
-        .then((resp) => {
-          console.log(resp);
-          this.message = resp.data.message;
-          localStorage.setItem("jwt", resp.data.token);
-          document.location.reload();
-        })
-        .catch((err) => {
-          console.log(err.response);
-          this.erreur = err.response.data.message;
-        });
+      let self = this;
+      window.grecaptcha.ready(function () {
+        window.grecaptcha
+          .execute("6Le2ZtoaAAAAAJYwB1PID_FGRSk0BevX_cXcm_08", {
+            action: "submit",
+          })
+          .then(function (token) {
+            let infos = {
+              pseudo: self.pseudo,
+              password: self.password,
+              token: token,
+            };
+            self.http
+              .post("http://localhost:9000/admin/connexion", infos)
+              .then((resp) => {
+                console.log(resp);
+                self.message = resp.data.message;
+                localStorage.setItem("jwt", resp.data.token);
+                document.location.reload();
+              })
+              .catch((err) => {
+                console.log(err.response);
+                self.erreur = err.response.data.message;
+              });
+          });
+      });
     },
   },
 };

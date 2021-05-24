@@ -23,7 +23,6 @@
       <p>{{ message }}</p>
       <button id="button-form" @click="changerPassword()">Modifier</button>
     </div>
-    <button @click="deconnexion()">Déconnexion Admin</button>
   </section>
 </template>
 
@@ -58,10 +57,6 @@ export default {
       } else {
         this.message = "mot de passe vide";
       }
-    },
-    deconnexion() {
-      localStorage.removeItem("jwt");
-      document.location.reload();
     },
   },
 };

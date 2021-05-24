@@ -89,15 +89,15 @@ export default {
   methods: {
     submit() {
       let self = this;
-      window.grecaptcha.ready(function () {
-        window.grecaptcha
-          .execute("6Le2ZtoaAAAAAJYwB1PID_FGRSk0BevX_cXcm_08", {
-            action: "submit",
-          })
-          .then(function (token) {
-            console.log(token);
-            if (self.email.valid) {
-              if (self.email.value != "" && self.nom != "") {
+      if (this.email.valid) {
+        if (self.email.value != "" && self.nom != "") {
+          window.grecaptcha.ready(function () {
+            window.grecaptcha
+              .execute("6Le2ZtoaAAAAAJYwB1PID_FGRSk0BevX_cXcm_08", {
+                action: "submit",
+              })
+              .then(function (token) {
+                console.log(token);
                 let mail = {
                   email: self.email.value,
                   nom: self.nom,
@@ -114,20 +114,19 @@ export default {
                   .catch((err) => {
                     console.log(err);
                   });
-              } else {
-                self.erreurMessage = "il manque un element";
-              }
-            }
+              });
           });
-      });
+        } else {
+          self.erreurMessage = "il manque un element";
+        }
+      }
     },
-
-    validate: function (type, value) {
+    validate(type, value) {
       if (type === "email") {
         this.email.valid = this.isEmail(value) ? true : false;
       }
     },
-    isEmail: function (value) {
+    isEmail(value) {
       return this.emailRegExp.test(value);
     },
   },

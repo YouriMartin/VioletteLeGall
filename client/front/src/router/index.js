@@ -9,6 +9,8 @@ import Blog from "../views/Blog.vue";
 import Contact from "../views/Contact.vue";
 import Admin from "../views/Admin.vue";
 import PageNotFound from "../views/404.vue";
+import CollectionPhotos from "../views/CollectionPhotos";
+import Rgpd from "../views/Rgpd";
 
 Vue.use(VueRouter);
 
@@ -55,8 +57,18 @@ const routes = [
   },
   {
     path: "*",
-    name: PageNotFound,
+    name: "PageNotFound",
     component: PageNotFound,
+  },
+  {
+    path: "/collectionPhotos",
+    name: "CollectionPhotos",
+    component: CollectionPhotos,
+  },
+  {
+    path: "/rgpd",
+    name: "Rgpd",
+    component: Rgpd,
   },
 ];
 
