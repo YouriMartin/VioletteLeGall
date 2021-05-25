@@ -2,6 +2,7 @@
   <div id="formUpdatePhoto">
     <div class="overlay" @click="toggleModal"></div>
     <div class="modal" v-if="photo">
+      <i class="fas fa-times" @click="toggleModal"></i>
       <h3>{{ photo.alt }}</h3>
       <img
         :src="
@@ -122,6 +123,11 @@ export default {
     letter-spacing: 0.2vh;
     width: 80%;
     align-self: center;
+  }
+  i {
+    position: absolute;
+    right: 6%;
+    font-size: 4vh;
   }
 }
 </style>

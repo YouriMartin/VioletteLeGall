@@ -5,7 +5,19 @@
       <label for="titre">Titre :</label>
       <input type="text" name="titre" v-model="titre" placeholder="titre" />
       <label for="texte">Article : </label>
-      <textarea name="texte" v-model="texte" placeholder="texte" />
+      <bubble-menu class="bubble-menu" :editor="editor" v-if="editor">
+        <i
+          class="fas fa-bold"
+          @click="editor.chain().focus().toggleBold().run()"
+          :class="{ 'is-active': editor.isActive('bold') }"
+        ></i>
+        <i
+          class="fas fa-italic"
+          @click="editor.chain().focus().toggleItalic().run()"
+          :class="{ 'is-active': editor.isActive('italic') }"
+        ></i>
+      </bubble-menu>
+      <editor-content class="content" :editor="editor" v-model="texte" />
 
       <input type="date" name="date" v-model="date" />
       <input type="text" name="alt" v-model="alt" placeholder="alt" />
@@ -21,14 +33,36 @@
 </template>
 
 <script>
+import { Editor, EditorContent, BubbleMenu } from "@tiptap/vue-2";
+import StarterKit from "@tiptap/starter-kit";
+
 export default {
+  components: {
+    EditorContent,
+    BubbleMenu,
+  },
   data() {
     return {
       titre: "",
-      texte: "",
+      texte: "<p>Lorem Ipsum ...</p>",
       alt: "",
       date: new Date().toISOString().substr(0, 10),
+      editor: null,
     };
+  },
+  mounted() {
+    this.editor = new Editor({
+      extensions: [StarterKit],
+      content: this.texte,
+    });
+    this.texte = this.editor.getHTML();
+    // … and get the content after every change.
+    this.editor.on("update", () => {
+      this.texte = this.editor.getHTML();
+    });
+  },
+  beforeDestroy() {
+    this.editor.destroy();
   },
   methods: {
     envoyerArticle() {
@@ -41,9 +75,11 @@ export default {
       article.append("src", img);
       article.append("alt", this.alt);
 
-      console.log("article", article);
+      console.log("article", this.texte);
       this.http
-        .post("http://localhost:9000/articles/addArticle/Articles", article)
+        .post("http://localhost:9000/articles/addArticle/Articles", article, {
+          headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
+        })
         .then((resp) => {
           console.log("reponse", resp);
           window.alert(resp.data);
@@ -62,6 +98,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .ProseMirror {
+  height: 100%;
+  padding: 5%;
+  overflow-y: scroll;
+}
+.content {
+  background-color: white;
+  color: black;
+  height: 50%;
+}
+.bubble-menu {
+  background-color: white;
+  width: 20vh;
+  height: 10vh;
+  font-size: 5vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: 1px solid black;
+  i {
+    padding: 5% 10%;
+  }
+  i:active {
+    border: black solid 1px;
+  }
+}
 .form {
   display: flex;
   flex-direction: column;
@@ -74,17 +138,13 @@ export default {
   border-radius: 5px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
-input,
-textarea {
-  font-size: 2vh;
+input {
+  font-size: 2.5vh;
   border-radius: 5px;
   padding: 2%;
   border: 2px var(--thirdly-color) solid;
 }
-textarea {
-  resize: none;
-  height: 50%;
-}
+
 button {
   font-size: 3vh;
   background-color: var(--thirdly-color);

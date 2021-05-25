@@ -1,9 +1,11 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
+  //console.log(req.headers.authorization);
   try {
     const token = req.headers.authorization.split(" ")[1]; // ATTENTION: quand on veut récupérer une donnée du header de la requête, il faut mettre le nom de l'attribut du header tout en minuscule
     const decodeToken = jwt.verify(token, "CleSecreteDencodage"); // Décodage du middleware
+
     const userIdDecode = decodeToken.userId; // on extrait le userId du token décodé
     if (req.headers.userid != userIdDecode) {
       //si la comparaison n'est pas bonne, on intérompt l'exécution du middlware et on déclenche un message d'erreur

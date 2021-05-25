@@ -1,12 +1,23 @@
 <template>
   <div id="blog">
     <h2>Blog</h2>
+    <FormDeleteArticle
+      v-if="showModalDelete"
+      :toggleModal="deleteArticle"
+      :id="articleId"
+      :showModal="showModalDelete"
+    />
     <div id="card-container">
       <div
         class="card-article"
         v-for="article in ArticlesLimit"
         v-bind:key="article._id"
       >
+        <i
+          v-if="$store.state.admin"
+          class="fas fa-times"
+          @click="deleteArticle(article._id)"
+        ></i>
         <img
           :src="'http://localhost:9000/static/Articles/' + article.img.src"
           :alt="article.img.alt"
@@ -15,7 +26,7 @@
           <h4>{{ article.titre }}</h4>
           <p>{{ article.date.substr(0, 10) }}</p>
         </div>
-        <p class="description">{{ article.texte }}</p>
+        <div v-html="article.texte" class="description"></div>
       </div>
       <h5 v-if="articles.length > 5" @click="MoreArticles()">Afficher plus</h5>
     </div>
@@ -23,12 +34,18 @@
 </template>
 
 <script>
+import FormDeleteArticle from "@/components/FormDeleteArticle.vue";
 export default {
   name: "Blog",
+  components: {
+    FormDeleteArticle,
+  },
   data() {
     return {
       nbArticles: 6,
       articles: "",
+      articleId: null,
+      showModalDelete: false,
     };
   },
   mounted() {
@@ -50,6 +67,12 @@ export default {
   methods: {
     MoreArticles() {
       this.nbArticles = this.nbArticles + 6;
+    },
+    deleteArticle(id) {
+      if (id) {
+        this.articleId = id;
+      }
+      this.showModalDelete = !this.showModalDelete;
     },
   },
 };
@@ -74,7 +97,7 @@ h2 {
   margin: 5vh auto;
 }
 .description {
-  font-size: 2vh;
+  font-size: 2.5vh;
   margin: 0 8%;
   padding-bottom: 10%;
   line-height: 3vh;
@@ -89,7 +112,14 @@ h2 {
   background-color: var(--thirdly-color);
   color: var(--fourthly-color);
   margin: 5vh 0;
-
+  i {
+    position: absolute;
+    right: 5%;
+    margin-top: 5%;
+    color: var(--thirdly-color);
+    font-size: 5vh;
+    text-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
   img {
     height: 50%;
     width: 100%;

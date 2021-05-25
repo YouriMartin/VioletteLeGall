@@ -10,16 +10,22 @@
       <button @click="GetPhotos('Professionnels')">Professionnels</button>
       <button @click="GetPhotos('Particuliers')">Particuliers</button>
     </div>
-    <select v-if="categorie === 'Professionnels'" v-model="sousCategorie">
-      <option v-for="sousCateg in professionelsSousCategorie" :key="sousCateg">
-        {{ sousCateg }}
-      </option>
-    </select>
-    <select v-if="categorie === 'Particuliers'" v-model="sousCategorie">
-      <option v-for="sousCateg in particuliersSousCategorie" :key="sousCateg">
-        {{ sousCateg }}
-      </option>
-    </select>
+    <div class="select-group">
+      <i v-if="categorie != null" class="fas fa-filter"></i>
+      <select v-if="categorie === 'Professionnels'" v-model="sousCategorie">
+        <option
+          v-for="sousCateg in professionelsSousCategorie"
+          :key="sousCateg"
+        >
+          {{ sousCateg }}
+        </option>
+      </select>
+      <select v-if="categorie === 'Particuliers'" v-model="sousCategorie">
+        <option v-for="sousCateg in particuliersSousCategorie" :key="sousCateg">
+          {{ sousCateg }}
+        </option>
+      </select>
+    </div>
     <img
       v-for="photo in photosFiltered"
       :key="photo._id"
@@ -138,5 +144,22 @@ button {
 img {
   margin: 5%;
   max-width: 90%;
+}
+.select-group {
+  width: 80%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-size: 3vh;
+  i {
+    margin-right: 5%;
+  }
+  select {
+    width: 80%;
+    border: 1px solid var(--thirdly-color);
+    border-radius: 5px;
+    color: var(--thirdly-color);
+    padding: 2%;
+  }
 }
 </style>
