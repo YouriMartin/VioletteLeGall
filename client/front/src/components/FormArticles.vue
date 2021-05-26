@@ -5,6 +5,7 @@
       <label for="titre">Titre :</label>
       <input type="text" name="titre" v-model="titre" placeholder="titre" />
       <label for="texte">Article : </label>
+
       <bubble-menu class="bubble-menu" :editor="editor" v-if="editor">
         <i
           class="fas fa-bold"
@@ -76,12 +77,14 @@ export default {
       article.append("alt", this.alt);
 
       console.log("article", this.texte);
+      this.$store.commit("loading");
       this.http
         .post("http://localhost:9000/articles/addArticle/Articles", article, {
           headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
         })
         .then((resp) => {
           console.log("reponse", resp);
+          this.$store.commit("loading");
           window.alert(resp.data);
           this.titre = "";
           this.texte = "";
@@ -90,6 +93,7 @@ export default {
         })
         .catch((err) => {
           console.log("erreur", err.response);
+          this.$store.commit("loading");
           window.alert(err.response.data);
         });
     },

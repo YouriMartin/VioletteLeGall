@@ -16,8 +16,6 @@
           type="email"
           name="email"
           id="email"
-          required=""
-          :class="{ email, error: !email.valid }"
           placeholder="email"
           v-model="email.value"
         />

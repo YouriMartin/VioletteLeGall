@@ -34,6 +34,7 @@ router.post("/connexion", (req, res) => {
       `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRETE_KEY}&response=${req.body.token}`
     )
     .then((resp) => {
+      //console.log(resp.data)
       if (resp.data.success === true) {
         Admin.findOne({ pseudo: req.body.pseudo })
           .then((admin) => {

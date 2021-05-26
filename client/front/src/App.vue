@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Loading />
     <Navbar />
     <router-view />
     <Footer />
@@ -8,11 +9,13 @@
 <script>
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
+import Loading from "@/components/Loading.vue";
 export default {
   name: "App",
   components: {
     Navbar,
     Footer,
+    Loading,
   },
   mounted() {
     this.$store.dispatch("getScreenWidth", screen.width);

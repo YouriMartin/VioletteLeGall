@@ -89,7 +89,7 @@ export default {
         {
           Professionnels: [
             { nom: "Mise en valeur" },
-            { nom: "Photo de produits / Packshot" },
+            { nom: "Photo de produits ; Packshot" },
           ],
         },
       ],

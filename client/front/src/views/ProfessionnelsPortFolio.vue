@@ -22,16 +22,19 @@
     <section id="seconde-section">
       <h3>Photo</h3>
       <div class="inline-flex">
-        <button @click="getPhotos('miseEnValeur')">Mise en valeur</button>
-        <button @click="getPhotos('packShot')">
-          Photo de produits / Packshot
+        <button
+          v-for="sousCategorie in sousCategories"
+          :key="sousCategorie"
+          @click="getPhotos(sousCategorie)"
+        >
+          {{ sousCategorie }}
         </button>
       </div>
       <div id="photo-container">
         <img
           v-for="photo in photos"
           :key="photo.id"
-          :src="photo.src"
+          :src="'http://localhost:9000/static/Professionnels/' + photo.src"
           :alt="photo.alt"
         />
       </div>
@@ -73,6 +76,7 @@ export default {
     return {
       photos: null,
       videos: "",
+      sousCategories: null,
     };
   },
   mounted() {
@@ -81,40 +85,24 @@ export default {
       .then((resp) => {
         this.videos = resp.data;
       });
+
+    this.http
+      .get("http://localhost:9000/photos/getSousCategories/Professionnels")
+      .then((resp) => {
+        console.log(resp.data);
+        this.sousCategories = resp.data;
+      });
   },
   methods: {
-    getPhotos(categ) {
-      document.getElementById("seconde-section").style.height = "auto";
-      switch (categ) {
-        case "miseEnValeur":
-          this.photos = [
-            {
-              id: 1,
-              src: require("@/assets/imgTest/mariageFolio.jpg"),
-              alt: "truc",
-            },
-            {
-              id: 2,
-              src: require("@/assets/imgTest/mariage.jpg"),
-              alt: "truc",
-            },
-          ];
-          break;
-        case "packShot":
-          this.photos = [
-            {
-              id: 3,
-              src: require("@/assets/imgTest/slide1.jpg"),
-              alt: "truc",
-            },
-            {
-              id: 4,
-              src: require("@/assets/imgTest/ParticulierFolio7.jpg"),
-              alt: "truc",
-            },
-          ];
-          break;
-      }
+    getPhotos(souscategorie) {
+      this.http
+        .get(
+          "http://localhost:9000/photos/getPhotos/Particuliers/" + souscategorie
+        )
+        .then((resp) => {
+          console.log(resp.data);
+          this.photos = resp.data;
+        });
     },
   },
 };
@@ -138,6 +126,9 @@ section:nth-child(even) {
   flex-direction: column;
   justify-content: space-evenly;
   text-align: center;
+}
+#seconde-section {
+  min-height: 100vh;
 }
 #photos-container {
   display: inline-flex;

@@ -7,6 +7,12 @@
       :id="articleId"
       :showModal="showModalDelete"
     />
+    <FormUpdateArticle
+      v-if="showModalUpdate"
+      :toggleModal="updateArticle"
+      :id="articleId"
+      :showModal="showModalUpdate"
+    />
     <div id="card-container">
       <div
         class="card-article"
@@ -21,12 +27,17 @@
         <img
           :src="'http://localhost:9000/static/Articles/' + article.img.src"
           :alt="article.img.alt"
+          @click="updateArticle(article._id)"
         />
-        <div id="titre-date">
+        <div id="titre-date" @click="updateArticle(article._id)">
           <h4>{{ article.titre }}</h4>
           <p>{{ article.date.substr(0, 10) }}</p>
         </div>
-        <div v-html="article.texte" class="description"></div>
+        <div
+          v-html="article.texte"
+          class="description"
+          @click="updateArticle(article._id)"
+        ></div>
       </div>
       <h5 v-if="articles.length > 5" @click="MoreArticles()">Afficher plus</h5>
     </div>
@@ -35,10 +46,12 @@
 
 <script>
 import FormDeleteArticle from "@/components/FormDeleteArticle.vue";
+import FormUpdateArticle from "@/components/FormUpdateArticle.vue";
 export default {
   name: "Blog",
   components: {
     FormDeleteArticle,
+    FormUpdateArticle,
   },
   data() {
     return {
@@ -46,6 +59,7 @@ export default {
       articles: "",
       articleId: null,
       showModalDelete: false,
+      showModalUpdate: false,
     };
   },
   mounted() {
@@ -73,6 +87,15 @@ export default {
         this.articleId = id;
       }
       this.showModalDelete = !this.showModalDelete;
+    },
+    updateArticle(id) {
+      console.log(id);
+      if (this.$store.state.admin) {
+        if (id) {
+          this.articleId = id;
+        }
+        this.showModalUpdate = !this.showModalUpdate;
+      }
     },
   },
 };

@@ -71,13 +71,14 @@ export default {
       .get("http://localhost:9000/photos/getSousCategories/Professionnels")
       .then((resp) => {
         console.log(resp.data);
-        this.professionnelsSousCategorie = resp.data;
+        this.professionelsSousCategorie = resp.data;
       });
   },
   methods: {
     GetPhotos(categorie) {
+      console.log(categorie);
       this.http
-        .get("http://localhost:9000/photos/getPhotos/" + categorie)
+        .get("http://localhost:9000/photos/getPhotos/" + categorie + "/all")
         .then((resp) => {
           // console.log(resp.data);
           this.categorie = categorie;

@@ -44,6 +44,17 @@ router.get("/getAll", (req, res) => {
   });
 });
 
+router.get("/getOne/:id", (req, res) => {
+  console.log("param", req.params);
+  Articles.findById(req.params.id, function (err, photo) {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(photo);
+    }
+  });
+});
+
 router.post("/delete", auth, (req, res) => {
   // console.log(req.body);
   Articles.findOne({ _id: req.body.id })
@@ -59,4 +70,19 @@ router.post("/delete", auth, (req, res) => {
     .catch((error) => res.status(500).send(error));
 });
 
+router.post("/update", auth, (req, res) => {
+  console.log(req.body);
+  Articles.findOneAndUpdate(
+    { _id: req.body.id },
+    { $set: { titre: req.body.titre, texte: req.body.texte } },
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        res.status(500).send("erreur lors de la modification");
+      } else {
+        res.send("Article modifier");
+      }
+    }
+  );
+});
 module.exports = router;

@@ -23,22 +23,19 @@
     <section id="seconde-section">
       <h3>Photo</h3>
       <div class="inline-flex">
-        <button @click="getPhotos('mariage')">Mariage</button>
-        <button @click="getPhotos('naissance')">Naissance</button>
-        <button @click="getPhotos('portraitExterieur')">
-          Portrait Extérieur
+        <button
+          v-for="sousCategorie in sousCategories"
+          :key="sousCategorie"
+          @click="getPhotos(sousCategorie)"
+        >
+          {{ sousCategorie }}
         </button>
-        <button @click="getPhotos('portraitInterieur')">
-          Portrait Intérieur
-        </button>
-        <button @click="getPhotos('couple')">Couple</button>
-        <button @click="getPhotos('famille')">Famille</button>
       </div>
       <div id="photo-container">
         <img
           v-for="photo in photos"
           :key="photo.id"
-          :src="photo.src"
+          :src="'http://localhost:9000/static/Particuliers/' + photo.src"
           :alt="photo.alt"
         />
       </div>
@@ -80,6 +77,7 @@ export default {
     return {
       photos: null,
       videos: "",
+      sousCategories: null,
     };
   },
   mounted() {
@@ -88,96 +86,24 @@ export default {
       .then((resp) => {
         this.videos = resp.data;
       });
+
+    this.http
+      .get("http://localhost:9000/photos/getSousCategories/Particuliers")
+      .then((resp) => {
+        console.log(resp.data);
+        this.sousCategories = resp.data;
+      });
   },
   methods: {
-    getPhotos(categ) {
-      document.getElementById("seconde-section").style.height = "auto";
-      switch (categ) {
-        case "mariage":
-          this.photos = [
-            {
-              id: 1,
-              src: require("@/assets/imgTest/mariageFolio.jpg"),
-              alt: "truc",
-            },
-            {
-              id: 2,
-              src: require("@/assets/imgTest/mariage.jpg"),
-              alt: "truc",
-            },
-          ];
-          break;
-        case "naissance":
-          this.photos = [
-            {
-              id: 3,
-              src: require("@/assets/imgTest/slide1.jpg"),
-              alt: "truc",
-            },
-            {
-              id: 4,
-              src: require("@/assets/imgTest/ParticulierFolio7.jpg"),
-              alt: "truc",
-            },
-          ];
-          break;
-        case "portraitExterieur":
-          this.photos = [
-            {
-              id: 5,
-              src: require("@/assets/imgTest/portraitsFolio.jpg"),
-              alt: "truc",
-            },
-            {
-              id: 6,
-              src: require("@/assets/imgTest/ParticulierFolio4.jpg"),
-              alt: "truc",
-            },
-          ];
-          break;
-        case "portraitInterieur":
-          this.photos = [
-            {
-              id: 7,
-              src: require("@/assets/imgTest/ParticulierFolio2.jpg"),
-              alt: "truc",
-            },
-            {
-              id: 8,
-              src: require("@/assets/imgTest/insta4.png"),
-              alt: "truc",
-            },
-          ];
-          break;
-        case "couple":
-          this.photos = [
-            {
-              id: 9,
-              src: require("@/assets/imgTest/slide2.jpg"),
-              alt: "truc",
-            },
-            {
-              id: 10,
-              src: require("@/assets/imgTest/coupleFolio.jpg"),
-              alt: "truc",
-            },
-          ];
-          break;
-        case "famille":
-          this.photos = [
-            {
-              id: 11,
-              src: require("@/assets/imgTest/familleFolio.jpg"),
-              alt: "truc",
-            },
-            {
-              id: 12,
-              src: require("@/assets/imgTest/famille.jpg"),
-              alt: "truc",
-            },
-          ];
-          break;
-      }
+    getPhotos(souscategorie) {
+      this.http
+        .get(
+          "http://localhost:9000/photos/getPhotos/Particuliers/" + souscategorie
+        )
+        .then((resp) => {
+          console.log(resp.data);
+          this.photos = resp.data;
+        });
     },
   },
 };
@@ -201,6 +127,9 @@ section:nth-child(even) {
   flex-direction: column;
   justify-content: space-evenly;
   text-align: center;
+}
+#seconde-section {
+  min-height: 100vh;
 }
 #photos-container {
   display: inline-flex;

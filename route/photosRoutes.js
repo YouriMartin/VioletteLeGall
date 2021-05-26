@@ -32,16 +32,29 @@ router.post("/addPhotos/:type", multer, (req, res) => {
   }
 });
 
-router.get("/getPhotos/:type", (req, res) => {
+router.get("/getPhotos/:categ/:sousCateg", (req, res) => {
   console.log("param", req.params);
-  Photos.find({ categorie: req.params.type }, (err, data) => {
-    console.log(data);
-    if (err) {
-      res.send("erreur");
-    } else {
-      res.send(data);
-    }
-  });
+  if (req.params.sousCateg === "all") {
+    console.log("tata");
+    Photos.find({ categorie: req.params.categ }, (err, data) => {
+      console.log(data);
+      if (err) {
+        res.send("erreur");
+      } else {
+        res.send(data);
+      }
+    });
+  } else {
+    console.log("toto");
+    Photos.find({ sous_categorie: req.params.sousCateg }, (err, data) => {
+      console.log(data);
+      if (err) {
+        res.send("erreur");
+      } else {
+        res.send(data);
+      }
+    });
+  }
 });
 
 router.get("/getSousCategories/:type", (req, res) => {
