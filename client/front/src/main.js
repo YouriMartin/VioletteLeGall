@@ -5,7 +5,9 @@ import router from "./router";
 import store from "./store";
 
 Vue.config.productionTip = false;
+//Vue.config.silent = true; //pour enlever les vue warn
 Vue.prototype.http = Axios;
+
 new Vue({
   router,
   store,

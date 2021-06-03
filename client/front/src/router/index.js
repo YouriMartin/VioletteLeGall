@@ -11,6 +11,8 @@ import Admin from "../views/Admin.vue";
 import PageNotFound from "../views/404.vue";
 import CollectionPhotos from "../views/CollectionPhotos";
 import Rgpd from "../views/Rgpd";
+import Gallerie from "../views/Gallerie";
+
 
 Vue.use(VueRouter);
 
@@ -69,6 +71,11 @@ const routes = [
     path: "/rgpd",
     name: "Rgpd",
     component: Rgpd,
+  },
+  {
+    path: "/gallerie",
+    name: "Gallerie",
+    component: Gallerie,
   },
 ];
 

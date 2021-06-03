@@ -33,11 +33,10 @@ router.post("/addPhotos/:type", multer, (req, res) => {
 });
 
 router.get("/getPhotos/:categ/:sousCateg", (req, res) => {
-  console.log("param", req.params);
+  // console.log("param", req.params);
   if (req.params.sousCateg === "all") {
-    console.log("tata");
     Photos.find({ categorie: req.params.categ }, (err, data) => {
-      console.log(data);
+      // console.log(data);
       if (err) {
         res.send("erreur");
       } else {
@@ -45,9 +44,8 @@ router.get("/getPhotos/:categ/:sousCateg", (req, res) => {
       }
     });
   } else {
-    console.log("toto");
     Photos.find({ sous_categorie: req.params.sousCateg }, (err, data) => {
-      console.log(data);
+      // console.log(data);
       if (err) {
         res.send("erreur");
       } else {
@@ -58,18 +56,18 @@ router.get("/getPhotos/:categ/:sousCateg", (req, res) => {
 });
 
 router.get("/getSousCategories/:type", (req, res) => {
-  console.log("param", req.params);
+  //console.log("param", req.params);
   Photos.find({ categorie: req.params.type }).distinct(
     "sous_categorie",
     function (error, ids) {
-      console.log(ids);
+      // console.log(ids);
       res.send(ids);
     }
   );
 });
 
 router.get("/getOne/:id", (req, res) => {
-  console.log("param", req.params);
+  // console.log("param", req.params);
   Photos.findById(req.params.id, function (err, photo) {
     if (err) {
       res.status(500).send(err);

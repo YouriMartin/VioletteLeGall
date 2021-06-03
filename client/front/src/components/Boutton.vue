@@ -22,20 +22,20 @@ a {
 }
 .primary-big {
   padding: 15px;
-  font-size: 20px;
+  font-size: 3vh;
   background-color: var(--primary-color);
   color: var(--fourthly-color);
 }
 .primary-invert-big {
   padding: 15px;
-  font-size: 20px;
+  font-size: 3vh;
   background-color: var(--fourthly-color);
   color: var(--primary-color);
   border: 3px solid var(--primary-color);
 }
 .primary-invert-borderless-big {
   padding: 15px;
-  font-size: 20px;
+  font-size: 3vh;
   background-color: var(--fourthly-color);
   color: var(--primary-color);
 }

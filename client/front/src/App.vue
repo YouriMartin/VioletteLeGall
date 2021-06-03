@@ -102,7 +102,7 @@ section {
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
-.grecaptcha-badge {
+ .grecaptcha-badge {
   visibility: hidden;
-}
+} 
 </style>

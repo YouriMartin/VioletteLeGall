@@ -1,0 +1,86 @@
+[
+    {
+        "imgCaroussel": [
+            {
+                "src": "sgjvp.jpg",
+                "alt": "portrait bébé sur le lit",
+                "categorie": "Particuliers",
+                "order": 1
+            },
+            {
+                "src": "vp93zg.jpg",
+                "alt": "femme machine à coudre",
+                "categorie": "Professionnels",
+                "order": 2
+            },
+            {
+                "src": "nc49a.jpg",
+                "alt": "couple se tenant dans les bras, se regarde dans les yeux",
+                "categorie": "Particuliers",
+                "order": 3
+            },
+            {
+                "src": "rq74y.jpg",
+                "alt": "homme sentant un verre de vin",
+                "categorie": "Professionnel",
+                "order": 4
+            },
+            {
+                "src": "pz1vm.jpg",
+                "alt": "les deux mariés tenant le bouquet",
+                "categorie": "Particuliers",
+                "order": 5
+            },
+            {
+                "src": "w7t1n.jpg",
+                "alt": "femme machine à coudre",
+                "categorie": "Professionnels",
+                "order": 6
+            }
+        ]
+    },
+    {
+        "subtitle": "Hello",
+        "paragraphes": "<p> Vous chercher une photographe professionnelle pour vos photos de mariage ou pour une séance photo avec votre bébé ? Vous avez besoin d'un photo professionnelle pour votre CV ou votre page LinkedIn ? Vous êtes un ou une professionnelle et vous cherchez à mettre en valeur votre entreprise avec une vidéo corporate à publier sur les réseaux ?",
+        "img": {
+            "src": "5ljkof.jpg",
+            "alt": "violette photo hello",
+            "categorie": "Autres"
+        }
+    },
+    {
+        "subtitle": "Portfolio",
+        "imgCateg": [
+            {
+                "src": "m5t47w.jpg",
+                "alt": "Couple se tenant dans les bras couché de soleil",
+                "name": "Particuliers",
+                "categorie": "Particuliers",
+                "route": "/particuliers/portfolio"
+            },
+            {
+                "src": "rh25tzv.jpg",
+                "alt": "ensemble de porte carte en cuir de plusieurs couleur",
+                "name": "Professionnels",
+                "categorie": "Professionnels",
+                "route": "/professionnels/portfolio"
+            },
+            {
+                "src": "oghfsl.jpg",
+                "alt": "portrait femme extérieur",
+                "name": "Blog",
+                "categorie": "Particuliers",
+                "route": "/blog"
+            }
+        ]
+    },
+    {
+        "subtitle": "Qui suis je ?",
+        "img": {
+            "src": "1uq19l.jpg",
+            "alt": "photo violette insta",
+            "categorie": "Autres"
+        },
+        "paragraphes": "<p>Je m'appelle Violette, je suis bretonne et passionnée de photo depuis mon adolescence.</p> <p>Dans mon travail, j'apprécie particulièrement le fait de sublimer le moment : mettre vos créations ou évènement particulier en valeur à travers le naturelet la spontanéité. Que ce soit pour des photos de mariage, des photos privilégie le naturel et la sincérité, d'où le terme 'lifestyle'. </p> <p> Vous avez un projet ? Je serai très heureuse d'en discuter avec vous. Je vis actuellement à Rennes mais je peux me déplacer n'importe où, c'est toujours un plaisir pour moi de voyager. </p> <p> Vous cherchez une photographe pour immortaliser un moment ? Contactez moi !</p>"
+    }
+]

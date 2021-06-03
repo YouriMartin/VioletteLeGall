@@ -1,14 +1,29 @@
 <template>
-  <div id="acceuil">
+  <div id="acceuil" v-if="blocs != null">
+    <FormPhotosPage
+      v-if="showModalPhotos"
+      :toggleModal="updatePhoto"
+      :idPage="pageId"
+      :idBloc="idBloc"
+      :showModal="showModalPhotos"
+    />
     <div>
-      <h1>Violette le Gall</h1>
-      <Caroussel :size="'100vh'" />
+      <img
+        id="logo-acceuil"
+        src="@/assets/logoblanc-transparent.png"
+        alt="logo"
+      />
+      <Caroussel :size="'100vh'" :contents="blocs[0].imgCaroussel" />
     </div>
     <section id="first-section">
-      <h3>Hello !</h3>
+      <h3>{{ blocs[1].subtitle }}</h3>
       <div id="float-container">
-        <img :src="imageHello.img" :alt="imageHello.alt" />
-        <p>{{ texte.hello }}</p>
+        <img
+          :src="`http://localhost:9000/static/${blocs[1].img.categorie}/${blocs[1].img.src}`"
+          :alt="blocs[1].img.alt"
+          @click="updatePhoto(blocs[1]._id)"
+        />
+        <div v-html="blocs[1].paragraphes"></div>
       </div>
       <Boutton
         :texte="'Me Contacter'"
@@ -18,32 +33,17 @@
       />
     </section>
     <section id="second-section">
-      <h3>Portfolio</h3>
+      <h3>{{ blocs[2].subtitle }}</h3>
       <div class="inline-flex">
-        <div class="img-button">
-          <img :src="imageCateg[0].img" :alt="imageCateg[0].alt" />
-          <Boutton
-            :texte="'Particuliers'"
-            :css="'primary-invert-borderless-small'"
-            :route="'/particuliers/portfolio'"
-            :type="'router'"
+        <div class="img-button" v-for="img in blocs[2].imgCateg" :key="img._id">
+          <img
+            :src="`http://localhost:9000/static/${img.categorie}/${img.src}`"
+            :alt="img.alt"
           />
-        </div>
-        <div class="img-button">
-          <img :src="imageCateg[1].img" :alt="imageCateg[1].alt" />
           <Boutton
-            :texte="'Professionnels'"
+            :texte="img.name"
             :css="'primary-invert-borderless-small'"
-            :route="'/professionnels/portfolio'"
-            :type="'router'"
-          />
-        </div>
-        <div class="img-button">
-          <img :src="imageCateg[2].img" :alt="imageCateg[2].alt" />
-          <Boutton
-            :texte="'Blog'"
-            :css="'primary-invert-borderless-small'"
-            :route="'/blog'"
+            :route="img.route"
             :type="'router'"
           />
         </div>
@@ -66,11 +66,13 @@
       />
     </section>
     <section id="third-section">
-      <h3>Qui suis je ?</h3>
-      <img :src="imageQuiSuisJe.img" :alt="imageQuiSuisJe.alt" />
-      <p v-for="paragraphe in texte.QuiSuisJe" v-bind:key="paragraphe">
-        {{ paragraphe }}
-      </p>
+      <h3>{{ blocs[3].subtitle }}</h3>
+      <img
+        :src="`http://localhost:9000/static/${blocs[3].img.categorie}/${blocs[3].img.src}`"
+        :alt="blocs[3].img.alt"
+        @click="updatePhoto(blocs[3]._id)"
+      />
+      <div v-html="blocs[3].paragraphes"></div>
       <Boutton
         :texte="'Me contacter'"
         :css="'primary-big'"
@@ -80,21 +82,31 @@
     </section>
     <section id="fourth-section">
       <h3>Mon instagram</h3>
+      <Boutton
+        :texte="'Lien vers Instagram'"
+        :css="'primary-invert-borderless-big'"
+        :route="'https://www.instagram.com/violettelgpro/'"
+        :type="'a'"
+      />
     </section>
     <section id="fifth-section">
       <h3>Mes derniers artciles</h3>
       <div
         class="card-article"
         v-for="article in articles"
-        v-bind:key="article.id"
-        @click="GoToThisArticle(article.id)"
+        v-bind:key="article._id"
+        @click="GoToThisArticle(article._id)"
       >
-        <img :src="article.img.src" :alt="article.img.alt" />
+        <img
+          :src="'http://localhost:9000/static/Articles/' + article.img.src"
+          :alt="article.img.alt"
+        />
         <div id="titre-date">
           <h4>{{ article.titre }}</h4>
-          <p class="article-date">{{ article.date }}</p>
+          <p class="article-date">{{ article.date.substr(0, 10) }}</p>
         </div>
-        <p>{{ article.description.substring(0, 140) + "..." }}</p>
+
+        <div v-html="article.texte.substring(0, 100) + '...'"></div>
       </div>
     </section>
   </div>
@@ -103,81 +115,66 @@
 <script >
 import Caroussel from "../components/Caroussel.vue";
 import Boutton from "../components/Boutton.vue";
+import FormPhotosPage from "@/components/FormPhotosPage.vue";
 export default {
   name: "Acceuil",
   components: {
     Caroussel,
     Boutton,
+    FormPhotosPage,
   },
   data() {
     return {
-      imageHello: {
-        img: require("@/assets/imgTest/violette2.jpg"),
-        alt: "image de violette",
-      },
-      texte: {
-        hello:
-          " Vous chercher une photographe professionnelle pour vos photos de mariage ou pour une séance photo avec votre bébé ?  Vous avez besoin d'une photo professionnelle pour votre CV ou votre page LinkedIn ? Vous êtes un ou une professionnelle et vous cherchez à mettre en valeur votre entreprise avec une vidéo corporate à publier sur les réseaux ? ",
-        QuiSuisJe: [
-          `Je m'appelle Violette, je suis bretonne et passionnée de photo depuis mon adolescence.`,
-          `Dans mon traveil, j'apprécie particulièrement le fait de sublimer le moment : mettre vos créations ou évènement particulier en valeur à travers le naturel et la spontanéité. Que ce soit pour des photos de mariqge, des photos d'entreprise ou des séances photo couple, je privilégie le naturel et la sincérité, d'où le terme "lifestyle".`,
-          `Vous avez un projet ? je serai très heureuse d'en discuter avec vous. Je vis actuellement à Rennes mais je peux me déplacer n'importe où, c'est toujours un plaisir pour moi de voyager.`,
-          `Vous cherchez une photographe pour immortaliser un moment ? contactez moi !`,
-        ],
-      },
-      imageCateg: [
-        {
-          img: require("@/assets/imgTest/ParticulierFolio5.jpg"),
-          alt: "particuliers portfolio",
-        },
-        {
-          img: require("@/assets/imgTest/promotionFolio.jpg"),
-          alt: "professionnels portfolio",
-        },
-        {
-          img: require("@/assets/imgTest/portraitsFolio.jpg"),
-          alt: "Blog",
-        },
-      ],
-      articles: [
-        {
-          id: 1,
-          titre: "titre 1",
-          img: {
-            src: require("@/assets/imgTest/ParticulierFolio5.jpg"),
-            alt: "image article 1",
-          },
-          date: "20/02/92",
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        },
-        {
-          id: 2,
-          titre: "titre 2",
-          img: {
-            src: require("@/assets/imgTest/portraitsFolio.jpg"),
-            alt: "image article 2",
-          },
-          date: "21/05/20",
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        },
-      ],
-      imageQuiSuisJe: {
-        img: require("@/assets/imgTest/photoViolette.jpg"),
-        alt: "photo de violette",
-      },
+      showModalPhotos: false,
+      pageId: null,
+      idBloc: null,
+      blocs: null,
       lienYoutube: "M7r3nKqaoxw",
+      articles: null,
     };
   },
-  mounted() {
-    this.http.get("http://localhost:9000/youtube/getLastvideo").then((resp) => {
-      this.lienYoutube = resp.data;
-    });
+  created() {
+    this.$store.commit("loading");
+    this.http
+      .get("http://localhost:9000/pages/getPage/60b627ba488409500c87ea52")
+      .then((resp) => {
+        console.log(resp.data);
+        this.pageId = resp.data._id;
+        this.blocs = resp.data.blocs;
+        console.log(this.blocs);
+        this.$store.commit("loading");
+      });
   },
+  mounted() {
+    //les vidéos youtube
+    /* this.http.get("http://localhost:9000/youtube/getLastvideo").then((resp) => {
+      this.lienYoutube = resp.data;
+    });*/
+    //les articles
+    this.http
+      .get("http://localhost:9000/articles/getAll")
+      .then((resp) => {
+        //console.log("resp", resp.data);
+        this.articles = resp.data
+          .slice(resp.data.length - 2, resp.data.length)
+          .reverse();
+        // console.log(this.articles);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+
   methods: {
-    GoToThisArticle(id) {
-      this.$router.push("/blog/" + id);
+    GoToThisArticle() {
+      this.$router.push("/blog");
+    },
+    updatePhoto(idBloc) {
+      console.log(idBloc);
+      if (idBloc) {
+        this.idBloc = idBloc;
+      }
+      this.showModalPhotos = !this.showModalPhotos;
     },
   },
 };
@@ -187,10 +184,11 @@ export default {
 Caroussel {
   position: absolute;
 }
-h1 {
+#logo-acceuil {
+  height: 25vh;
   position: absolute;
   z-index: 2;
-  top: 10%;
+  top: 15%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -213,17 +211,15 @@ h1 {
   }
   img {
     float: left;
-    margin-right: 2vw;
+    margin-right: 5vw;
     clip-path: circle(50%);
     height: 42vw;
     shape-outside: circle();
   }
-  p {
-    margin-top: 2vh;
-    font-size: 2.5vh;
-    letter-spacing: 0.2vw;
-    line-height: 3.5vh;
-  }
+  margin-top: 2vh;
+  font-size: 2vh;
+  letter-spacing: 0.2vw;
+  line-height: 3.5vh;
 }
 
 #second-section {
@@ -236,19 +232,19 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 2vh;
+    margin-top: 3vh;
   }
 }
 
 #third-section {
   img {
-    height: 30%;
+    height: 25%;
     object-fit: cover;
   }
-  p {
-    font-size: 2vh;
-    padding: 0% 5%;
-  }
+  letter-spacing: 0.2vw;
+  line-height: 3.5vh;
+  font-size: 2vh;
+  padding: 0% 5%;
 }
 
 .card-article {
@@ -256,11 +252,12 @@ h1 {
   width: 80%;
   background-color: var(--primary-color);
   color: var(--fourthly-color);
-  border-radius: 10px;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  font-size: 2.5vh;
   img {
     height: 50%;
     object-fit: cover;
@@ -271,10 +268,9 @@ h1 {
     width: 90%;
     align-items: center;
     p {
-      font-size: 2vh;
-      position: relative;
-      left: 85%;
-      transform: translateX(-100%);
+      position: absolute;
+      right: 12%;
+      font-size: 1.5vh;
     }
     h4 {
       font-size: 3vh;
@@ -282,10 +278,6 @@ h1 {
       left: 50%;
       transform: translateX(-50%);
     }
-  }
-  p {
-    padding: 5%;
-    font-size: 2.2vh;
   }
 }
 </style>

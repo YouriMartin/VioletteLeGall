@@ -1,5 +1,12 @@
 <template>
   <div id="professionnelsPortFolio">
+    <ModalBigPhoto
+      v-if="showModalPhotos"
+      :toggleModal="bigPicture"
+      :src="src"
+      :alt="alt"
+      :categorie="categorie"
+    />
     <div id="first-section">
       <h2>Professionnels Portfolio</h2>
       <Caroussel :size="'30vh'" />
@@ -36,6 +43,7 @@
           :key="photo.id"
           :src="'http://localhost:9000/static/Professionnels/' + photo.src"
           :alt="photo.alt"
+          @click="bigPicture(photo.src, photo.alt)"
         />
       </div>
     </section>
@@ -64,19 +72,26 @@
 </template>
 
 <script>
-import Caroussel from "../components/Caroussel.vue";
-import Boutton from "../components/Boutton.vue";
+import Caroussel from "@/components/Caroussel.vue";
+import Boutton from "@/components/Boutton.vue";
+import ModalBigPhoto from "@/components/ModalBigPhoto.vue";
+
 export default {
   name: "ProfessionnelsPortFolio",
   components: {
     Caroussel,
     Boutton,
+    ModalBigPhoto,
   },
   data() {
     return {
       photos: null,
       videos: "",
       sousCategories: null,
+      showModalPhotos: false,
+      src: null,
+      alt: null,
+      categorie: "Professionnels",
     };
   },
   mounted() {
@@ -89,7 +104,7 @@ export default {
     this.http
       .get("http://localhost:9000/photos/getSousCategories/Professionnels")
       .then((resp) => {
-        console.log(resp.data);
+        // console.log(resp.data);
         this.sousCategories = resp.data;
       });
   },
@@ -100,15 +115,20 @@ export default {
           "http://localhost:9000/photos/getPhotos/Particuliers/" + souscategorie
         )
         .then((resp) => {
-          console.log(resp.data);
+          // console.log(resp.data);
           this.photos = resp.data;
         });
+    },
+    bigPicture(src, alt) {
+      this.src = src;
+      this.alt = alt;
+      this.showModalPhotos = !this.showModalPhotos;
     },
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 section:nth-child(odd) {
   background-color: var(--fourthly-color);
   color: var(--thirdly-color);
@@ -128,10 +148,20 @@ section:nth-child(even) {
   text-align: center;
 }
 #seconde-section {
+  padding-top: 5%;
   min-height: 100vh;
-}
-#photos-container {
-  display: inline-flex;
+  height: auto;
+  #photo-container {
+    display: flex;
+    justify-content: center;
+    align-items: space-evenly;
+    flex-wrap: wrap;
+    img {
+      max-width: 40vw;
+      margin: 5px;
+      object-fit: cover;
+    }
+  }
 }
 button {
   text-decoration: none;
@@ -142,11 +172,7 @@ button {
   font-size: 15px;
   margin: 10px 5px;
 }
-img {
-  height: 15vh;
 
-  margin: 10px;
-}
 .video-bloc {
   display: flex;
   flex-direction: column;

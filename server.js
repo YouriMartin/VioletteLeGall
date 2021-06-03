@@ -7,6 +7,7 @@ const instaRoutes = require("./route/instagramRoutes");
 const adminRoutes = require("./route/adminRoutes");
 const photosRoutes = require("./route/photosRoutes");
 const contactRoutes = require("./route/contactRoutes");
+const pagesRoutes = require("./route/pagesRoutes");
 require("dotenv").config();
 
 //middleware
@@ -36,6 +37,7 @@ app.use("/youtube", youtubeRoutes);
 app.use("/admin", adminRoutes);
 app.use("/photos", photosRoutes);
 app.use("/contact", contactRoutes);
+app.use("/pages", pagesRoutes);
 
 app.listen(process.env.PORT);
 console.log("le serveur écoute sur le port " + process.env.PORT);

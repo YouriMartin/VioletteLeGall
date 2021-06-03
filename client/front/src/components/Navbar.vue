@@ -21,9 +21,9 @@
     ></i>
     <transition name="toggle">
       <ul v-if="navBarShow || !$store.state.mobile" id="navbar">
-        <li>
+        <li id="logo">
           <router-link v-on:click.native="ToggleNavBar()" to="/"
-            ><img src="@/assets/logoblanc.svg" alt="logo"
+            ><img src="@/assets/logoblanc-transparent.png" alt="logo"
           /></router-link>
         </li>
         <li class="deroulant">
@@ -86,8 +86,14 @@
             >Blog</router-link
           >
         </li>
-        <li v-on:click="ToggleNavBar()">
-          <a class="nav-link" href="#">Galerie Client </a>
+        <li>
+          <router-link
+            class="nav-link"
+            to="/gallerie"
+            v-on:click="ToggleNavBar()"
+          >
+            Galerie Client
+          </router-link>
         </li>
       </ul>
     </transition>
@@ -143,7 +149,14 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+#logo {
+  height: 20%;
+  img {
+    height: 100%;
+    transform: translateX(-20%);
+  }
+}
 li {
   width: 50%;
 }

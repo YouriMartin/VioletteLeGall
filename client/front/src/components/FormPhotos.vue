@@ -21,9 +21,11 @@
           v-model="categ"
         />
         <label for="professionnel">Professionnels</label>
+        <input id="autre" type="radio" value="Autres" v-model="categ" />
+        <label for="autre">Autres</label>
       </div>
       <div id="select-group">
-        <label> Catégories</label>
+        <label v-if="categ != 'Autres'"> Catégories</label>
         <select v-if="categ === 'Particuliers'" v-model="sousCateg">
           <option
             v-for="sousCateg in categories[0].Particuliers"
@@ -80,10 +82,10 @@ export default {
           Particuliers: [
             { nom: "Mariage" },
             { nom: "Naissance" },
-            { nom: "PortraitExterieur" },
-            { nom: "PortraitInterieur" },
+            { nom: "Portrait" },
             { nom: "Couple" },
             { nom: "Famille" },
+            { nom: "Studio" },
           ],
         },
         {

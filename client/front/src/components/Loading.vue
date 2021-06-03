@@ -1,10 +1,8 @@
 <template>
-  <section id="loading" v-if="this.$store.state.isLoaded">
-    <div class="blocks">
-      <div class="block orange"></div>
-      <div class="block blue"></div>
-    </div>
-  </section>
+  <div class="blocks" v-if="this.$store.state.isLoaded">
+    <div class="block orange"></div>
+    <div class="block blue"></div>
+  </div>
 </template>
 
 <script>
@@ -16,10 +14,13 @@ export default {
 <style scoped>
 .blocks {
   height: 100vh;
+  width: 100%;
   display: flex;
   align-items: center;
-  position: relative;
+  position: fixed;
   justify-content: center;
+  background-color: rgba(159, 141, 137, 0.7);
+  z-index: 1000;
 }
 
 .block {
@@ -36,7 +37,7 @@ export default {
 }
 
 .orange {
-  --bg: linear-gradient(-50deg, #fbab7e 0%, #f7ce68 100%);
+  --bg: linear-gradient(-50deg, #fbab7e 5%, #f7ce68 100%);
   margin-right: var(--hm);
   animation: attract-orange var(--animation);
 }

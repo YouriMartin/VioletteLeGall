@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
     }
   } catch (error) {
     if (error) {
-      res.status(401).json({ error }); // Il peut arrivé que quelque chose ne fonctionne pas sans qu'il y ait de message d'erreur, donc soit on donne le message d'erreur
+      res.send(error); // Il peut arrivé que quelque chose ne fonctionne pas sans qu'il y ait de message d'erreur, donc soit on donne le message d'erreur
     } else {
       // soit on envoit un message d'erreur générique: requête non authentifiée
       res.status(401).json({ error: "requête non authentifiée" });

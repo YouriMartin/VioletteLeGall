@@ -1,18 +1,16 @@
 <template>
-  <div id="particuliersPortFolio">
+  <div id="particuliersPortFolio" v-if="blocs != null">
+    <ModalBigPhoto
+      v-if="showModalPhotos"
+      :toggleModal="bigPicture"
+      :src="src"
+      :alt="alt"
+      :categorie="categorie"
+    />
     <div id="first-section">
-      <h2>Particulier Portfolio</h2>
-
-      <Caroussel :size="'30vh'" />
-      <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est odit enim
-        rerum delectus dolor deleniti quasi nobis saepe! Nulla enim veritatis
-        blanditiis libero facilis mollitia delectus ab iste omnis atque. Iure
-        velit repellat voluptate voluptates cum molestiae quaerat modi rerum? Et
-        ipsum alias voluptatibus deleniti autem porro quam tenetur
-        necessitatibus, debitis asperiores ea sint vitae omnis quia. Quia,
-        aliquam laudantium.
-      </p>
+      <h2>{{ title }}</h2>
+      <Caroussel :size="'30vh'" :contents="blocs[0].imgCaroussel" />
+      <div v-html="blocs[0].paragraphes"></div>
       <Boutton
         :texte="'Accéder aux tarifs'"
         :css="'thirdly-big'"
@@ -21,7 +19,7 @@
       />
     </div>
     <section id="seconde-section">
-      <h3>Photo</h3>
+      <h3>{{ blocs[1].subtitle }}</h3>
       <div class="inline-flex">
         <button
           v-for="sousCategorie in sousCategories"
@@ -37,11 +35,12 @@
           :key="photo.id"
           :src="'http://localhost:9000/static/Particuliers/' + photo.src"
           :alt="photo.alt"
+          @click="bigPicture(photo.src, photo.alt)"
         />
       </div>
     </section>
     <section>
-      <h3>Vidéos</h3>
+      <h3>{{ blocs[2].subtitle }}</h3>
       <div v-for="video in videos" :key="video.titre" class="video-bloc">
         <h4>{{ video.titre }}</h4>
         <iframe
@@ -67,18 +66,40 @@
 <script>
 import Caroussel from "../components/Caroussel.vue";
 import Boutton from "../components/Boutton.vue";
+import ModalBigPhoto from "@/components/ModalBigPhoto.vue";
 export default {
   name: "ParticuliersPortFolio",
   components: {
     Caroussel,
     Boutton,
+    ModalBigPhoto,
   },
   data() {
     return {
       photos: null,
       videos: "",
       sousCategories: null,
+      showModalPhotos: false,
+      src: null,
+      alt: null,
+      categorie: "Particuliers",
+      blocs: null,
+      pageId: null,
+      title: null,
     };
+  },
+  created() {
+    this.$store.commit("loading");
+    this.http
+      .get("http://localhost:9000/pages/getPage/60b79e602d56ae3b30b358cf")
+      .then((resp) => {
+        console.log(resp.data);
+        this.pageId = resp.data._id;
+        this.blocs = resp.data.blocs;
+        this.title = resp.data.name;
+        console.log(this.blocs);
+        this.$store.commit("loading");
+      });
   },
   mounted() {
     this.http
@@ -90,7 +111,7 @@ export default {
     this.http
       .get("http://localhost:9000/photos/getSousCategories/Particuliers")
       .then((resp) => {
-        console.log(resp.data);
+        //console.log(resp.data);
         this.sousCategories = resp.data;
       });
   },
@@ -101,15 +122,20 @@ export default {
           "http://localhost:9000/photos/getPhotos/Particuliers/" + souscategorie
         )
         .then((resp) => {
-          console.log(resp.data);
+          //console.log(resp.data);
           this.photos = resp.data;
         });
+    },
+    bigPicture(src, alt) {
+      this.src = src;
+      this.alt = alt;
+      this.showModalPhotos = !this.showModalPhotos;
     },
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 section:nth-child(odd) {
   background-color: var(--fourthly-color);
   color: var(--thirdly-color);
@@ -129,11 +155,22 @@ section:nth-child(even) {
   text-align: center;
 }
 #seconde-section {
+  padding-top: 5%;
   min-height: 100vh;
+  height: auto;
+  #photo-container {
+    display: flex;
+    justify-content: center;
+    align-items: space-evenly;
+    flex-wrap: wrap;
+    img {
+      max-width: 40vw;
+      margin: 5px;
+      object-fit: cover;
+    }
+  }
 }
-#photos-container {
-  display: inline-flex;
-}
+
 button {
   text-decoration: none;
   border: none;
@@ -142,11 +179,6 @@ button {
   color: var(--thirdly-color);
   font-size: 15px;
   margin: 10px 5px;
-}
-img {
-  height: 15vh;
-
-  margin: 10px;
 }
 .video-bloc {
   display: flex;

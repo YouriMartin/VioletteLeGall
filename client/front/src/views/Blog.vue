@@ -39,7 +39,12 @@
           @click="updateArticle(article._id)"
         ></div>
       </div>
-      <h5 v-if="articles.length > 5" @click="MoreArticles()">Afficher plus</h5>
+      <h5
+        v-if="articles.length > 5 && nbArticles <= articles.length"
+        @click="MoreArticles()"
+      >
+        Afficher plus
+      </h5>
     </div>
   </div>
 </template>
@@ -67,7 +72,7 @@ export default {
       .get("http://localhost:9000/articles/getAll")
       .then((resp) => {
         console.log(resp);
-        this.articles = resp.data;
+        this.articles = resp.data.reverse();
       })
       .catch((err) => {
         console.log(err);
@@ -111,7 +116,7 @@ export default {
 }
 #card-container {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   height: auto;

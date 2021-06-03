@@ -9,9 +9,13 @@
     <div class="inline-flex">
       <button @click="GetPhotos('Professionnels')">Professionnels</button>
       <button @click="GetPhotos('Particuliers')">Particuliers</button>
+      <button @click="GetPhotos('Autres')">Autres</button>
     </div>
     <div class="select-group">
-      <i v-if="categorie != null" class="fas fa-filter"></i>
+      <i
+        v-if="categorie != null && categorie != 'Autres'"
+        class="fas fa-filter"
+      ></i>
       <select v-if="categorie === 'Professionnels'" v-model="sousCategorie">
         <option
           v-for="sousCateg in professionelsSousCategorie"
@@ -76,7 +80,7 @@ export default {
   },
   methods: {
     GetPhotos(categorie) {
-      console.log(categorie);
+      // console.log(categorie);
       this.http
         .get("http://localhost:9000/photos/getPhotos/" + categorie + "/all")
         .then((resp) => {
@@ -89,7 +93,7 @@ export default {
     toggleModal(id) {
       if (id) {
         this.photoId = id;
-        console.log(id);
+        // console.log(id);
       }
       this.showModal = !this.showModal;
     },
@@ -99,7 +103,6 @@ export default {
   },
   watch: {
     sousCategorie: function (value) {
-      console.log("toto");
       this.photosFiltered = this.photos.filter((photo) =>
         value.includes(photo.sous_categorie)
       );
