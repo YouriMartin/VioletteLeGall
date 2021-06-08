@@ -5,7 +5,15 @@
       :toggleModal="updatePhoto"
       :idPage="pageId"
       :idBloc="idBloc"
-      :showModal="showModalPhotos"
+      :idOldPhoto="idOldPhoto"
+      :categ="categ"
+    />
+    <FormTextePage
+      v-if="showModalTexte"
+      :toggleModal="updateTexte"
+      :idPage="pageId"
+      :idBloc="idBloc"
+      :texte="texte"
     />
     <div>
       <img
@@ -13,7 +21,12 @@
         src="@/assets/logoblanc-transparent.png"
         alt="logo"
       />
-      <Caroussel :size="'100vh'" :contents="blocs[0].imgCaroussel" />
+      <Caroussel
+        :size="'100vh'"
+        :idPage="pageId"
+        :idBloc="blocs[0]._id"
+        :contents="blocs[0].imgCaroussel"
+      />
     </div>
     <section id="first-section">
       <h3>{{ blocs[1].subtitle }}</h3>
@@ -23,7 +36,10 @@
           :alt="blocs[1].img.alt"
           @click="updatePhoto(blocs[1]._id)"
         />
-        <div v-html="blocs[1].paragraphes"></div>
+        <div
+          @click="updateTexte(blocs[1]._id, blocs[1].paragraphes)"
+          v-html="blocs[1].paragraphes"
+        ></div>
       </div>
       <Boutton
         :texte="'Me Contacter'"
@@ -39,6 +55,7 @@
           <img
             :src="`http://localhost:9000/static/${img.categorie}/${img.src}`"
             :alt="img.alt"
+            @click="updatePhotoCateg(blocs[2]._id, img._id)"
           />
           <Boutton
             :texte="img.name"
@@ -72,7 +89,10 @@
         :alt="blocs[3].img.alt"
         @click="updatePhoto(blocs[3]._id)"
       />
-      <div v-html="blocs[3].paragraphes"></div>
+      <div
+        v-html="blocs[3].paragraphes"
+        @click="updateTexte(blocs[3]._id, blocs[3].paragraphes)"
+      ></div>
       <Boutton
         :texte="'Me contacter'"
         :css="'primary-big'"
@@ -113,24 +133,30 @@
 </template>
 
 <script >
-import Caroussel from "../components/Caroussel.vue";
-import Boutton from "../components/Boutton.vue";
+import Caroussel from "@/components/Caroussel.vue";
+import Boutton from "@/components/Boutton.vue";
 import FormPhotosPage from "@/components/FormPhotosPage.vue";
+import FormTextePage from "@/components/FormTextePage.vue";
 export default {
   name: "Acceuil",
   components: {
     Caroussel,
     Boutton,
     FormPhotosPage,
+    FormTextePage,
   },
   data() {
     return {
       showModalPhotos: false,
+      showModalTexte: false,
       pageId: null,
       idBloc: null,
+      texte: null,
       blocs: null,
       lienYoutube: "M7r3nKqaoxw",
       articles: null,
+      categ: false,
+      idOldPhoto: null,
     };
   },
   created() {
@@ -138,18 +164,18 @@ export default {
     this.http
       .get("http://localhost:9000/pages/getPage/60b627ba488409500c87ea52")
       .then((resp) => {
-        console.log(resp.data);
+        //console.log(resp.data);
         this.pageId = resp.data._id;
         this.blocs = resp.data.blocs;
-        console.log(this.blocs);
+        //console.log(this.blocs);
         this.$store.commit("loading");
       });
   },
   mounted() {
     //les vidéos youtube
-    /* this.http.get("http://localhost:9000/youtube/getLastvideo").then((resp) => {
-      this.lienYoutube = resp.data;
-    });*/
+    // this.http.get("http://localhost:9000/youtube/getLastvideo").then((resp) => {
+    //   this.lienYoutube = resp.data;
+    // });
     //les articles
     this.http
       .get("http://localhost:9000/articles/getAll")
@@ -175,6 +201,22 @@ export default {
         this.idBloc = idBloc;
       }
       this.showModalPhotos = !this.showModalPhotos;
+    },
+    updatePhotoCateg(idBloc, id) {
+      console.log(idBloc);
+      if (idBloc && id) {
+        this.idBloc = idBloc;
+        this.idOldPhoto = id;
+        this.categ = true;
+      }
+      this.showModalPhotos = !this.showModalPhotos;
+    },
+    updateTexte(idBloc, texte) {
+      if (idBloc && texte) {
+        this.idBloc = idBloc;
+        this.texte = texte;
+      }
+      this.showModalTexte = !this.showModalTexte;
     },
   },
 };

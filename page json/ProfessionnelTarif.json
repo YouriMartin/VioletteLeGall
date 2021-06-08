@@ -1,0 +1,42 @@
+[
+    {
+        "img": {
+            "src": "5ljkof.jpg",
+            "alt": "violette photo hello",
+            "categorie": "Autres"
+        },
+        "subtitle": "COMMENT RESERVER UNE SEANCE AVEC MOI ?",
+        "paragraphes": "<p> D'une entreprise à l'autre, chaque demande peut-être différente, je vous laisse donc m'envoyer un message en me parlant de votre idée pour que nous puissions établir un projet ensemble. Je propose de venir vous photographier sur votre lieu de travail, ou de mettre en valeurs vos créations ou les produits que vous vendez avec des packshots. </p>"
+    },
+    {
+        "img": {
+            "src": "5ljkof.jpg",
+            "alt": "violette photo hello",
+            "categorie": "Autres"
+        },
+        "subtitle": "Portraits et Photo sur le lieu de Travail",
+        "paragraphes": "<p>A partir de 100€</p> <p> Vous venez de monter votre entreprise et vous avez besoin de photos de vous pour illustrer une plaquette ou votre site web ? Le prix correspond à une séance d'une heure, mais cela peut être moins ou plus, je m'adapte selon la demande. </p>",
+        "message": "Je vous contacte pour réserver une séance photo sur le lieu de mon travail"
+    },
+    {
+        "img": {
+            "src": "5ljkof.jpg",
+            "alt": "violette photo hello",
+            "categorie": "Autres"
+        },
+        "subtitle": "Photo de produits",
+        "paragraphes": "<p>A partir de 90€</p> <p> Je vous propose une séance photo en extérieur ou à domicile pour des photos plus en intimité </p>",
+        "message": "Bonjour, je suis un professionnel et je vous contacte pour reserver une séance de photo de produit"
+    },
+    {
+        "img": {
+            "src": "5ljkof.jpg",
+            "alt": "violette photo hello",
+            "categorie": "Autres"
+        },
+        "video": "QRZXn9Hq0pU",
+        "subtitle": "Formule Vidéo",
+        "paragraphes": "<p>prix à définir</p> <p>Vous êtes un bar et vous voulez une vidéo de l'évènement que vous organisez ? Vous êtes une entreprise et vous souhaitez une vidéo qui mettrait en avant vos compétences sur les réseaux sociaux ?  Contactez moi et nous pourrons imagniner ce projet ensemble.</p>",
+        "message": "Bonjour, je suis un professionnel et je vous contacte pour réserver une séance vidéo dans mon entreprise"
+    }
+]

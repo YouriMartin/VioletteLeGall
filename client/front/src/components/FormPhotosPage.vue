@@ -51,7 +51,7 @@
 <script>
 export default {
   name: "FormPhotosPage",
-  props: ["toggleModal", "idPage", "idBloc"],
+  props: ["toggleModal", "idPage", "idBloc", "categ", "idOldPhoto"],
   data() {
     return {
       categorie: null,
@@ -69,17 +69,31 @@ export default {
         idPage: this.idPage,
         newPhoto: photo,
         idBloc: this.idBloc,
+        idOldPhoto: this.idOldPhoto,
       };
       console.log("infos", infos);
-      this.http
-        .post("http://localhost:9000/pages/updatePhoto", infos, {
-          headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
-        })
-        .then((resp) => {
-          console.log(resp);
-          this.$store.commit("loading");
-          document.location.reload();
-        });
+      if (!this.categ) {
+        this.http
+          .post("http://localhost:9000/pages/updatePhoto", infos, {
+            headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
+          })
+          .then((resp) => {
+            console.log(resp);
+            this.$store.commit("loading");
+            document.location.reload();
+          });
+      } else {
+        console.log(infos);
+        this.http
+          .post("http://localhost:9000/pages/updatePhotoCateg", infos, {
+            headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
+          })
+          .then((resp) => {
+            console.log(resp);
+            this.$store.commit("loading");
+            document.location.reload();
+          });
+      }
     },
   },
   mounted() {
@@ -151,10 +165,12 @@ export default {
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
+    margin-top: 5%;
+    overflow: scroll;
+    height: 35vh;
   }
   img {
-    height: 100%;
-    width: 20%;
+    height: 50%;
     object-fit: cover;
   }
 }

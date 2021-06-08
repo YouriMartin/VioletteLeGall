@@ -1,0 +1,71 @@
+[
+    {
+        "img":{
+            "src": "5ljkof.jpg",
+            "alt": "violette photo hello",
+            "categorie": "Autres"
+        },
+        "subtitle": "COMMENT RESERVER UNE SEANCE AVEC MOI ?",
+        "paragraphes": "<p> Commencez par prendre contact avec moi par message pour déterminer ensemble la formule qui vous conviendrait. Si cela est possible, j'aime bien rencontrer le client ou la cliente en amont, pour pouvoir discuter des envies de la personne. En général, le rpix que vous voyez sur les formules correspond à une séance d'un heure, mais je peux m'adapter selon la demande. Je n'ai pas de maximum de photos : je suis consciente que les photos qui plaisent le plsu au photographe ne sont pas toujours cells qui plaisent le plus au client ou à la cliente, donc je préfère ne pas me limiter (cela tourne souvent autour de 20photos). </p>"
+    },
+    {
+        "img":{
+            "src": "5ljkof.jpg",
+            "alt": "violette photo hello",
+            "categorie": "Autres"
+        },
+        "subtitle": "Portraits",
+        "paragraphes": "<p>A partir de 80€</p> <p> Une séance photo en extérieur, où vous le souhaitez </p>",
+        "message": "Je vous contacte pour réserver une séance de portraits"
+    },
+    {
+        "img":{
+            "src": "5ljkof.jpg",
+            "alt": "violette photo hello",
+            "categorie": "Autres"
+        },
+        "subtitle": "Naissance",
+        "paragraphes": "<p>A partir de 90€</p> <p> Je vous propose une séance photo en extérieur ou à domicile pour des photos plus en intimité </p>",
+        "message": "Je vous contacte pour réserver une séance de naissance"
+    },
+    {
+        "img":{
+            "src": "5ljkof.jpg",
+            "alt": "violette photo hello",
+            "categorie": "Autres"
+        },
+        "subtitle": "En Famille",
+        "paragraphes": "<p>A partir de 100€</p> <p> Je vous propose une séance photo en extérieur ou à domicile, en famille. </p>",
+        "message": "Je vous contacte pour réserver une séance de famille"
+    },
+    {
+        "img":{
+            "src": "5ljkof.jpg",
+            "alt": "violette photo hello",
+            "categorie": "Autres"
+        },
+        "subtitle": "Photo Pro",
+        "paragraphes": "<p>A partir de 40€</p> <p> Vous avez besoin d'une photo pour votre CV ou votre profil Linkedin ? Je vous propose une mini séance en studio où j'adapte mes photos à la personnalité et au type d'emploi recherché ! </p>",
+        "message": "Je vous contacte pour réserver une séance de photo professionnels"
+    },
+    {
+        "img":{
+            "src": "5ljkof.jpg",
+            "alt": "violette photo hello",
+            "categorie": "Autres"
+        },
+        "subtitle": "Couples",
+        "paragraphes": "<p>A partir de 100€</p> <p> Une séance avec votre amoureux ou votre amoureuse, au lever du soleil à la mer ou en ville la nuit, c'est vous qui choississez ! </p>",
+        "message": "Je vous contacte pour réserver une séance de couple"
+    },
+    {
+        "img":{
+            "src": "5ljkof.jpg",
+            "alt": "violette photo hello",
+            "categorie": "Autres"
+        },
+        "subtitle": "Mariage",
+        "paragraphes": "<p>Tarif sur Devis</p> <p>A cause de la crise actuelle, les mariages qui étaient prévus cet été ont été déczlés à l'anné prochaine. Je n'ai donc pas pu faire de mariages depuis la création de mon entreprise. Je rêve de pouvoir couvrir le mariage de quelqu'un. C'est un style que j'affectionne tout particulièrement. Si mon style vous plaît, contactez moi et vous bénéficierez d'un tarif spécial ! </p>",
+        "message": "Je vous contacte pour réserver une séance pour un mariage"
+    }
+]

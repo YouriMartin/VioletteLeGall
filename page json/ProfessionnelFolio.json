@@ -1,0 +1,25 @@
+[
+    {
+        "imgCaroussel": [
+            {
+                "src": "274ni.jpg",
+                "alt": "femme machine à coudre",
+                "categorie": "Professionnels",
+                "order": 1
+            },
+            {
+                "src": "xxw0k.jpg",
+                "alt": "cidre versé dans un verre",
+                "categorie": "Professionnels",
+                "order": 2
+            }
+        ],
+        "paragraphes": "<p>Fore deviis milite petivere latrones nostris populationum igitur campestrem propinqua tramitibus quidem caedium congressione sed petivere diu conmunitam frequentibus Pamphyliam magna propinqua cum stataria caedium diu sed stataria igitur magna intactam inpares inpares quidem populationum sed magna stataria frequentibus Pamphyliam tramitibus magna inpares igitur per frequentibus milite se per Pamphyliam fore praesidiis undique Lycaoniam idem sed timore sed campestrem undique timore idem se intactam parte intactam petivere campestrem diffuso milite milite undique populationum Lycaoniam omnia deviis parte per se parte stataria caedium tramitibus magnis inpares campestrem diffuso omnia diffuso per praesidiis igitur magnis inpares Lycaoniam intactam magna diffuso magnis Lycaoniam.</P>"
+    },
+    {
+        "subtitle": "PHOTOS"
+    },
+    {
+        "subtitle": "VIDEOS"
+    }
+]

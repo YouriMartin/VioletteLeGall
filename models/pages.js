@@ -20,6 +20,7 @@ const PagesSchema = new Schema({
       subtitle: String,
       paragraphes: String,
       message: String,
+      video: String,
       imgCateg: [
         {
           src: String,

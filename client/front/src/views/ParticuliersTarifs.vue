@@ -1,22 +1,38 @@
 <template>
-  <div id="particulier-tarifs">
+  <div id="particulier-tarifs" v-if="blocs != null">
+    <FormPhotosPage
+      v-if="showModalPhotos"
+      :toggleModal="updatePhoto"
+      :idPage="pageId"
+      :idBloc="idBloc"
+      :idOldPhoto="idOldPhoto"
+      :categ="categ"
+    />
+    <FormTextePage
+      v-if="showModalTexte"
+      :toggleModal="updateTexte"
+      :idPage="pageId"
+      :idBloc="idBloc"
+      :texte="texte"
+    />
     <section>
       <div id="title-img-container">
         <h2>Particuliers Tarifs</h2>
-        <img id="img-acceuil" :src="blocs[0].img.src" :alt="blocs[0].img.alt" />
+        <img
+          :src="`http://localhost:9000/static/${blocs[0].img.categorie}/${blocs[0].img.src}`"
+          :alt="blocs[0].img.alt"
+          @click="updatePhoto(blocs[0]._id)"
+        />
       </div>
       <h3>Mes Prestations</h3>
       <div class="bloc-text">
-        <h4>{{ blocs[0].subtitle }}</h4>
-        <p
+        <h5>{{ blocs[0].subtitle }}</h5>
+        <div
           class="paragraphe"
-          v-for="paragraphe in blocs[0].paragraphes"
-          :key="paragraphe"
-        >
-          {{ paragraphe }}
-        </p>
-
-        <h4>Vous ne trouvez pas la formule qu'il vous faut ci-dessous ?</h4>
+          v-html="blocs[0].paragraphes"
+          @click="updateTexte(blocs[0]._id, blocs[0].paragraphes)"
+        ></div>
+        <h5>Vous ne trouvez pas la formule qu'il vous faut ci-dessous ?</h5>
         <p>Contactez-moi directement et parlons en ensembre !</p>
         <Boutton
           :texte="'Me Contacter'"
@@ -26,32 +42,20 @@
         />
       </div>
     </section>
-    <section v-for="bloc in blocs.slice(1)" :key="bloc.id">
-      <img :src="bloc.img.src" :alt="bloc.img.alt" />
+    <section v-for="bloc in blocs.slice(1)" :key="bloc._id">
+      <img
+        :src="`http://localhost:9000/static/${bloc.img.categorie}/${bloc.img.src}`"
+        :alt="bloc.img.alt"
+        @click="updatePhoto(bloc._id)"
+      />
       <div class="bloc-text">
-        <h3>{{ bloc.title }}</h3>
         <h4>{{ bloc.subtitle }}</h4>
-        <p
-          class="paragraphe"
-          v-for="paragraphe in bloc.paragraphes"
-          :key="paragraphe"
-        >
-          {{ paragraphe }}
-        </p>
-        <button
-          class="button-pair"
-          v-on:click="setMessage(bloc.id)"
-          v-if="bloc.id % 2 === 0"
-        >
-          Me Contacter
-        </button>
-        <button
-          class="button-impair"
-          v-on:click="setMessage(bloc.id)"
-          v-if="bloc.id % 2 != 0"
-        >
-          Me Contacter
-        </button>
+        <div
+          class="paragraphe-tarif"
+          v-html="bloc.paragraphes"
+          @click="updateTexte(bloc._id, bloc.paragraphes)"
+        ></div>
+        <button v-on:click="setMessage(bloc._id)">Me Contacter</button>
       </div>
     </section>
   </div>
@@ -59,141 +63,131 @@
 
 <script>
 import Boutton from "../components/Boutton.vue";
+import FormPhotosPage from "@/components/FormPhotosPage.vue";
+import FormTextePage from "@/components/FormTextePage.vue";
 export default {
   name: "ParticuliersTarifs",
   components: {
     Boutton,
+    FormPhotosPage,
+    FormTextePage,
   },
   data() {
     return {
-      blocs: [
-        {
-          id: 1,
-          img: {
-            src: require("@/assets/imgTest/prestation.jpg"),
-            alt: "prestation",
-          },
-          subtitle: "COMMENT RESERVER UNE SEANCE AVEC MOI ?",
-          paragraphes: [
-            "Commencez par prendre contact avec moi par message pour déterminer ensemble la formule qui vous conviendrait. Si cela est possible, j'aime bien rencontrer le client ou la cliente en amont, pour pouvoir discuter des envies de la personne.",
-            "En général, le rpix que vous voyez sur les formules correspond à une séance d'un heure, mais je peux m'adapter selon la demande. Je n'ai pas de maximum de photos : je suis consciente que les photos qui plaisent le plsu au photographe ne sont pas toujours cells qui plaisent le plus au client ou à la cliente, donc je préfère ne pas me limiter (cela tourne souvent autour de 20photos).",
-          ],
-        },
-        {
-          id: 2,
-          img: {
-            src: require("@/assets/imgTest/portraitsFolio.jpg"),
-            alt: "tarif portrait",
-          },
-          title: "Portraits",
-          subtitle: "A partir de 80€",
-          paragraphes: ["Une séance photo en extérieur, où vous le souhaitez"],
-          message: "Je vous contacte pour réserver une séance de portraits",
-        },
-        {
-          id: 3,
-          img: {
-            src: require("@/assets/imgTest/ParticulierFolio7.jpg"),
-            alt: "tarif naissance",
-          },
-          title: "Naissance",
-          subtitle: "A partir de 90€",
-          paragraphes: [
-            "Je vous propose une séance photo en extérieur ou à domicile pour des photos plus en intimité",
-          ],
-          message: "Je vous contacte pour réserver une séance de naissance",
-        },
-        {
-          id: 4,
-          img: {
-            src: require("@/assets/imgTest/famille.jpg"),
-            alt: "tarif Famille",
-          },
-          title: "En famille",
-          subtitle: "A partir de 100€",
-          paragraphes: [
-            "Je vous propose une séance photo en extérieur ou à domicile, en famille.",
-          ],
-          message: "Je vous contacte pour réserver une séance de famille",
-        },
-        {
-          id: 5,
-          img: {
-            src: require("@/assets/imgTest/proFolio.jpg"),
-            alt: "tarif pro",
-          },
-          title: "Photo Pro",
-          subtitle: "A partir de 40€",
-          paragraphes: [
-            "Vous avez besoin d'une photo pour votre CV ou votre profil Linkedin?",
-            "Je vous propose une mini séance en studio où j'adapte mes photos à la personnalité et au type d'emploi recherché !",
-          ],
-          message:
-            "Je vous contacte pour réserver une séance de photo professionnels",
-        },
-        {
-          id: 6,
-          img: {
-            src: require("@/assets/imgTest/coupleFolio.jpg"),
-            alt: "tarif couples",
-          },
-          title: "Couples",
-          subtitle: "A partir de 100€",
-          paragraphes: [
-            "Une séance avec votre amoureux ou votre amoureuse, au lever du soleil à la mer ou en ville la nuit, c'est vous qui choississez !",
-          ],
-          message: "Je vous contacte pour réserver une séance de couple",
-        },
-        {
-          id: 7,
-          img: {
-            src: require("@/assets/imgTest/mariage.jpg"),
-            alt: "tarif mariage",
-          },
-          title: "Mariage",
-          subtitle: "Tarif sur Devis",
-          paragraphes: [
-            "A cause de la crise actuelle, les mariages qui étaient prévus cet été ont été déczlés à l'anné prochaine. Je n'ai donc pas pu faire de mariages depuis la création de mon entreprise. Je rêve de pouvoir couvrir le mariage de quelqu'un. C'est un style que j'affectionne tout particulièrement.",
-            "Si mon style vous plaît, contactez moi et vous bénéficierez d'un tarif spécial !",
-          ],
-          message: "Je vous contacte pour réserver une séance pour un mariage",
-        },
-      ],
+      pageId: null,
+      blocs: null,
+      showModalPhotos: false,
+      showModalTexte: false,
+      categ: false,
+      idOldPhoto: null,
     };
+  },
+  created() {
+    this.$store.commit("loading");
+    this.http
+      .get("http://localhost:9000/pages/getPage/60bdde1d1b8c691e101f71a7")
+      .then((resp) => {
+        //console.log(resp.data);
+        this.pageId = resp.data._id;
+        this.blocs = resp.data.blocs;
+        console.log(this.blocs);
+        this.$store.commit("loading");
+      });
   },
   methods: {
     setMessage(id) {
-      const index = this.blocs.findIndex((bloc) => bloc.id === id);
+      const index = this.blocs.findIndex((bloc) => bloc._id === id);
       const message = this.blocs[index].message;
       console.log(message);
       this.$store.dispatch("getMessage", message);
       this.$router.push("/contact");
     },
+    updatePhoto(idBloc) {
+      console.log(idBloc);
+      if (idBloc) {
+        this.idBloc = idBloc;
+      }
+      this.showModalPhotos = !this.showModalPhotos;
+    },
+    updateTexte(idBloc, texte) {
+      if (idBloc && texte) {
+        this.idBloc = idBloc;
+        this.texte = texte;
+      }
+      this.showModalTexte = !this.showModalTexte;
+    },
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 section:nth-child(odd) {
   background-color: var(--fourthly-color);
   color: var(--thirdly-color);
+  button {
+    padding: 5%;
+    font-size: 2.5vh;
+    background-color: var(--thirdly-color);
+    color: var(--fourthly-color);
+    border: none;
+  }
 }
 section:nth-child(even) {
   background-color: var(--thirdly-color);
   color: var(--fourthly-color);
+  button {
+    padding: 5%;
+    font-size: 2.5vh;
+    background-color: var(--fourthly-color);
+    color: var(--thirdly-color);
+    border: none;
+  }
+}
+p {
+  font-size: 1.5vh;
+  padding-bottom: 5%;
 }
 section {
   justify-content: flex-start;
+  padding-bottom: 5%;
+  h3 {
+    font-size: 3.5vh;
+  }
+  h4 {
+    font-size: 4vh;
+  }
+  .bloc-text {
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    padding: 0% 1%;
+    .paragraphe {
+      text-align: start;
+      font-size: 1.8vh;
+      margin: 0% 10%;
+      line-height: 2.5vh;
+    }
+    .paragraphe-tarif {
+      font-size: 2vh;
+      line-height: 3vh;
+      padding: 0% 5%;
+      ::v-deep p {
+        margin: 5% 0%;
+      }
+      ::v-deep :first-child {
+        font-size: 3vh;
+      }
+    }
+  }
 }
 img {
   height: 40%;
   width: 100%;
   object-fit: cover;
   justify-self: start;
-}
-p {
-  font-size: 1.5vh;
-  margin: 0% 10%;
 }
 #title-img-container {
   height: 40%;
@@ -206,31 +200,5 @@ p {
   height: 50%;
   width: 100%;
   object-fit: cover;
-}
-.bloc-text {
-  height: 60%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  text-align: center;
-  padding: 0% 1%;
-}
-.paragraphe {
-  text-align: start;
-}
-.button-pair {
-  padding: 5%;
-  font-size: 3vh;
-  background-color: var(--fourthly-color);
-  color: var(--thirdly-color);
-  border: none;
-}
-.button-impair {
-  padding: 5%;
-  font-size: 3vh;
-  background-color: var(--thirdly-color);
-  color: var(--fourthly-color);
-  border: none;
 }
 </style>

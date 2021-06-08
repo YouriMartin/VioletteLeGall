@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/addPage", (req, res) => {
   console.log(req.body);
   let page = new Pages({
-    name: "PARTICULIERS PORTFOLIO",
+    name: "PROFESSIONNELS TARIFS",
     blocs: req.body,
   });
   console.log("page", page);
@@ -46,13 +46,92 @@ router.post("/updatePhoto", auth, (req, res) => {
         },
       },
     },
-    { new: true },
-    (err, doc) => {
+    (err) => {
       if (err) {
         res.status(500).send("erreur lors de la modification");
       } else {
         //console.log(doc);
         res.send("Photo modifier");
+      }
+    }
+  );
+});
+
+router.post("/updatePhotoCateg", auth, (req, res) => {
+  // console.log("body", req.body);
+  Pages.findOneAndUpdate(
+    {
+      _id: req.body.idPage,
+    },
+    {
+      $set: {
+        "blocs.$[i].imgCateg.$[j].src": req.body.newPhoto.src,
+        "blocs.$[i].imgCateg.$[j].alt": req.body.newPhoto.alt,
+        "blocs.$[i].imgCateg.$[j].categorie": req.body.newPhoto.categorie,
+      },
+    },
+    {
+      arrayFilters: [
+        {
+          "i._id": req.body.idBloc,
+        },
+        {
+          "j._id": req.body.idOldPhoto,
+        },
+      ],
+    },
+    (err) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("erreur lors de la modification");
+      } else {
+        //console.log(doc);
+        res.send("Photo modifier");
+      }
+    }
+  );
+});
+
+router.post("/updateCaroussel", auth, (req, res) => {
+  //console.log(req.body);
+  Pages.findOneAndUpdate(
+    {
+      _id: req.body.idPage,
+      "blocs._id": req.body.idBloc,
+    },
+    {
+      $set: {
+        "blocs.$.imgCaroussel": req.body.caroussel,
+      },
+    },
+    (err) => {
+      if (err) {
+        res.status(500).send("erreur lors de la modification");
+      } else {
+        res.send("Caroussel modifier");
+      }
+    }
+  );
+});
+
+router.post("/updateTexte", auth, (req, res) => {
+  //console.log(req.body);
+  Pages.findOneAndUpdate(
+    {
+      _id: req.body.idPage,
+      "blocs._id": req.body.idBloc,
+    },
+    {
+      $set: {
+        "blocs.$.paragraphes": req.body.texte,
+      },
+    },
+    { new: true },
+    (err) => {
+      if (err) {
+        res.status(500).send("erreur lors de la modification");
+      } else {
+        res.send("Texte modifié");
       }
     }
   );

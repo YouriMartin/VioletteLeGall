@@ -102,6 +102,8 @@ export default {
   flex-direction: column;
   img {
     margin: 10% 0%;
+    max-height: 30vh;
+    object-fit: cover;
   }
   input {
     margin: 5% 0%;

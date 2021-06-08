@@ -1,5 +1,5 @@
 <template>
-  <div id="professionnelsPortFolio">
+  <div id="professionnelsPortFolio" v-if="blocs != null">
     <ModalBigPhoto
       v-if="showModalPhotos"
       :toggleModal="bigPicture"
@@ -7,18 +7,25 @@
       :alt="alt"
       :categorie="categorie"
     />
+    <FormTextePage
+      v-if="showModalTexte"
+      :toggleModal="updateTexte"
+      :idPage="pageId"
+      :idBloc="idBloc"
+      :texte="texte"
+    />
     <div id="first-section">
-      <h2>Professionnels Portfolio</h2>
-      <Caroussel :size="'30vh'" />
-      <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est odit enim
-        rerum delectus dolor deleniti quasi nobis saepe! Nulla enim veritatis
-        blanditiis libero facilis mollitia delectus ab iste omnis atque. Iure
-        velit repellat voluptate voluptates cum molestiae quaerat modi rerum? Et
-        ipsum alias voluptatibus deleniti autem porro quam tenetur
-        necessitatibus, debitis asperiores ea sint vitae omnis quia. Quia,
-        aliquam laudantium.
-      </p>
+      <h2>{{ title }}</h2>
+      <Caroussel
+        :size="'30vh'"
+        :idPage="pageId"
+        :idBloc="blocs[0]._id"
+        :contents="blocs[0].imgCaroussel"
+      />
+      <div
+        @click="updateTexte(blocs[0]._id, blocs[0].paragraphes)"
+        v-html="blocs[0].paragraphes"
+      ></div>
       <Boutton
         :texte="'Accéder aux tarifs'"
         :css="'primary-big'"
@@ -27,7 +34,7 @@
       />
     </div>
     <section id="seconde-section">
-      <h3>Photo</h3>
+      <h3>{{ blocs[1].subtitle }}</h3>
       <div class="inline-flex">
         <button
           v-for="sousCategorie in sousCategories"
@@ -48,7 +55,7 @@
       </div>
     </section>
     <section>
-      <h3>Vidéos</h3>
+      <h3>{{ blocs[2].subtitle }}</h3>
       <div v-for="video in videos" :key="video.titre" class="video-bloc">
         <h4>{{ video.titre }}</h4>
         <iframe
@@ -75,6 +82,7 @@
 import Caroussel from "@/components/Caroussel.vue";
 import Boutton from "@/components/Boutton.vue";
 import ModalBigPhoto from "@/components/ModalBigPhoto.vue";
+import FormTextePage from "@/components/FormTextePage.vue";
 
 export default {
   name: "ProfessionnelsPortFolio",
@@ -82,6 +90,7 @@ export default {
     Caroussel,
     Boutton,
     ModalBigPhoto,
+    FormTextePage,
   },
   data() {
     return {
@@ -89,10 +98,27 @@ export default {
       videos: "",
       sousCategories: null,
       showModalPhotos: false,
+      showModalTexte: false,
       src: null,
       alt: null,
       categorie: "Professionnels",
+      blocs: null,
+      pageId: null,
+      title: null,
     };
+  },
+  created() {
+    this.$store.commit("loading");
+    this.http
+      .get("http://localhost:9000/pages/getPage/60bcb89ee862fb3e20cee699")
+      .then((resp) => {
+        console.log(resp.data);
+        this.pageId = resp.data._id;
+        this.blocs = resp.data.blocs;
+        this.title = resp.data.name;
+        console.log(this.blocs);
+        this.$store.commit("loading");
+      });
   },
   mounted() {
     this.http
@@ -123,6 +149,13 @@ export default {
       this.src = src;
       this.alt = alt;
       this.showModalPhotos = !this.showModalPhotos;
+    },
+    updateTexte(idBloc, texte) {
+      if (idBloc && texte) {
+        this.idBloc = idBloc;
+        this.texte = texte;
+      }
+      this.showModalTexte = !this.showModalTexte;
     },
   },
 };

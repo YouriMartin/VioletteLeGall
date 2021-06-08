@@ -1,0 +1,37 @@
+[
+    {
+        "img": {
+            "src": "5ljkof.jpg",
+            "alt": "violette photo hello",
+            "categorie": "Autres"
+        },
+        "paragraphes": "<p> Vous souhaitez me commander une prestation, ou simplement plus d'informations ? Une séance couple, un mariage, une vidéo corporate : parlez-moi de votre projet. </p>"
+    },
+    {
+        "subtitle": "QUI SUIS JE ?",
+        "paragraphes": "<p> Je m'appelle Violette j'ai 27 ans je vis à Rennes et je suis photographe indépendants. Après plus de 10 ans à faire de la photo, j'ai décidé de lancer mon entreprise. Je me suis longtemps demandé ce qui me plaisait tant dans la photo. J'ai toujours été animé parle fait de créer des souvenirs : mes amis et me famille pourront en témoigner. Il n'y a rien qui me rends plus heureuse que de faire des photos et des vidéos des moments entre nous. </p>",
+        "img": {
+            "src": "1uq19l.jpg",
+            "alt": "photo violette insta",
+            "categorie": "Autres"
+        }
+    },
+    {
+        "subtitle": "J'ADORE VOYAGER",
+        "imgCaroussel": [
+            {
+                "src": "sgjvp.jpg",
+                "alt": "portrait bébé sur le lit",
+                "categorie": "Particuliers",
+                "order": 1
+            },
+            {
+                "src": "vp93zg.jpg",
+                "alt": "femme machine à coudre",
+                "categorie": "Professionnels",
+                "order": 2
+            }
+        ],
+        "paragraphes": "<p> Je m'appelle Violette j'ai 27 ans je vis à Rennes et je suis photographe indépendants. Après plus de 10 ans à faire de la photo, j'ai décidé de lancer mon entreprise. Je me suis longtemps demandé ce qui me plaisait tant dans la photo. J'ai toujours été animé parle fait de créer des souvenirs : mes amis et me famille pourront en témoigner. Il n'y a rien qui me rends plus heureuse que de faire des photos et des vidéos des moments entre nous. </p>"
+    }
+]

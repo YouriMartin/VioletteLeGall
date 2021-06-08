@@ -100,26 +100,32 @@ export default {
   methods: {
     envoyerPhoto() {
       let img = document.getElementById("photo").files[0];
-      let categ = this.categ;
-      let photo = new FormData();
-      photo.append("src", img);
-      photo.append("alt", this.alt);
-      photo.append("categorie", categ);
-      photo.append("sous_categorie", this.sousCateg);
+      if (this.categ != "" && img != "undefined" && this.alt != "") {
+        this.$store.commit("loading");
+        let categ = this.categ;
+        let photo = new FormData();
+        photo.append("src", img);
+        photo.append("alt", this.alt);
+        photo.append("categorie", categ);
+        photo.append("sous_categorie", this.sousCateg);
 
-      console.log("photos", photo);
-      this.http
-        .post(`http://localhost:9000/photos/addPhotos/${categ}`, photo)
-        .then((resp) => {
-          console.log("reponse", resp);
-          window.alert(resp.data);
-          this.alt = "";
-          document.getElementById("photo").value = "";
-        })
-        .catch((err) => {
-          console.log("erreur", err.response);
-          window.alert(err.response.data);
-        });
+        console.log("photos", photo);
+        this.http
+          .post(`http://localhost:9000/photos/addPhotos/${categ}`, photo)
+          .then((resp) => {
+            console.log("reponse", resp);
+            window.alert(resp.data);
+            this.alt = "";
+            document.getElementById("photo").value = "";
+            this.$store.commit("loading");
+          })
+          .catch((err) => {
+            console.log("erreur", err.response);
+            window.alert(err.response.data);
+          });
+      } else {
+        window.alert("il manque un element");
+      }
     },
   },
 };

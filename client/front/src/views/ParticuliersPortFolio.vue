@@ -7,10 +7,25 @@
       :alt="alt"
       :categorie="categorie"
     />
+    <FormTextePage
+      v-if="showModalTexte"
+      :toggleModal="updateTexte"
+      :idPage="pageId"
+      :idBloc="idBloc"
+      :texte="texte"
+    />
     <div id="first-section">
       <h2>{{ title }}</h2>
-      <Caroussel :size="'30vh'" :contents="blocs[0].imgCaroussel" />
-      <div v-html="blocs[0].paragraphes"></div>
+      <Caroussel
+        :size="'30vh'"
+        :idPage="pageId"
+        :idBloc="blocs[0]._id"
+        :contents="blocs[0].imgCaroussel"
+      />
+      <div
+        @click="updateTexte(blocs[0]._id, blocs[0].paragraphes)"
+        v-html="blocs[0].paragraphes"
+      ></div>
       <Boutton
         :texte="'Accéder aux tarifs'"
         :css="'thirdly-big'"
@@ -67,12 +82,14 @@
 import Caroussel from "../components/Caroussel.vue";
 import Boutton from "../components/Boutton.vue";
 import ModalBigPhoto from "@/components/ModalBigPhoto.vue";
+import FormTextePage from "@/components/FormTextePage.vue";
 export default {
   name: "ParticuliersPortFolio",
   components: {
     Caroussel,
     Boutton,
     ModalBigPhoto,
+    FormTextePage,
   },
   data() {
     return {
@@ -80,6 +97,7 @@ export default {
       videos: "",
       sousCategories: null,
       showModalPhotos: false,
+      showModalTexte: false,
       src: null,
       alt: null,
       categorie: "Particuliers",
@@ -130,6 +148,13 @@ export default {
       this.src = src;
       this.alt = alt;
       this.showModalPhotos = !this.showModalPhotos;
+    },
+    updateTexte(idBloc, texte) {
+      if (idBloc && texte) {
+        this.idBloc = idBloc;
+        this.texte = texte;
+      }
+      this.showModalTexte = !this.showModalTexte;
     },
   },
 };

@@ -47,7 +47,7 @@ a {
 }
 .thirdly-big {
   padding: 15px;
-  font-size: 20px;
+  font-size: 3vh;
   background-color: var(--thirdly-color);
   color: var(--fourthly-color);
 }

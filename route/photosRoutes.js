@@ -6,30 +6,34 @@ const multer = require("../middleware/multer");
 const auth = require("../middleware/auth");
 const fs = require("fs");
 const router = express.Router();
+const sharp = require("sharp");
 
-router.post("/addPhotos/:type", multer, (req, res) => {
-  console.log("reqbody", req.body);
+
+router.post("/addPhotos/:type", multer, async (req, res) => {
+  // console.log("reqbody", req.body);
   console.log("FILE", req.file);
-  if (
-    req.body.categorie != "" &&
-    req.body.sous_categorie != "" &&
-    req.body.src != "undefined" &&
-    req.body.alt != ""
-  ) {
-    let photo = new Photos({
-      alt: req.body.alt,
-      src: req.file.filename,
-      categorie: req.body.categorie,
-      sous_categorie: req.body.sous_categorie,
-    });
-    console.log("photo", photo);
-    photo.save((err) => {
-      if (err) return handleErro(err);
-      res.status(200).send("photo enregistré");
-    });
-  } else {
-    res.status(500).send("Il manque un element");
-  }
+  const newName =
+    Math.random().toString(36).substring(7) +
+    "." +
+    req.file.filename.split(".")[1];
+
+  console.log(newName);
+  await sharp(req.file.path)
+    .resize(1000)
+    .toFile(`photosBack/${req.body.categorie}/${newName}`);
+  fs.unlinkSync(req.file.path);
+
+  let photo = new Photos({
+    alt: req.body.alt,
+    src: newName,
+    categorie: req.body.categorie,
+    sous_categorie: req.body.sous_categorie,
+  });
+  console.log("photo", photo);
+  photo.save((err) => {
+    if (err) return handleErro(err);
+    res.status(200).send("photo enregistré");
+  });
 });
 
 router.get("/getPhotos/:categ/:sousCateg", (req, res) => {

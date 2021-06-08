@@ -12,12 +12,13 @@ const storageImage = multer.diskStorage({
     cb(undefined, true);
   },
   filename: function (req, file, cb) {
-    cb(
+    /* cb(
       null,
       Math.random().toString(36).substring(7) +
         "." +
         file.originalname.split(".")[1]
-    );
+    );*/
+    cb(null, file.originalname);
   },
 });
 

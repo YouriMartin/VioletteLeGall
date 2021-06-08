@@ -4,16 +4,85 @@
       <div class="overlay" @click="toggleModal"></div>
       <div id="modal">
         <h4>Caroussel</h4>
-        <i class="fas fa-trash-alt" v-if="showTrash"></i>
         <div class="photo-container">
-          <img
-            class="imgDrag"
-            v-for="content in contents"
-            :key="content.order"
-            :src="`http://localhost:9000/static/${content.categorie}/${content.src}`"
-            :alt="content.alt"
-          />
-          <i class="far fa-plus-square"></i>
+          <draggable
+            v-model="contentsForUpdate"
+            ghost-class="ghost"
+            @end="onEnd"
+          >
+            <transition-group type="transition" name="flip-list">
+              <div
+                class="imgDrag"
+                v-for="content in contentsForUpdate"
+                :key="content.order"
+              >
+                <img
+                  :src="`http://localhost:9000/static/${content.categorie}/${content.src}`"
+                  :alt="content.alt"
+                />
+                <i class="fas fa-times" @click="supprimer(content.order)"></i>
+              </div>
+            </transition-group>
+          </draggable>
+
+          <i
+            v-if="!showAddPhoto"
+            class="far fa-plus-square"
+            @click="showAddPhoto = true"
+          ></i>
+        </div>
+        <button v-if="!showAddPhoto" @click="update">
+          Enregistrer les modifications
+        </button>
+        <div v-if="showAddPhoto">
+          <div class="select-group">
+            <i class="fas fa-filter"></i>
+            <select v-model="categorie">
+              <option value="Particuliers">Particuliers</option>
+              <option value="Professionnels">Professionnels</option>
+              <option value="Autres">Autres</option>
+            </select>
+          </div>
+          <div class="select-group">
+            <i
+              v-if="categorie != null && categorie != 'Autres'"
+              class="fas fa-filter"
+            ></i>
+            <select
+              v-if="categorie === 'Professionnels'"
+              v-model="sousCategorie"
+            >
+              <option
+                v-for="sousCateg in professionelsSousCategorie"
+                :key="sousCateg"
+              >
+                {{ sousCateg }}
+              </option>
+            </select>
+            <select v-if="categorie === 'Particuliers'" v-model="sousCategorie">
+              <option
+                v-for="sousCateg in particuliersSousCategorie"
+                :key="sousCateg"
+              >
+                {{ sousCateg }}
+              </option>
+            </select>
+          </div>
+          <div id="photo-scroll">
+            <img
+              class="photo-add"
+              v-for="photo in photosFiltered"
+              :key="photo._id"
+              :src="
+                'http://localhost:9000/static/' +
+                photo.categorie +
+                '/' +
+                photo.src
+              "
+              :alt="photo.alt"
+              @click="addPhoto(photo)"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -23,7 +92,6 @@
         autoplay
         :fixedHeight="size"
         :arrows="false"
-        @click="toggleModal"
       >
         <vueper-slide
           v-for="content in contents"
@@ -36,51 +104,110 @@
 </template>
 
 <script>
-//import TweenMax from "gsap";
-import gsap from "gsap";
-import Draggable from "gsap/Draggable";
+import draggable from "vuedraggable";
 import { VueperSlides, VueperSlide } from "vueperslides";
 import "vueperslides/dist/vueperslides.css";
 
-gsap.registerPlugin(Draggable);
 export default {
   name: "Caroussel",
-  props: ["size", "contents"],
+  props: ["size", "contents", "idPage", "idBloc"],
   components: {
     VueperSlides,
     VueperSlide,
+    draggable,
   },
   data() {
     return {
       showModal: false,
-      showTrash: false,
+      oldIndex: "",
+      newIndex: "",
+      contentsForUpdate: "",
+      showAddPhoto: false,
+      particuliersSousCategorie: null,
+      professionelsSousCategorie: null,
+      photosFiltered: null,
+      photos: null,
+      categorie: null,
+      sousCategorie: null,
     };
+  },
+  mounted() {
+    this.contentsForUpdate = this.contents;
+
+    //add photo
+    this.http
+      .get("http://localhost:9000/photos/getSousCategories/Particuliers")
+      .then((resp) => {
+        //console.log(resp.data);
+        this.particuliersSousCategorie = resp.data;
+      });
+    this.http
+      .get("http://localhost:9000/photos/getSousCategories/Professionnels")
+      .then((resp) => {
+        // console.log(resp.data);
+        this.professionelsSousCategorie = resp.data;
+      });
+  },
+  watch: {
+    sousCategorie: function (value) {
+      this.photosFiltered = this.photos.filter((photo) =>
+        value.includes(photo.sous_categorie)
+      );
+    },
+    categorie: function (value) {
+      this.http
+        .get("http://localhost:9000/photos/getPhotos/" + value + "/all")
+        .then((resp) => {
+          // console.log(resp.data);
+
+          this.photos = resp.data;
+          this.photosFiltered = resp.data;
+        });
+    },
   },
   methods: {
     toggleModal() {
       this.showModal = !this.showModal;
     },
-  },
-  mounted() {
-    const self = this;
-    Draggable.create(".imgDrag", {
-      type: "x,y",
-      bounds: document.getElementById("modal"),
-      onDragStart: function () {
-        self.showTrash = true;
-      },
-      onDragEnd: function () {
-        self.showTrash = false;
-      },
-      onRelease: function () {
-        if (this.hitTest(".fa-trash-alt")) {
-          console.log("toto");
-        } else {
-          //TweenMax.to(this.target, 0.5, { x: 0, y: 0 });
-          console.log("tatat");
-        }
-      },
-    });
+    onEnd(evt) {
+      console.log(this.contentsForUpdate);
+      this.oldIndex = evt.oldIndex;
+      this.newIndex = evt.newIndex;
+    },
+    supprimer(order) {
+      const index = this.contentsForUpdate.findIndex(
+        (content) => content.order === order
+      );
+      this.contentsForUpdate.splice(index, 1);
+    },
+    update() {
+      // reset order
+      let order = 1;
+      this.contentsForUpdate.forEach((content) => {
+        (content.order = order), order++;
+      });
+      let infos = {
+        idPage: this.idPage,
+        idBloc: this.idBloc,
+        caroussel: this.contentsForUpdate,
+      };
+      console.log(infos);
+      this.http
+        .post("http://localhost:9000/pages/updateCaroussel", infos, {
+          headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
+        })
+        .then((resp) => {
+          console.log(resp);
+          // this.$store.commit("loading");
+          document.location.reload();
+        });
+    },
+    addPhoto(photo) {
+      const order = this.contentsForUpdate.length + 1;
+      photo.order = order;
+      this.contentsForUpdate.push(photo);
+      this.showAddPhoto = false;
+    },
   },
 };
 </script>
@@ -98,10 +225,23 @@ export default {
   right: 0;
   z-index: 2;
 }
+.photo-add {
+  height: 10vh;
+  object-fit: cover;
+  margin: 5%;
+}
+#photo-scroll {
+  margin-top: 5%;
+  overflow: scroll;
+  height: 35vh;
+}
+.select-group {
+  margin: 5%;
+}
 #modal {
   border-radius: 5px;
-  z-index: 3;
-  height: 60vh;
+  z-index: 4;
+  min-height: 60vh;
   width: 80vw;
   position: fixed;
   left: 50%;
@@ -115,22 +255,46 @@ export default {
   align-items: center;
   .photo-container {
     height: 50%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    img {
-      height: 25%;
+    text-align: center;
+    span {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      align-items: center;
+    }
+    .imgDrag {
+      height: 8vh;
       margin: 5%;
+      img {
+        height: 100%;
+        &:hover {
+          transform: rotate(0.06turn);
+          cursor: grab;
+        }
+      }
+      i {
+        font-size: 2.5vh;
+        color: black;
+        position: absolute;
+      }
     }
     i {
       font-size: 6vh;
       color: lightblue;
+      &:hover {
+        transform: rotate(0.06turn);
+        cursor: pointer;
+      }
     }
-    // i:hover,
-    // img:hover {
-    //   transform: rotate(0.06turn);
-    // }
+  }
+  button {
+    border: none;
+    padding: 5% 10%;
+    background-color: var(--thirdly-color);
+    color: var(--fourthly-color);
+  }
+  .flip-list-move {
+    transition: transform 0.5s;
   }
 }
 </style>
