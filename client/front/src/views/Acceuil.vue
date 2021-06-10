@@ -14,6 +14,7 @@
       :idPage="pageId"
       :idBloc="idBloc"
       :texte="texte"
+      :elementChange="elementChange"
     />
     <div>
       <img
@@ -29,7 +30,9 @@
       />
     </div>
     <section id="first-section">
-      <h3>{{ blocs[1].subtitle }}</h3>
+      <h3 @click="updateSubTitle(blocs[1]._id, blocs[1].subtitle)">
+        {{ blocs[1].subtitle }}
+      </h3>
       <div id="float-container">
         <img
           :src="`http://localhost:9000/static/${blocs[1].img.categorie}/${blocs[1].img.src}`"
@@ -49,7 +52,9 @@
       />
     </section>
     <section id="second-section">
-      <h3>{{ blocs[2].subtitle }}</h3>
+      <h3 @click="updateSubTitle(blocs[2]._id, blocs[2].subtitle)">
+        {{ blocs[2].subtitle }}
+      </h3>
       <div class="inline-flex">
         <div class="img-button" v-for="img in blocs[2].imgCateg" :key="img._id">
           <img
@@ -83,7 +88,9 @@
       />
     </section>
     <section id="third-section">
-      <h3>{{ blocs[3].subtitle }}</h3>
+      <h3 @click="updateSubTitle(blocs[3]._id, blocs[3].subtitle)">
+        {{ blocs[3].subtitle }}
+      </h3>
       <img
         :src="`http://localhost:9000/static/${blocs[3].img.categorie}/${blocs[3].img.src}`"
         :alt="blocs[3].img.alt"
@@ -157,6 +164,7 @@ export default {
       articles: null,
       categ: false,
       idOldPhoto: null,
+      elementChange: null,
     };
   },
   created() {
@@ -215,6 +223,15 @@ export default {
       if (idBloc && texte) {
         this.idBloc = idBloc;
         this.texte = texte;
+        this.elementChange = "texte";
+      }
+      this.showModalTexte = !this.showModalTexte;
+    },
+    updateSubTitle(idBloc, subtitle) {
+      if (idBloc && subtitle) {
+        this.idBloc = idBloc;
+        this.texte = subtitle;
+        this.elementChange = "subtitle";
       }
       this.showModalTexte = !this.showModalTexte;
     },

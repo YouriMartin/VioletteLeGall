@@ -2,8 +2,26 @@
   <div id="form-texte-page" v-if="$store.state.admin">
     <div class="overlay" @click="toggleModal"></div>
     <div class="modal">
-      <h3>Modifier Texte</h3>
-      <TipTap :texte="texte" @newTexte="changeTexte($event)" />
+      <h3 v-if="elementChange === 'texte'">Modifier Texte</h3>
+      <h3 v-if="elementChange === 'subtitle'">Modifier le Sous-Titre</h3>
+      <h3 v-if="elementChange === 'title'">Modifier le Titre</h3>
+      <h3 v-if="elementChange === 'message'">Modifier Message</h3>
+      <TipTap
+        v-if="elementChange === 'texte'"
+        :texte="texte"
+        @newTexte="changeTexte($event)"
+      />
+      <textarea
+        v-if="
+          elementChange === 'subtitle' ||
+          elementChange === 'message' ||
+          elementChange === 'title'
+        "
+        cols="30"
+        rows="10"
+        v-model="newTexteLessTipTap"
+        @newTexte="changeTexte($event)"
+      ></textarea>
       <button @click="updateText()">Enregistrer les modifications</button>
     </div>
   </div>
@@ -17,11 +35,22 @@ export default {
   components: {
     TipTap,
   },
-  props: ["toggleModal", "idPage", "idBloc", "texte"],
+  props: ["toggleModal", "idPage", "idBloc", "texte", "elementChange"],
   data() {
     return {
       newTexte: null,
     };
+  },
+  computed: {
+    newTexteLessTipTap: {
+      get() {
+        return this.texte;
+      },
+      set(value) {
+        console.log(value);
+        this.newTexte = value;
+      },
+    },
   },
   methods: {
     changeTexte(event) {
@@ -36,16 +65,48 @@ export default {
         texte: this.newTexte,
       };
       console.log(infos);
-
-      this.http
-        .post("http://localhost:9000/pages/updateTexte", infos, {
-          headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
-        })
-        .then((resp) => {
-          console.log(resp);
-          this.$store.commit("loading");
-          document.location.reload();
-        });
+      if (this.elementChange === "texte") {
+        this.http
+          .post("http://localhost:9000/pages/updateTexte", infos, {
+            headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
+          })
+          .then((resp) => {
+            console.log(resp);
+            this.$store.commit("loading");
+            document.location.reload();
+          });
+      } else if (this.elementChange === "message") {
+        console.log("toto");
+        this.http
+          .post("http://localhost:9000/pages/updateMessage", infos, {
+            headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
+          })
+          .then((resp) => {
+            console.log(resp);
+            this.$store.commit("loading");
+            document.location.reload();
+          });
+      } else if (this.elementChange === "subtitle") {
+        this.http
+          .post("http://localhost:9000/pages/updateSubtitle", infos, {
+            headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
+          })
+          .then((resp) => {
+            console.log(resp);
+            this.$store.commit("loading");
+            document.location.reload();
+          });
+      } else if (this.elementChange === "title") {
+        this.http
+          .post("http://localhost:9000/pages/updateTitle", infos, {
+            headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
+          })
+          .then((resp) => {
+            console.log(resp);
+            this.$store.commit("loading");
+            document.location.reload();
+          });
+      }
     },
   },
 };
@@ -61,6 +122,7 @@ export default {
   right: 0;
   z-index: 2;
 }
+
 .modal {
   padding: 10% 0%;
   z-index: 3;

@@ -62,6 +62,7 @@ export default {
 #TipTap {
   height: 100%;
   overflow-y: scroll;
+  width: 100%;
 }
 ::v-deep .ProseMirror {
   height: 100%;
@@ -74,6 +75,7 @@ export default {
   background-color: white;
   color: black;
   height: 100%;
+  width: 100%;
 }
 .bubble-menu {
   background-color: white;

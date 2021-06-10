@@ -28,21 +28,21 @@
         <label v-if="categ != 'Autres'"> Catégories</label>
         <select v-if="categ === 'Particuliers'" v-model="sousCateg">
           <option
-            v-for="sousCateg in categories[0].Particuliers"
-            :value="sousCateg.nom"
-            :key="sousCateg.nom"
+            v-for="sousCateg in particuliersSousCategorie"
+            :value="sousCateg"
+            :key="sousCateg"
           >
-            {{ sousCateg.nom }}
+            {{ sousCateg }}
           </option>
           <option value="newOptions">Ajouter categorie</option>
         </select>
         <select v-if="categ === 'Professionnels'" v-model="sousCateg">
           <option
-            v-for="sousCateg in categories[1].Professionnels"
-            :value="sousCateg.nom"
-            :key="sousCateg.nom"
+            v-for="sousCateg in professionelsSousCategorie"
+            :value="sousCateg"
+            :key="sousCateg"
           >
-            {{ sousCateg.nom }}
+            {{ sousCateg }}
           </option>
           <option value="newOptions">Ajouter categorie</option>
         </select>
@@ -77,26 +77,25 @@ export default {
       categ: "Particuliers",
       sousCateg: null,
       customSousCateg: null,
-      categories: [
-        {
-          Particuliers: [
-            { nom: "Mariage" },
-            { nom: "Naissance" },
-            { nom: "Portrait" },
-            { nom: "Couple" },
-            { nom: "Famille" },
-            { nom: "Studio" },
-          ],
-        },
-        {
-          Professionnels: [
-            { nom: "Mise en valeur" },
-            { nom: "Photo de produits ; Packshot" },
-          ],
-        },
-      ],
+      particuliersSousCategorie: null,
+      professionelsSousCategorie: null,
     };
   },
+  mounted() {
+    this.http
+      .get("http://localhost:9000/photos/getSousCategories/Particuliers")
+      .then((resp) => {
+        console.log(resp.data);
+        this.particuliersSousCategorie = resp.data;
+      });
+    this.http
+      .get("http://localhost:9000/photos/getSousCategories/Professionnels")
+      .then((resp) => {
+        console.log(resp.data);
+        this.professionelsSousCategorie = resp.data;
+      });
+  },
+
   methods: {
     envoyerPhoto() {
       let img = document.getElementById("photo").files[0];

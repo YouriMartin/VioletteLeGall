@@ -44,6 +44,7 @@
         @click="MoreArticles()"
       >
         Afficher plus
+        <i class="fas fa-chevron-down"></i>
       </h5>
     </div>
   </div>
@@ -169,5 +170,9 @@ h2 {
       transform: translateX(-50%);
     }
   }
+}
+h5 {
+  margin: 10%;
+  font-weight: bold;
 }
 </style>

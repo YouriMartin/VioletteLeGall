@@ -13,9 +13,10 @@
       :idPage="pageId"
       :idBloc="idBloc"
       :texte="texte"
+      :elementChange="elementChange"
     />
     <div id="first-section">
-      <h2>{{ title }}</h2>
+      <h2 @click="updateTitle">{{ title }}</h2>
       <Caroussel
         :size="'30vh'"
         :idPage="pageId"
@@ -34,7 +35,9 @@
       />
     </div>
     <section id="seconde-section">
-      <h3>{{ blocs[1].subtitle }}</h3>
+      <h3 @click="updateSubTitle(blocs[1]._id, blocs[1].subtitle)">
+        {{ blocs[1].subtitle }}
+      </h3>
       <div class="inline-flex">
         <button
           v-for="sousCategorie in sousCategories"
@@ -55,7 +58,9 @@
       </div>
     </section>
     <section>
-      <h3>{{ blocs[2].subtitle }}</h3>
+      <h3 @click="updateSubTitle(blocs[2]._id, blocs[2].subtitle)">
+        {{ blocs[2].subtitle }}
+      </h3>
       <div v-for="video in videos" :key="video.titre" class="video-bloc">
         <h4>{{ video.titre }}</h4>
         <iframe
@@ -104,6 +109,7 @@ export default {
       blocs: null,
       pageId: null,
       title: null,
+      elementChange: null,
     };
   },
   created() {
@@ -153,7 +159,21 @@ export default {
       if (idBloc && texte) {
         this.idBloc = idBloc;
         this.texte = texte;
+        this.elementChange = "texte";
       }
+      this.showModalTexte = !this.showModalTexte;
+    },
+    updateSubTitle(idBloc, subtitle) {
+      if (idBloc && subtitle) {
+        this.idBloc = idBloc;
+        this.texte = subtitle;
+        this.elementChange = "subtitle";
+      }
+      this.showModalTexte = !this.showModalTexte;
+    },
+    updateTitle() {
+      this.texte = this.title;
+      this.elementChange = "title";
       this.showModalTexte = !this.showModalTexte;
     },
   },

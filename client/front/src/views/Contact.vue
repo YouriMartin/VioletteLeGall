@@ -6,6 +6,7 @@
       :idPage="pageId"
       :idBloc="idBloc"
       :texte="texte"
+      :elementChange="elementChange"
     />
     <FormPhotosPage
       v-if="showModalPhotos"
@@ -14,7 +15,7 @@
       :idBloc="idBloc"
     />
     <section id="first-bloc">
-      <h2>Contact</h2>
+      <h2 @click="updateTitle">{{ title }}</h2>
       <img
         :src="`http://localhost:9000/static/${blocs[0].img.categorie}/${blocs[0].img.src}`"
         :alt="blocs[0].img.alt"
@@ -27,7 +28,9 @@
       <FormulaireContact />
     </section>
     <section id="second-bloc">
-      <h3>Qui suis-je ?</h3>
+      <h3 @click="updateSubTitle(blocs[1]._id, blocs[1].subtitle)">
+        {{ blocs[1].subtitle }}
+      </h3>
       <img
         :src="`http://localhost:9000/static/${blocs[1].img.categorie}/${blocs[1].img.src}`"
         :alt="blocs[1].img.alt"
@@ -46,7 +49,9 @@
         :contents="blocs[2].imgCaroussel"
       />
       <div id="voyage">
-        <h3>J'adore voyager</h3>
+        <h3 @click="updateSubTitle(blocs[2]._id, blocs[2].subtitle)">
+          {{ blocs[2].subtitle }}
+        </h3>
         <div
           @click="updateTexte(blocs[2]._id, blocs[2].paragraphes)"
           v-html="blocs[2].paragraphes"
@@ -55,7 +60,7 @@
           :texte="'Lien Blog'"
           :type="'router'"
           :route="'/blog'"
-          :css="'primary-big'"
+          :css="'thirdly-big'"
         />
       </div>
     </div>
@@ -85,6 +90,7 @@ export default {
       blocs: null,
       pageId: null,
       title: null,
+      elementChange: null,
     };
   },
   created() {
@@ -105,6 +111,7 @@ export default {
       if (idBloc && texte) {
         this.idBloc = idBloc;
         this.texte = texte;
+        this.elementChange = "texte";
       }
       this.showModalTexte = !this.showModalTexte;
     },
@@ -114,6 +121,19 @@ export default {
         this.idBloc = idBloc;
       }
       this.showModalPhotos = !this.showModalPhotos;
+    },
+    updateSubTitle(idBloc, subtitle) {
+      if (idBloc && subtitle) {
+        this.idBloc = idBloc;
+        this.texte = subtitle;
+        this.elementChange = "subtitle";
+      }
+      this.showModalTexte = !this.showModalTexte;
+    },
+    updateTitle() {
+      this.texte = this.title;
+      this.elementChange = "title";
+      this.showModalTexte = !this.showModalTexte;
     },
   },
 };
@@ -125,7 +145,7 @@ section:nth-child(odd) {
   color: var(--thirdly-color);
 }
 section:nth-child(even) {
-  background-color: var(--primary-color);
+  background-color: var(--thirdly-color);
   color: var(--fourthly-color);
 }
 section {

@@ -14,10 +14,11 @@
       :idPage="pageId"
       :idBloc="idBloc"
       :texte="texte"
+      :elementChange="elementChange"
     />
     <section>
       <div id="title-img-container">
-        <h2>Particuliers Tarifs</h2>
+        <h2 @click="updateTitle">{{ title }}</h2>
         <img
           :src="`http://localhost:9000/static/${blocs[0].img.categorie}/${blocs[0].img.src}`"
           :alt="blocs[0].img.alt"
@@ -26,7 +27,9 @@
       </div>
       <h3>Mes Prestations</h3>
       <div class="bloc-text">
-        <h5>{{ blocs[0].subtitle }}</h5>
+        <h5 @click="updateSubTitle(blocs[0]._id, blocs[0].subtitle)">
+          {{ blocs[0].subtitle }}
+        </h5>
         <div
           class="paragraphe"
           v-html="blocs[0].paragraphes"
@@ -49,13 +52,22 @@
         @click="updatePhoto(bloc._id)"
       />
       <div class="bloc-text">
-        <h4>{{ bloc.subtitle }}</h4>
+        <h4 @click="updateSubTitle(bloc._id, bloc.subtitle)">
+          {{ bloc.subtitle }}
+        </h4>
         <div
           class="paragraphe-tarif"
           v-html="bloc.paragraphes"
           @click="updateTexte(bloc._id, bloc.paragraphes)"
         ></div>
-        <button v-on:click="setMessage(bloc._id)">Me Contacter</button>
+        <div class="inline-flex">
+          <button v-on:click="setMessage(bloc._id)">Me Contacter</button>
+          <i
+            v-if="$store.state.admin"
+            class="fas fa-envelope"
+            @click="updateMessage(bloc._id, bloc.message)"
+          ></i>
+        </div>
       </div>
     </section>
   </div>
@@ -80,6 +92,8 @@ export default {
       showModalTexte: false,
       categ: false,
       idOldPhoto: null,
+      elementChange: null,
+      title: null,
     };
   },
   created() {
@@ -90,6 +104,7 @@ export default {
         //console.log(resp.data);
         this.pageId = resp.data._id;
         this.blocs = resp.data.blocs;
+        this.title = resp.data.name;
         console.log(this.blocs);
         this.$store.commit("loading");
       });
@@ -113,7 +128,29 @@ export default {
       if (idBloc && texte) {
         this.idBloc = idBloc;
         this.texte = texte;
+        this.elementChange = "texte";
       }
+      this.showModalTexte = !this.showModalTexte;
+    },
+    updateMessage(idBloc, message) {
+      if (idBloc && message) {
+        this.idBloc = idBloc;
+        this.texte = message;
+        this.elementChange = "message";
+      }
+      this.showModalTexte = !this.showModalTexte;
+    },
+    updateSubTitle(idBloc, subtitle) {
+      if (idBloc && subtitle) {
+        this.idBloc = idBloc;
+        this.texte = subtitle;
+        this.elementChange = "subtitle";
+      }
+      this.showModalTexte = !this.showModalTexte;
+    },
+    updateTitle() {
+      this.texte = this.title;
+      this.elementChange = "title";
       this.showModalTexte = !this.showModalTexte;
     },
   },
@@ -147,6 +184,9 @@ p {
   font-size: 1.5vh;
   padding-bottom: 5%;
 }
+.inline-flex {
+  width: 100%;
+}
 section {
   justify-content: flex-start;
   padding-bottom: 5%;
@@ -155,6 +195,14 @@ section {
   }
   h4 {
     font-size: 4vh;
+  }
+  h5 {
+    padding: 0% 10%;
+  }
+  i {
+    position: absolute;
+    right: 10%;
+    font-size: 8vh;
   }
   .bloc-text {
     height: 60%;

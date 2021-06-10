@@ -136,4 +136,72 @@ router.post("/updateTexte", auth, (req, res) => {
     }
   );
 });
+
+router.post("/updateMessage", auth, (req, res) => {
+  //console.log(req.body);
+  Pages.findOneAndUpdate(
+    {
+      _id: req.body.idPage,
+      "blocs._id": req.body.idBloc,
+    },
+    {
+      $set: {
+        "blocs.$.message": req.body.texte,
+      },
+    },
+    { new: true },
+    (err) => {
+      if (err) {
+        res.status(500).send("erreur lors de la modification");
+      } else {
+        res.send("Texte modifié");
+      }
+    }
+  );
+});
+
+router.post("/updateSubtitle", auth, (req, res) => {
+  //console.log(req.body);
+  Pages.findOneAndUpdate(
+    {
+      _id: req.body.idPage,
+      "blocs._id": req.body.idBloc,
+    },
+    {
+      $set: {
+        "blocs.$.subtitle": req.body.texte,
+      },
+    },
+    { new: true },
+    (err) => {
+      if (err) {
+        res.status(500).send("erreur lors de la modification");
+      } else {
+        res.send("Texte modifié");
+      }
+    }
+  );
+});
+
+router.post("/updateTitle", auth, (req, res) => {
+  //console.log(req.body);
+  Pages.findOneAndUpdate(
+    {
+      _id: req.body.idPage,
+    },
+    {
+      $set: {
+        name: req.body.texte,
+      },
+    },
+    { new: true },
+    (err) => {
+      if (err) {
+        res.status(500).send("erreur lors de la modification");
+      } else {
+        res.send("Texte modifié");
+      }
+    }
+  );
+});
 module.exports = router;
