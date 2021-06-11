@@ -18,12 +18,22 @@
     <div id="first-section">
       <h2 @click="updateTitle">{{ title }}</h2>
       <Caroussel
-        :size="'30vh'"
+        v-if="$store.state.mobile"
+        :size="'25vh'"
+        :idPage="pageId"
+        :idBloc="blocs[0]._id"
+        :contents="blocs[0].imgCaroussel"
+      />
+      <Caroussel
+        v-if="!$store.state.mobile"
+        :size="'65vh'"
+        :large="'100%'"
         :idPage="pageId"
         :idBloc="blocs[0]._id"
         :contents="blocs[0].imgCaroussel"
       />
       <div
+        class="texte"
         @click="updateTexte(blocs[0]._id, blocs[0].paragraphes)"
         v-html="blocs[0].paragraphes"
       ></div>
@@ -48,13 +58,14 @@
         </button>
       </div>
       <div id="photo-container">
-        <img
-          v-for="photo in photos"
-          :key="photo.id"
-          :src="'http://localhost:9000/static/Professionnels/' + photo.src"
-          :alt="photo.alt"
-          @click="bigPicture(photo.src, photo.alt)"
-        />
+        <div class="photo" v-for="photo in photos" :key="photo.id">
+          <img
+            class="img"
+            :src="'http://localhost:9000/static/Professionnels/' + photo.src"
+            :alt="photo.alt"
+            @click="bigPicture(photo.src, photo.alt)"
+          />
+        </div>
       </div>
     </section>
     <section>
@@ -207,23 +218,29 @@ section:nth-child(even) {
   #photo-container {
     display: flex;
     justify-content: center;
-    align-items: space-evenly;
     flex-wrap: wrap;
-    img {
-      max-width: 40vw;
+    .photo {
+      height: 30vh;
       margin: 5px;
-      object-fit: cover;
+      img {
+        max-width: 40vw;
+        height: 100%;
+        object-fit: cover;
+        cursor: pointer;
+      }
     }
   }
 }
 button {
+  transition: all 0.5s ease;
   text-decoration: none;
-  border: none;
-  height: 40px;
-  width: 150px;
+  border: 5px solid var(--primary-color);
+  // height: 5vh;
+  padding: 2% 5%;
   color: var(--thirdly-color);
-  font-size: 15px;
+  font-size: 3vh;
   margin: 10px 5px;
+  cursor: pointer;
 }
 
 .video-bloc {
@@ -231,5 +248,55 @@ button {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+  #first-section {
+    padding-bottom: 2%;
+    justify-content: space-between;
+    h2 {
+      position: absolute;
+      z-index: 2;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-shadow: rgba(149, 157, 165, 0.2) 0px 8px 20px;
+    }
+    .texte {
+      width: 50%;
+      align-self: center;
+      font-size: 2.5vh;
+    }
+  }
+  #seconde-section {
+    .inline-flex {
+      width: 70%;
+      button {
+        font-size: 2.5vh;
+        padding: 1% 0%;
+        width: 20%;
+        &:hover {
+          border: 5px solid var(--fourthly-color);
+          color: var(--fourthly-color);
+          background-color: var(--primary-color);
+        }
+      }
+    }
+    #photo-container {
+      width: 100%;
+      .photo {
+        height: auto;
+        overflow: hidden;
+        img {
+          width: 30vw;
+          max-height: none;
+          transition: 0.3s;
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  }
 }
 </style>

@@ -20,41 +20,79 @@ export default {
 a {
   text-decoration: none;
 }
+
 .primary-big {
+  transition: all 0.5s ease;
+  border: 5px solid var(--fourthly-color);
   padding: 15px;
   font-size: 3vh;
   background-color: var(--primary-color);
   color: var(--fourthly-color);
 }
 .primary-invert-big {
+  transition: all 0.5s ease;
+  border: 5px solid var(--primary-color);
   padding: 15px;
   font-size: 3vh;
   background-color: var(--fourthly-color);
   color: var(--primary-color);
-  border: 3px solid var(--primary-color);
 }
 .primary-invert-borderless-big {
-  padding: 15px;
+  border: 5px solid var(--primary-color);
+  transition: all 0.5s ease;
+  padding: 1.5vh;
   font-size: 3vh;
   background-color: var(--fourthly-color);
   color: var(--primary-color);
 }
 .primary-invert-borderless-small {
+  transition: all 0.5s ease;
   padding: 1vh 2.5vh;
   font-size: 2vh;
   background-color: var(--fourthly-color);
   color: var(--primary-color);
 }
 .thirdly-big {
+  transition: all 0.5s ease;
+  border: 5px solid var(--fourthly-color);
   padding: 15px;
   font-size: 3vh;
   background-color: var(--thirdly-color);
   color: var(--fourthly-color);
 }
 .thirdly-invert-borderless-big {
+  border: 5px solid var(--thirdly-color);
+  transition: all 0.5s ease;
   padding: 15px;
   font-size: 20px;
   background-color: var(--fourthly-color);
   color: var(--thirdly-color);
+}
+
+@media screen and (min-width: 768px) {
+  .primary-big:hover {
+    background-color: var(--fourthly-color);
+    color: var(--primary-color);
+    border: 5px solid var(--primary-color);
+  }
+  .primary-invert-big:hover {
+    background-color: var(--primary-color);
+    color: var(--fourthly-color);
+    border: 5px solid var(--fourthly-color);
+  }
+  .primary-invert-borderless-small:hover {
+    background-color: var(--primary-color);
+    color: var(--fourthly-color);
+  }
+  .thirdly-big:hover {
+    background-color: var(--fourthly-color);
+    color: var(--thirdly-color);
+    border: 5px solid var(--thirdly-color);
+  }
+  .thirdly-invert-borderless-big {
+    background-color: var(--thirdly-color);
+    color: var(--fourthly-color);
+    border: 5px solid var(--fourthly-color);
+  }
 }
 </style>

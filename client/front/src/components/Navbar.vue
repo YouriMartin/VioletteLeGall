@@ -15,87 +15,104 @@
       ></i>
     </transition>
     <i
-      v-if="$store.state.mobile && !navBarShow"
+      v-if="!$store.state.mobile || ($store.state.mobile && !navBarShow)"
       @click="ScrollTop()"
       class="fas fa-chevron-up"
     ></i>
     <transition name="toggle">
-      <ul v-if="navBarShow || !$store.state.mobile" id="navbar">
-        <li id="logo">
+      <div v-if="navBarShow || !$store.state.mobile" id="navbar">
+        <div id="logo" v-if="$store.state.mobile">
+          <router-link v-on:click.native="ToggleNavBar()" to="/"
+            ><img src="@/assets/logoblanc-transparent.png" alt="logo"
+          /></router-link>
+        </div>
+        <ul id="first-ul">
+          <li class="deroulant">
+            <div
+              v-if="$store.state.mobile || !particulierOptionShow"
+              @click="ToggleNavLink('particulier')"
+              class="nav-link"
+            >
+              <p>Particuliers</p>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <transition name="deroule">
+              <div v-if="particulierOptionShow" class="sous">
+                <router-link
+                  v-on:click.native="ToggleNavBar()"
+                  class="sous-link"
+                  to="/particuliers/portfolio"
+                  >PortFolio</router-link
+                >
+                <router-link
+                  v-on:click.native="ToggleNavBar()"
+                  class="sous-link"
+                  to="/particuliers/tarifs"
+                  >Tarifs</router-link
+                >
+              </div>
+            </transition>
+          </li>
+          <li class="deroulant">
+            <div
+              v-if="$store.state.mobile || !professionnelOptionShow"
+              @click="ToggleNavLink('professionnel')"
+              class="nav-link"
+            >
+              <p>Professionnels</p>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <transition name="deroule">
+              <div v-if="professionnelOptionShow" class="sous">
+                <router-link
+                  v-on:click.native="ToggleNavBar()"
+                  class="sous-link"
+                  to="/professionnels/portfolio"
+                  >PortFolio</router-link
+                >
+                <router-link
+                  v-on:click.native="ToggleNavBar()"
+                  class="sous-link"
+                  to="/professionnels/tarifs"
+                  >Tarifs</router-link
+                >
+              </div>
+            </transition>
+          </li>
+        </ul>
+        <li id="logo" v-if="!$store.state.mobile">
           <router-link v-on:click.native="ToggleNavBar()" to="/"
             ><img src="@/assets/logoblanc-transparent.png" alt="logo"
           /></router-link>
         </li>
-        <li class="deroulant">
-          <div @click="ToggleNavLink('particulier')" class="nav-link">
-            <p>Particuliers</p>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <transition name="deroule">
-            <div v-if="particulierOptionShow" class="sous">
-              <router-link
-                v-on:click.native="ToggleNavBar()"
-                class="sous-link"
-                to="/particuliers/portfolio"
-                >PortFolio</router-link
-              >
-              <router-link
-                v-on:click.native="ToggleNavBar()"
-                class="sous-link"
-                to="/particuliers/tarifs"
-                >Tarifs</router-link
-              >
-            </div>
-          </transition>
-        </li>
-        <li class="deroulant">
-          <div @click="ToggleNavLink('professionnel')" class="nav-link">
-            <p>Professionnels</p>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <transition name="deroule">
-            <div v-if="professionnelOptionShow" class="sous">
-              <router-link
-                v-on:click.native="ToggleNavBar()"
-                class="sous-link"
-                to="/professionnels/portfolio"
-                >PortFolio</router-link
-              >
-              <router-link
-                v-on:click.native="ToggleNavBar()"
-                class="sous-link"
-                to="/professionnels/tarifs"
-                >Tarifs</router-link
-              >
-            </div>
-          </transition>
-        </li>
-        <li>
-          <router-link
-            v-on:click.native="ToggleNavBar()"
-            class="nav-link"
-            to="/contact"
-            >Contact</router-link
-          >
-        </li>
-        <li>
-          <router-link
-            v-on:click.native="ToggleNavBar()"
-            class="nav-link"
-            to="/blog"
-            >Blog</router-link
-          >
-        </li>
-        <li>
-          <router-link
-            class="nav-link"
-            to="/gallerie"
-            v-on:click="ToggleNavBar()"
-          >
-            Galerie Client
-          </router-link>
-        </li>
-      </ul>
+        <ul id="second-ul">
+          <li>
+            <router-link
+              v-on:click.native="ToggleNavBar()"
+              class="nav-link"
+              to="/contact"
+              >Contact</router-link
+            >
+          </li>
+          <li>
+            <router-link
+              v-on:click.native="ToggleNavBar()"
+              class="nav-link"
+              to="/blog"
+              >Blog</router-link
+            >
+          </li>
+          <li>
+            <router-link
+              class="nav-link"
+              to="/gallerie"
+              v-on:click="ToggleNavBar()"
+            >
+              Galerie Client
+            </router-link>
+          </li>
+        </ul>
+      </div>
     </transition>
   </nav>
 </template>
@@ -150,11 +167,38 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+.fa-times,
+.fa-bars {
+  top: 2%;
+  right: 6%;
+  font-size: 6vh;
+  cursor: pointer;
+}
+.fa-times {
+  position: absolute;
+  color: var(--fourthly-color);
+  z-index: 4;
+  cursor: pointer;
+}
+.fa-bars {
+  position: fixed;
+  color: black;
+  z-index: 4;
+  cursor: pointer;
+}
+.fa-chevron-up {
+  position: fixed;
+  color: black;
+  font-size: 6vh;
+  bottom: 10%;
+  right: 10%;
+  z-index: 4;
+  cursor: pointer;
+}
 #logo {
   height: 20%;
   img {
     height: 100%;
-    transform: translateX(-20%);
   }
 }
 li {
@@ -164,48 +208,38 @@ a {
   color: var(--fourthly-color);
   text-decoration: none;
 }
-.fa-times,
-.fa-bars {
-  top: 2%;
-  right: 6%;
-  font-size: 8vw;
-}
-.fa-times {
-  position: absolute;
-  color: var(--fourthly-color);
-  z-index: 4;
-}
-.fa-bars {
-  position: fixed;
-  color: black;
-  z-index: 4;
-}
-.fa-chevron-up {
-  position: fixed;
-  color: black;
-  font-size: 8vw;
-  bottom: 10%;
-  right: 10%;
-  z-index: 4;
-}
 #navbar {
   position: absolute;
   z-index: 3;
   height: 100vh;
   width: 100%;
   color: var(--fourthly-color);
-  background: var(--thirdly-color);
+  background-color: var(--thirdly-color);
   text-align: start;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+  }
+  #first-ul {
+    height: 32%;
+  }
+  #second-ul {
+    height: 48%;
+  }
 }
 .nav-link {
-  font-size: 5vw;
+  font-size: 3vh;
   display: inline-flex;
   justify-content: space-between;
   width: 100%;
+  cursor: pointer;
 }
 .deroulant {
   display: flex;
@@ -258,5 +292,92 @@ a {
 }
 .deroule-leave-to {
   height: 0%;
+}
+
+@media screen and (min-width: 768px) {
+  #navbar {
+    flex-direction: row;
+    height: 15vh;
+    text-align: center;
+    background: var(--thirdly-color-2);
+    color: white;
+    z-index: 10;
+
+    ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      width: 100%;
+      padding: 0% 5%;
+    }
+    #second-ul {
+      li {
+        &:hover::after {
+          content: "";
+          margin: auto;
+          display: block;
+          margin-top: 2px;
+          width: 70%;
+          height: 1px;
+          transform: scale(1);
+          background: white;
+        }
+      }
+    }
+  }
+  .nav-link {
+    font-size: 2vh;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  #logo {
+    height: 100%;
+    img {
+      height: 100%;
+      transform: translateX(0%);
+    }
+  }
+  .deroulant {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .nav-link:active {
+      opacity: 0;
+    }
+    .sous {
+      //  position: absolute;
+      flex-direction: column;
+      width: 80%;
+      height: 13vh;
+      background: var(--thirdly-color-5);
+      border-radius: 10px;
+      padding: 3% 0%;
+      margin: 2% 0%;
+      font-size: 1.5vh;
+    }
+    .sous-link {
+      transition: none;
+      align-content: center;
+      &::after {
+        display: none;
+      }
+      &:hover::after {
+        content: "";
+        margin: auto;
+        display: block;
+        margin-top: 2px;
+        width: 50%;
+        height: 1px;
+        transform: scale(1);
+        background: white;
+      }
+    }
+    .deroule-enter-active,
+    .deroule-leave-active .deroule-enter,
+    .deroule-leave-to {
+      transition: none;
+    }
+  }
 }
 </style>

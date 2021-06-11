@@ -19,4 +19,5 @@ export default {};
   width: 100%;
   padding: 20% 5% 0% 10%;
 }
+
 </style>

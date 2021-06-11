@@ -18,12 +18,14 @@
     />
     <div>
       <img
+        v-if="$store.state.mobile"
         id="logo-acceuil"
         src="@/assets/logoblanc-transparent.png"
         alt="logo"
       />
       <Caroussel
         :size="'100vh'"
+        :large="'100%'"
         :idPage="pageId"
         :idBloc="blocs[0]._id"
         :contents="blocs[0].imgCaroussel"
@@ -82,7 +84,7 @@
       ></iframe>
       <Boutton
         :texte="'Ma Chaine Youtube'"
-        :css="'primary-invert-borderless-big'"
+        :css="'primary-invert-big'"
         :route="'https://www.youtube.com/channel/UC2pZC0DhtKP-zjXmVC5AxaA'"
         :type="'a'"
       />
@@ -97,6 +99,7 @@
         @click="updatePhoto(blocs[3]._id)"
       />
       <div
+        class="texte"
         v-html="blocs[3].paragraphes"
         @click="updateTexte(blocs[3]._id, blocs[3].paragraphes)"
       ></div>
@@ -111,7 +114,7 @@
       <h3>Mon instagram</h3>
       <Boutton
         :texte="'Lien vers Instagram'"
-        :css="'primary-invert-borderless-big'"
+        :css="'primary-invert-big'"
         :route="'https://www.instagram.com/violettelgpro/'"
         :type="'a'"
       />
@@ -130,10 +133,9 @@
         />
         <div id="titre-date">
           <h4>{{ article.titre }}</h4>
-          <p class="article-date">{{ article.date.substr(0, 10) }}</p>
+          <p class="article-date">{{ article.date.substring(0, 10) }}</p>
         </div>
-
-        <div v-html="article.texte.substring(0, 100) + '...'"></div>
+        <div v-html="article.texte.substring(0, 110) + '...'"></div>
       </div>
     </section>
   </div>
@@ -257,7 +259,6 @@ Caroussel {
 #fifth-section {
   background-color: var(--fourthly-color);
   color: var(--thirdly-color);
-  scroll-snap-align: start;
 }
 #second-section,
 #fourth-section {
@@ -265,6 +266,7 @@ Caroussel {
   color: var(--fourthly-color);
 }
 #first-section {
+  padding: 2%;
   #float-container {
     padding: 10%;
   }
@@ -272,19 +274,24 @@ Caroussel {
     float: left;
     margin-right: 5vw;
     clip-path: circle(50%);
-    height: 42vw;
+    height: 20vh;
     shape-outside: circle();
   }
   margin-top: 2vh;
   font-size: 2vh;
-  letter-spacing: 0.2vw;
+  letter-spacing: 0.3vh;
   line-height: 3.5vh;
 }
 
 #second-section {
+  padding: 2%;
+  text-align: center;
+  .inline-flex {
+    width: 80%;
+  }
   img {
-    height: 15vh;
-    width: 40vw;
+    height: 12vh;
+    width: 20vh;
     object-fit: cover;
   }
   .img-button {
@@ -296,12 +303,13 @@ Caroussel {
 }
 
 #third-section {
+  padding: 2%;
   img {
     height: 25%;
     object-fit: cover;
   }
-  letter-spacing: 0.2vw;
-  line-height: 3.5vh;
+  letter-spacing: 0.3vh;
+  line-height: 2.5vh;
   font-size: 2vh;
   padding: 0% 5%;
 }
@@ -323,19 +331,76 @@ Caroussel {
     width: 100%;
   }
   #titre-date {
-    display: flex;
     width: 90%;
-    align-items: center;
+
     p {
       position: absolute;
-      right: 12%;
+      right: 15%;
       font-size: 1.5vh;
     }
     h4 {
+      position: absolute;
       font-size: 3vh;
-      position: relative;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #first-section {
+    #float-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 50%;
+      width: 70%;
+      margin: 5%;
+      img {
+        float: none;
+        height: 30vh;
+        margin: 5%;
+      }
+    }
+  }
+  #second-section {
+    img {
+      height: 20vh;
+      width: 30vh;
+    }
+    iframe {
+      height: 40%;
+      width: 45%;
+    }
+  }
+  #third-section {
+    line-height: 3.5vh;
+    .texte {
+      width: 60%;
+      transform: translateX(2%);
+    }
+    img {
+      height: 35%;
+      object-fit: cover;
+    }
+  }
+  #fifth-section {
+    .card-article {
+      height: 40%;
+      width: 40%;
+      font-size: 2vh;
+      padding-bottom: 1%;
+      img {
+        height: 50%;
+        object-fit: cover;
+        width: 100%;
+      }
+      #titre-date {
+        p {
+          right: 31%;
+        }
+      }
     }
   }
 }

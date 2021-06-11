@@ -17,7 +17,7 @@
         <i class="fab fa-youtube"></i>
       </a>
     </div>
-    <p @click="goRgpd()">Mentions Légales</p>
+    <p id="legal" @click="goRgpd()">Mentions Légales</p>
     <p>&copy; {{ getYear }} Copyright: www.violettelegall.com</p>
   </div>
 </template>
@@ -40,7 +40,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #footer {
   background-color: var(--fourthly-color);
   border-top: 2px solid var(--primary-color);
@@ -54,6 +54,9 @@ export default {
 p {
   font-size: 10px;
 }
+i:hover {
+  font-weight: 600;
+}
 #logos {
   font-size: 5vh;
   width: 100%;
@@ -64,5 +67,12 @@ p {
 a {
   text-decoration: none;
   color: var(--thirdly-color);
+  cursor: pointer;
+}
+#legal {
+  cursor: pointer;
+  &:hover {
+    font-weight: bold;
+  }
 }
 </style>

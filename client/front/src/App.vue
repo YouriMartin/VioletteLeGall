@@ -17,9 +17,17 @@ export default {
     Footer,
     Loading,
   },
+  data() {
+    return {
+      screenWidth: null,
+    };
+  },
   mounted() {
-    this.$store.dispatch("getScreenWidth", screen.width);
-    //
+    this.$store.dispatch("getScreenWidth", window.innerWidth);
+    window.addEventListener("resize", () => {
+      this.screenWidth = window.innerWidth;
+    });
+
     this.http
       .get("http://localhost:9000/admin/isConnected", {
         headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
@@ -33,9 +41,15 @@ export default {
         console.log(err);
       });
   },
+  watch: {
+    screenWidth: function (value) {
+      console.log(value);
+      this.$store.dispatch("getScreenWidth", value);
+    },
+  },
 };
 </script>
-<style>
+<style lang="scss">
 *,
 ::before,
 ::after {
@@ -44,6 +58,32 @@ export default {
   padding: 0;
 }
 
+//scrollbar
+::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+  cursor: pointer;
+}
+::-webkit-scrollbar-track-piece {
+  background: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0);
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+::-webkit-scrollbar-thumb:active {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+//font
 @font-face {
   font-family: "Signatura Monoline Script";
   src: url("assets/fonts/Signatura Monoline.otf") format("embedded-opentype"),
@@ -62,7 +102,9 @@ export default {
 :root {
   --primary-color: #eab996;
   --secondary-color: #a93d49;
-  --thirdly-color: #cb7666;
+  --thirdly-color: rgb(203, 118, 102);
+  --thirdly-color-2: rgba(203, 118, 102, 0.2);
+  --thirdly-color-5: rgba(203, 118, 102, 0.5);
   --fourthly-color: #f1ece4;
 }
 
@@ -75,13 +117,13 @@ h1 {
   font-size: 12vw;
 }
 h2 {
-  font-size: 8vw;
+  font-size: 6vh;
 }
 h3 {
-  font-size: 7vw;
+  font-size: 5vh;
 }
 h4 {
-  font-size: 5vw;
+  font-size: 5vh;
 }
 body {
   font-family: "Lulo Clean One", sans-serif;
@@ -90,11 +132,12 @@ li {
   list-style: none;
 }
 section {
-  height: 100vh;
+  height: 101vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+  // border: 2px solid red;
 }
 .inline-flex {
   display: flex;
@@ -102,7 +145,7 @@ section {
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
- .grecaptcha-badge {
+.grecaptcha-badge {
   visibility: hidden;
-} 
+}
 </style>

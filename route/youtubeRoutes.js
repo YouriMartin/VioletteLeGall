@@ -12,7 +12,7 @@ router.get("/getLastvideo", (req, res) => {
       `https://www.googleapis.com/youtube/v3/search?key=${youtubeKey}&channelId=${youtubeChannelId}&part=snippet,id&order=date&maxResults=1`
     )
     .then((resp) => {
-      //console.log(resp.data.items[0].id.videoId);
+      // console.log(resp.data.items[0].id.videoId);
       res.send(resp.data.items[0].id.videoId);
     });
 });
@@ -23,6 +23,7 @@ router.get("/getLast2videos", (req, res) => {
       `https://www.googleapis.com/youtube/v3/search?key=${youtubeKey}&channelId=${youtubeChannelId}&part=snippet,id&order=date&maxResults=2`
     )
     .then((resp) => {
+      console.log("toto");
       const videos = [
         {
           lien: resp.data.items[0].id.videoId,
@@ -33,6 +34,7 @@ router.get("/getLast2videos", (req, res) => {
           titre: resp.data.items[1].snippet.title,
         },
       ];
+      console.log(videos);
       res.send(videos);
     });
 });

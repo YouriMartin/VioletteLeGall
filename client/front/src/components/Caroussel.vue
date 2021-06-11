@@ -86,12 +86,29 @@
         </div>
       </div>
     </div>
-    <div @click="toggleModal">
+    <div class="caroussel-container" @click="toggleModal">
       <vueper-slides
+        v-if="$store.state.mobile"
         ref="myVueperSlides"
         autoplay
         :fixedHeight="size"
         :arrows="false"
+      >
+        <vueper-slide
+          v-for="content in contents"
+          :key="content.order"
+          :image="`http://localhost:9000/static/${content.categorie}/${content.src}`"
+        />
+      </vueper-slides>
+      <vueper-slides
+        v-if="!$store.state.mobile"
+        autoplay
+        ref="myVueperSlides"
+        fade
+        :touchable="false"
+        :fixedHeight="size"
+        :width="large"
+        :arrows="true"
       >
         <vueper-slide
           v-for="content in contents"
@@ -110,7 +127,7 @@ import "vueperslides/dist/vueperslides.css";
 
 export default {
   name: "Caroussel",
-  props: ["size", "contents", "idPage", "idBloc"],
+  props: ["size", "large", "contents", "idPage", "idBloc"],
   components: {
     VueperSlides,
     VueperSlide,
@@ -133,7 +150,10 @@ export default {
   },
   mounted() {
     this.contentsForUpdate = this.contents;
-
+    //style
+    let truc = document.getElementsByClassName("vueperslides");
+    //console.log("truc", truc);
+    truc[0].style.width = this.large;
     //add photo
     this.http
       .get("http://localhost:9000/photos/getSousCategories/Particuliers")
@@ -216,6 +236,12 @@ export default {
 #caroussel {
   z-index: 1;
 }
+.caroussel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .overlay {
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
