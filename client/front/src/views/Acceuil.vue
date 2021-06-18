@@ -120,22 +120,27 @@
       />
     </section>
     <section id="fifth-section">
-      <h3>Mes derniers artciles</h3>
-      <div
-        class="card-article"
-        v-for="article in articles"
-        v-bind:key="article._id"
-        @click="GoToThisArticle(article._id)"
-      >
-        <img
-          :src="'http://localhost:9000/static/Articles/' + article.img.src"
-          :alt="article.img.alt"
-        />
-        <div id="titre-date">
-          <h4>{{ article.titre }}</h4>
-          <p class="article-date">{{ article.date.substring(0, 10) }}</p>
+      <h3>MES DERNIERS ARTICLES</h3>
+      <div class="articles-container">
+        <div
+          class="card-article"
+          v-for="article in articles"
+          v-bind:key="article._id"
+          @click="GoToThisArticle(article._id)"
+        >
+          <img
+            :src="'http://localhost:9000/static/Articles/' + article.img.src"
+            :alt="article.img.alt"
+          />
+          <div id="titre-date">
+            <h4>{{ article.titre }}</h4>
+            <p class="article-date">{{ article.date.substring(0, 10) }}</p>
+          </div>
+          <div
+            class="texte-article"
+            v-html="article.texte.substring(0, 110) + '...'"
+          ></div>
         </div>
-        <div v-html="article.texte.substring(0, 110) + '...'"></div>
       </div>
     </section>
   </div>
@@ -314,35 +319,45 @@ Caroussel {
   padding: 0% 5%;
 }
 
-.card-article {
-  height: 40%;
-  width: 80%;
-  background-color: var(--primary-color);
-  color: var(--fourthly-color);
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 2.5vh;
-  img {
-    height: 50%;
-    object-fit: cover;
-    width: 100%;
-  }
-  #titre-date {
-    width: 90%;
+#fifth-section {
+  text-align: center;
+  .articles-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 80%;
+    .card-article {
+      height: 40%;
+      width: 80%;
+      background-color: var(--primary-color);
+      color: var(--fourthly-color);
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 2.5vh;
+      img {
+        height: 50%;
+        object-fit: cover;
+        width: 100%;
+      }
+      #titre-date {
+        width: 90%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-    p {
-      position: absolute;
-      right: 15%;
-      font-size: 1.5vh;
-    }
-    h4 {
-      position: absolute;
-      font-size: 3vh;
-      left: 50%;
-      transform: translate(-50%, -50%);
+        p {
+          margin-left: 80%;
+          font-size: 1.5vh;
+        }
+        h4 {
+          position: absolute;
+          font-size: 3vh;
+        }
+      }
     }
   }
 }
@@ -386,19 +401,24 @@ Caroussel {
     }
   }
   #fifth-section {
-    .card-article {
-      height: 40%;
-      width: 40%;
-      font-size: 2vh;
-      padding-bottom: 1%;
-      img {
-        height: 50%;
-        object-fit: cover;
-        width: 100%;
-      }
-      #titre-date {
-        p {
-          right: 31%;
+    .articles-container {
+      flex-direction: row;
+      width: 70%;
+      .card-article {
+        height: 80%;
+        width: 40%;
+        font-size: 2vh;
+        padding-bottom: 5%;
+        cursor: pointer;
+        transition: transform 0.5s ease-in-out;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+        img {
+          height: 60%;
+          object-fit: cover;
+          width: 100%;
         }
       }
     }

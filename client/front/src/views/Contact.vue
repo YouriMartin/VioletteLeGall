@@ -22,6 +22,7 @@
         @click="updatePhoto(blocs[0]._id)"
       />
       <div
+        class="paragraphe-container"
         @click="updateTexte(blocs[0]._id, blocs[0].paragraphes)"
         v-html="blocs[0].paragraphes"
       ></div>
@@ -31,19 +32,31 @@
       <h3 @click="updateSubTitle(blocs[1]._id, blocs[1].subtitle)">
         {{ blocs[1].subtitle }}
       </h3>
-      <img
-        :src="`http://localhost:9000/static/${blocs[1].img.categorie}/${blocs[1].img.src}`"
-        :alt="blocs[1].img.alt"
-        @click="updatePhoto(blocs[1]._id)"
-      />
-      <div
-        @click="updateTexte(blocs[1]._id, blocs[1].paragraphes)"
-        v-html="blocs[1].paragraphes"
-      ></div>
+      <div id="img-texte">
+        <img
+          :src="`http://localhost:9000/static/${blocs[1].img.categorie}/${blocs[1].img.src}`"
+          :alt="blocs[1].img.alt"
+          @click="updatePhoto(blocs[1]._id)"
+        />
+        <div
+          @click="updateTexte(blocs[1]._id, blocs[1].paragraphes)"
+          v-html="blocs[1].paragraphes"
+        ></div>
+      </div>
     </section>
     <div id="third-bloc">
       <Caroussel
+        v-if="$store.state.mobile"
         :size="'30vh'"
+        :large="'100%'"
+        :idPage="pageId"
+        :idBloc="blocs[2]._id"
+        :contents="blocs[2].imgCaroussel"
+      />
+      <Caroussel
+        v-if="!$store.state.mobile"
+        :size="'100vh'"
+        :large="'100%'"
         :idPage="pageId"
         :idBloc="blocs[2]._id"
         :contents="blocs[2].imgCaroussel"
@@ -160,21 +173,19 @@ h2 {
     height: 20%;
     clip-path: circle(50%);
   }
-  .paragraphe-container {
-    justify-content: space-between;
-    height: 15%;
-  }
   padding: 0% 5%;
 }
 #second-bloc {
   padding: 10% 0%;
-  img {
-    height: 40%;
-    width: 100%;
-    object-fit: cover;
-  }
-  div {
-    padding: 0% 5%;
+  #img-texte {
+    img {
+      height: 40%;
+      width: 100%;
+      object-fit: cover;
+    }
+    div {
+      padding: 0% 5%;
+    }
   }
 }
 
@@ -197,6 +208,42 @@ h2 {
     div {
       padding: 0% 5%;
     }
+  }
+}
+@media screen and (min-width: 768px) {
+  #first-bloc {
+    .paragraphe-container {
+      width: 40%;
+      margin: 2% 0%;
+    }
+  }
+  #second-bloc {
+    padding: 5% 0%;
+    #img-texte {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60%;
+      height: 80%;
+      img {
+        height: 80%;
+        width: 50%;
+        border-radius: 5px;
+      }
+      div {
+        margin-left: 5%;
+        line-height: 4vh;
+        font-size: 2vh;
+      }
+    }
+  }
+  #voyage {
+    background: var(--thirdly-color-5);
+    margin: 7% 15%;
+    color: var(--fourthly-color);
+    position: absolute;
+    z-index: 5;
+    border-radius: 5px;
   }
 }
 </style>

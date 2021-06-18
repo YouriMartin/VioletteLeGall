@@ -16,7 +16,7 @@
       :elementChange="elementChange"
     />
     <div id="first-section">
-      <h2 @click="updateTitle">{{ title }}</h2>
+      <h2 v-if="$store.state.mobile" @click="updateTitle">{{ title }}</h2>
       <Caroussel
         v-if="$store.state.mobile"
         :size="'25vh'"
@@ -27,23 +27,34 @@
       />
       <Caroussel
         v-if="!$store.state.mobile"
-        :size="'65vh'"
+        :size="'100vh'"
         :large="'100%'"
         :idPage="pageId"
         :idBloc="blocs[0]._id"
         :contents="blocs[0].imgCaroussel"
       />
-      <div
-        class="texte"
-        @click="updateTexte(blocs[0]._id, blocs[0].paragraphes)"
-        v-html="blocs[0].paragraphes"
-      ></div>
-      <Boutton
-        :texte="'Accéder aux tarifs'"
-        :css="'thirdly-big'"
-        :route="'/particuliers/tarifs'"
-        :type="'router'"
-      />
+      <div class="modale-caroussel">
+        <h2 v-if="!$store.state.mobile" @click="updateTitle">{{ title }}</h2>
+        <div
+          class="texte"
+          @click="updateTexte(blocs[0]._id, blocs[0].paragraphes)"
+          v-html="blocs[0].paragraphes"
+        ></div>
+        <Boutton
+          v-if="$store.state.mobile"
+          :texte="'Accéder aux tarifs'"
+          :css="'thirdly-big'"
+          :route="'/particuliers/tarifs'"
+          :type="'router'"
+        />
+        <Boutton
+          v-if="!$store.state.mobile"
+          :texte="'Accéder aux tarifs'"
+          :css="'thirdly-big-borderless'"
+          :route="'/particuliers/tarifs'"
+          :type="'router'"
+        />
+      </div>
     </div>
     <section id="seconde-section">
       <h3 @click="updateSubTitle(blocs[1]._id, blocs[1].subtitle)">
@@ -254,18 +265,25 @@ button {
   #first-section {
     padding-bottom: 2%;
     justify-content: space-between;
-    h2 {
+    .modale-caroussel {
       position: absolute;
+      background: var(--thirdly-color-5);
       z-index: 2;
-      top: 30%;
+      width: 60%;
+      height: 60vh;
+      color: var(--fourthly-color);
       left: 50%;
+      top: 50%;
       transform: translate(-50%, -50%);
-      text-shadow: rgba(149, 157, 165, 0.2) 0px 8px 20px;
-    }
-    .texte {
-      width: 50%;
-      align-self: center;
-      font-size: 2.5vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      .texte {
+        width: 50%;
+        text-align: start;
+        font-size: 2.5vh;
+      }
     }
   }
   #seconde-section {

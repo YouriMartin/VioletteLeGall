@@ -100,7 +100,10 @@ export default {
 }
 
 :root {
-  --primary-color: #eab996;
+  //--primary-color: #eab996;
+  --primary-color: rgb(234, 185, 150);
+  --primary-color-2: rgba(234, 185, 150, 0.2);
+  --primary-color-5: rgba(234, 185, 150, 0.5);
   --secondary-color: #a93d49;
   --thirdly-color: rgb(203, 118, 102);
   --thirdly-color-2: rgba(203, 118, 102, 0.2);

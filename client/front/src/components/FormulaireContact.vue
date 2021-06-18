@@ -70,7 +70,8 @@ export default {
   name: "FormulaireContact",
   data() {
     return {
-      emailRegExp: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+      emailRegExp:
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
       email: {
         value: "",
         valid: true,
@@ -139,7 +140,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #formulaire-contact {
   padding: 0 5% 5% 5%;
   width: 100%;
@@ -183,5 +184,35 @@ input {
   background-color: var(--thirdly-color);
   color: var(--fourthly-color);
   border: none;
+}
+input[type="radio"] {
+  display: block;
+  cursor: pointer;
+  user-select: none;
+  text-align: left;
+
+  & {
+    margin-right: 7px;
+  }
+}
+@media screen and (min-width: 768px) {
+  #formulaire-contact {
+    width: 50%;
+    height: 55%;
+  }
+  h4 {
+    font-size: 3vh;
+  }
+  #envoyer {
+    margin-top: 1%;
+    padding: 1.2vh 4vh;
+    border-radius: 5px;
+    font-size: 2vh;
+    border: 5px solid var(--thirdly-color);
+    &:hover {
+      background-color: var(--fourthly-color);
+      color: var(--thirdly-color);
+    }
+  }
 }
 </style>

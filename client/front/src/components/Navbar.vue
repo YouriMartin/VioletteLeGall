@@ -325,6 +325,9 @@ a {
       }
     }
   }
+  .fa-chevron-up:hover {
+    transform: scale(1.1);
+  }
   .nav-link {
     font-size: 2vh;
     align-items: center;

@@ -29,23 +29,40 @@
           :alt="article.img.alt"
           @click="updateArticle(article._id)"
         />
-        <div id="titre-date" @click="updateArticle(article._id)">
-          <h4>{{ article.titre }}</h4>
-          <p>{{ article.date.substr(0, 10) }}</p>
+        <div class="texte-container">
+          <div id="titre-date" @click="updateArticle(article._id)">
+            <h4>{{ article.titre }}</h4>
+            <p>{{ article.date.substr(0, 10) }}</p>
+          </div>
+          <div
+            v-html="article.texte"
+            class="description"
+            @click="updateArticle(article._id)"
+          ></div>
         </div>
-        <div
-          v-html="article.texte"
-          class="description"
-          @click="updateArticle(article._id)"
-        ></div>
       </div>
-      <h5
+      <p
+        class="afficher"
         v-if="articles.length > 5 && nbArticles <= articles.length"
         @click="MoreArticles()"
       >
-        Afficher plus
-        <i class="fas fa-chevron-down"></i>
-      </h5>
+        <span style="--i: 1">A</span>
+        <span style="--i: 2">f</span>
+        <span style="--i: 3">f</span>
+        <span style="--i: 4">i</span>
+        <span style="--i: 5">c</span>
+        <span style="--i: 6">h</span>
+        <span style="--i: 7">e</span>
+        <span style="--i: 8">r</span>
+        <span style="--i: 9"> </span>
+        <span style="--i: 10">p</span>
+        <span style="--i: 11">l</span>
+        <span style="--i: 12">u</span>
+        <span style="--i: 13">s</span>
+        <span style="--i: 14">
+          <i class="fas fa-chevron-down"></i>
+        </span>
+      </p>
     </div>
   </div>
 </template>
@@ -125,13 +142,6 @@ export default {
 h2 {
   margin: 5vh auto;
 }
-.description {
-  font-size: 2.5vh;
-  margin: 0 8%;
-  padding-bottom: 10%;
-  line-height: 3vh;
-  letter-spacing: 0.15vh;
-}
 .card-article {
   width: 100%;
   display: flex;
@@ -154,25 +164,121 @@ h2 {
     width: 100%;
     object-fit: cover;
   }
-  #titre-date {
-    margin: 10% 0;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    p {
-      position: absolute;
-      right: 5%;
-      font-size: 1.5vh;
+  .texte-container {
+    margin: 5% 0%;
+    height: 50%;
+    .description {
+      font-size: 2.5vh;
+      margin: 0 8%;
+      padding-bottom: 10%;
+      line-height: 3vh;
+      letter-spacing: 0.15vh;
     }
-    h4 {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
+    #titre-date {
+      margin: 10% 0;
+      display: flex;
+      width: 100%;
+      align-items: center;
+      p {
+        position: absolute;
+        right: 5%;
+        font-size: 1.5vh;
+      }
+      h4 {
+        position: absolute;
+        font-size: 4vh;
+
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
   }
 }
-h5 {
-  margin: 10%;
+.afficher {
+  margin: 5%;
   font-weight: bold;
+  font-size: 3vh;
+  position: relative;
+  cursor: pointer;
+  span {
+    //position: relative;
+    animation: letter-move 1s ease-in-out infinite;
+    animation-delay: calc(0.1s * var(--i));
+  }
+}
+@keyframes letter-move {
+  0% {
+    transform: translateY(0px);
+  }
+  20% {
+    transform: translateY(-20px);
+  }
+  40%,
+  100% {
+    transform: translateY(0px);
+  }
+}
+@media screen and (min-width: 768px) {
+  #blog {
+    padding-top: 14vh;
+  }
+  .card-article {
+    border-radius: 5px;
+    &:nth-child(odd) {
+      flex-direction: row;
+      img {
+        border-radius: 4px 0px 0px 4px;
+      }
+      #titre-date {
+        p {
+          right: 8%;
+        }
+      }
+    }
+    &:nth-child(even) {
+      flex-direction: row-reverse;
+      img {
+        border-radius: 0px 4px 4px 0px;
+      }
+      #titre-date {
+        p {
+          left: 42%;
+        }
+      }
+    }
+    width: 90%;
+    height: 70vh;
+    // flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    img {
+      height: 100%;
+      width: 50%;
+    }
+    .texte-container {
+      margin: 0%;
+      height: 100%;
+      width: 50%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-direction: column;
+
+      .description {
+        width: 90%;
+        height: 70%;
+        font-size: 1.8vh;
+      }
+      #titre-date {
+        margin: 0%;
+        justify-content: center;
+        h4 {
+          position: relative;
+          left: inherit;
+          transform: none;
+        }
+      }
+    }
+  }
 }
 </style>

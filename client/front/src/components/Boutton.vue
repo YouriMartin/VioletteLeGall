@@ -29,6 +29,13 @@ a {
   background-color: var(--primary-color);
   color: var(--fourthly-color);
 }
+.primary-big-borderless {
+  transition: all 0.5s ease;
+  padding: 15px;
+  font-size: 3vh;
+  background-color: var(--primary-color);
+  color: var(--fourthly-color);
+}
 .primary-invert-big {
   transition: all 0.5s ease;
   border: 5px solid var(--primary-color);
@@ -53,8 +60,17 @@ a {
   color: var(--primary-color);
 }
 .thirdly-big {
+  border-radius: 5px;
   transition: all 0.5s ease;
   border: 5px solid var(--fourthly-color);
+  padding: 15px;
+  font-size: 3vh;
+  background-color: var(--thirdly-color);
+  color: var(--fourthly-color);
+}
+.thirdly-big-borderless {
+  border-radius: 5px;
+  transition: all 0.5s ease;
   padding: 15px;
   font-size: 3vh;
   background-color: var(--thirdly-color);
@@ -75,6 +91,10 @@ a {
     color: var(--primary-color);
     border: 5px solid var(--primary-color);
   }
+  .primary-big-borderless:hover {
+    background-color: var(--fourthly-color);
+    color: var(--primary-color);
+  }
   .primary-invert-big:hover {
     background-color: var(--primary-color);
     color: var(--fourthly-color);
@@ -88,6 +108,10 @@ a {
     background-color: var(--fourthly-color);
     color: var(--thirdly-color);
     border: 5px solid var(--thirdly-color);
+  }
+  .thirdly-big-borderless:hover {
+    background-color: var(--fourthly-color);
+    color: var(--thirdly-color);
   }
   .thirdly-invert-borderless-big {
     background-color: var(--thirdly-color);
