@@ -88,6 +88,7 @@ button {
   color: var(--fourthly-color);
   border: none;
   padding: 2% 5%;
+  cursor: pointer;
 }
 h3 {
   margin: 0% 10%;
@@ -97,5 +98,18 @@ h3 {
   background-color: var(--fourthly-color);
   color: var(--thirdly-color);
   align-self: center;
+}
+@media screen and (min-width: 768px) {
+  .form {
+    width: 40%;
+    height: 50%;
+  }
+  label {
+    font-size: 2vh;
+  }
+  button {
+    font-size: 2.5vh;
+    padding: 1% 4%;
+  }
 }
 </style>

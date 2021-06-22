@@ -61,7 +61,7 @@
         :idBloc="blocs[2]._id"
         :contents="blocs[2].imgCaroussel"
       />
-      <div id="voyage">
+      <div id="voyage" v-if="!$store.state.carousselModale">
         <h3 @click="updateSubTitle(blocs[2]._id, blocs[2].subtitle)">
           {{ blocs[2].subtitle }}
         </h3>

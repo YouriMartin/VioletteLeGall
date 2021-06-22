@@ -9,6 +9,7 @@ export default new Vuex.Store({
     message: "Votre message",
     admin: false,
     isLoaded: false,
+    carousselModale: false,
   },
   mutations: {
     isMobile(state, width) {
@@ -17,6 +18,9 @@ export default new Vuex.Store({
       } else {
         state.mobile = false;
       }
+    },
+    carousselModale(state) {
+      state.carousselModale = !state.carousselModale;
     },
     setMessage(state, message) {
       state.message = message;

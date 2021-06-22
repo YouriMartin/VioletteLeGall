@@ -184,6 +184,7 @@ input {
   background-color: var(--thirdly-color);
   color: var(--fourthly-color);
   border: none;
+  cursor: pointer;
 }
 input[type="radio"] {
   display: block;

@@ -43,7 +43,7 @@ export default {
 <style lang="scss" scoped>
 #footer {
   background-color: var(--fourthly-color);
-  border-top: 2px solid var(--primary-color);
+  border-top: 3px solid var(--primary-color);
   height: 10vh;
   display: flex;
   flex-direction: column;
@@ -54,9 +54,7 @@ export default {
 p {
   font-size: 10px;
 }
-i:hover {
-  font-weight: 600;
-}
+
 #logos {
   font-size: 5vh;
   width: 100%;

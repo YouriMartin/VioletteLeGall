@@ -1,6 +1,5 @@
 <template>
   <div id="blog">
-    <h2>Blog</h2>
     <FormDeleteArticle
       v-if="showModalDelete"
       :toggleModal="deleteArticle"
@@ -54,14 +53,13 @@
         <span style="--i: 6">h</span>
         <span style="--i: 7">e</span>
         <span style="--i: 8">r</span>
-        <span style="--i: 9"> </span>
+        &nbsp;
         <span style="--i: 10">p</span>
         <span style="--i: 11">l</span>
         <span style="--i: 12">u</span>
         <span style="--i: 13">s</span>
-        <span style="--i: 14">
-          <i class="fas fa-chevron-down"></i>
-        </span>
+
+        <i class="fas fa-chevron-down"></i>
       </p>
     </div>
   </div>
@@ -200,10 +198,18 @@ h2 {
   font-size: 3vh;
   position: relative;
   cursor: pointer;
-  span {
-    //position: relative;
-    animation: letter-move 1s ease-in-out infinite;
+
+  &:hover span {
+    animation: letter-move 1s ease-in-out;
     animation-delay: calc(0.1s * var(--i));
+  }
+  &:hover i {
+    transition: transform 2s ease-in-out;
+    transform: rotate(-90deg);
+  }
+  span {
+    display: inline-block;
+    position: relative;
   }
 }
 @keyframes letter-move {
@@ -211,9 +217,8 @@ h2 {
     transform: translateY(0px);
   }
   20% {
-    transform: translateY(-20px);
+    transform: translateY(-15px);
   }
-  40%,
   100% {
     transform: translateY(0px);
   }

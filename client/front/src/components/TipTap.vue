@@ -1,6 +1,10 @@
 <template>
   <div id="TipTap">
-    <bubble-menu class="bubble-menu" :editor="editor" v-if="editor">
+    <bubble-menu
+      class="bubble-menu"
+      :editor="editor"
+      v-if="editor && $store.state.mobile"
+    >
       <i
         class="fas fa-bold"
         @click="editor.chain().focus().toggleBold().run()"
@@ -12,13 +16,42 @@
         :class="{ 'is-active': editor.isActive('italic') }"
       ></i>
     </bubble-menu>
+    <div id="tool-bar" v-if="editor && !$store.state.mobile">
+      <i
+        class="fas fa-bold"
+        @click="editor.chain().focus().toggleBold().run()"
+        :class="{ 'is-active': editor.isActive('bold') }"
+      ></i>
+      <i
+        class="fas fa-italic"
+        @click="editor.chain().focus().toggleItalic().run()"
+        :class="{ 'is-active': editor.isActive('italic') }"
+      ></i>
+      <i
+        class="fas fa-align-left"
+        @click="editor.chain().focus().setTextAlign('left').run()"
+        :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
+      ></i>
+      <i
+        class="fas fa-align-center"
+        @click="editor.chain().focus().setTextAlign('center').run()"
+        :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
+      ></i>
+      <i
+        class="fas fa-align-right"
+        @click="editor.chain().focus().setTextAlign('right').run()"
+        :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
+      ></i>
+    </div>
     <editor-content class="content" :editor="editor" v-model="newTexte" />
   </div>
 </template>
 
 <script>
 import { Editor, EditorContent, BubbleMenu } from "@tiptap/vue-2";
+import TextAlign from "@tiptap/extension-text-align";
 import StarterKit from "@tiptap/starter-kit";
+
 export default {
   name: "TipTap",
   components: {
@@ -43,7 +76,7 @@ export default {
   },
   mounted() {
     this.editor = new Editor({
-      extensions: [StarterKit],
+      extensions: [StarterKit, TextAlign],
       content: this.newTexte,
     });
     this.newTexte = this.editor.getHTML();
@@ -69,7 +102,8 @@ export default {
   padding: 5%;
   overflow-y: scroll;
   width: 90%;
-  margin: auto;
+
+  // margin: auto;
 }
 .content {
   background-color: white;
@@ -93,6 +127,29 @@ export default {
   }
   i:active {
     border: black solid 1px;
+  }
+}
+@media screen and (min-width: 768px) {
+  #TipTap {
+    height: 50%;
+    overflow-y: hidden;
+  }
+  ::v-deep .ProseMirror {
+    height: 89%;
+    width: 100%;
+  }
+  #tool-bar {
+    background-color: white;
+    border-bottom: 1px solid black;
+    color: black;
+    font-size: 2vh;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1%;
+    height: 18%;
+    i {
+      cursor: pointer;
+    }
   }
 }
 </style>

@@ -92,4 +92,24 @@ button {
   font-weight: bold;
   color: red;
 }
+@media screen and (min-width: 768px) {
+  .form {
+    width: 45%;
+    height: 40%;
+    padding: 3%;
+  }
+  .form-element {
+    width: 60%;
+    height: 100%;
+  }
+  input,
+  label {
+    font-size: 2.5vh;
+  }
+  button {
+    width: auto;
+    font-size: 2.5vh;
+    padding: 1% 5%;
+  }
+}
 </style>

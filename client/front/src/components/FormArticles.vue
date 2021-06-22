@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       titre: "",
-      texte: "<p>Lorem Ipsum ...</p>",
+      texte: "<p> Lorem Ipsum ...</p> <h5>eerkfjblihb</h5> <p>ezarazeraze</p>",
       alt: "",
       date: new Date().toISOString().substr(0, 10),
     };
@@ -48,7 +48,7 @@ export default {
       article.append("alt", this.alt);
 
       console.log("article", this.texte);
-      this.$store.commit("loading");
+      /* this.$store.commit("loading");
       this.http
         .post("http://localhost:9000/articles/addArticle/Articles", article, {
           headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
@@ -66,7 +66,7 @@ export default {
           console.log("erreur", err.response);
           this.$store.commit("loading");
           window.alert(err.response.data);
-        });
+        });*/
     },
   },
 };
@@ -91,6 +91,9 @@ input {
   padding: 2%;
   border: 2px var(--thirdly-color) solid;
 }
+label {
+  font-size: 2.2vh;
+}
 
 button {
   font-size: 3vh;
@@ -98,5 +101,21 @@ button {
   color: var(--fourthly-color);
   border: none;
   padding: 2% 5%;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+  .form {
+    width: 60%;
+    padding: 2%;
+  }
+  input {
+    padding: 0%;
+    font-size: 2vh;
+  }
+  button {
+    font-size: 2.5vh;
+    padding: 1% 4%;
+  }
 }
 </style>

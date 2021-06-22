@@ -45,7 +45,11 @@
         />
       </div>
     </section>
-    <section v-for="bloc in blocs.slice(1)" :key="bloc._id">
+    <section
+      v-show="$store.state.mobile"
+      v-for="bloc in blocs.slice(1)"
+      :key="bloc._id"
+    >
       <img
         v-if="bloc.img"
         :src="`http://localhost:9000/static/${bloc.img.categorie}/${bloc.img.src}`"
@@ -81,6 +85,61 @@
         </div>
       </div>
     </section>
+    <section v-show="!$store.state.mobile" id="tarif-section-web">
+      <h3>TARIFS</h3>
+      <div id="tarif-container">
+        <figure
+          class="tarif"
+          v-for="bloc in blocs.slice(1)"
+          :key="bloc._id"
+          @mouseover="hover = true"
+          @mouseleave="hover = false"
+        >
+          <img
+            v-if="bloc.img"
+            :src="`http://localhost:9000/static/${bloc.img.categorie}/${bloc.img.src}`"
+            :alt="bloc.img.alt"
+            @click="updatePhoto(bloc._id)"
+          />
+          <iframe
+            v-if="bloc.video"
+            width="100%"
+            height="100%"
+            :src="
+              'https://www.youtube.com/embed/' +
+              bloc.video +
+              '?autoplay=1&mute=1'
+            "
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+          <i
+            v-if="$store.state.admin"
+            class="fas fa-envelope"
+            @click="updateMessage(bloc._id, bloc.message)"
+          ></i>
+          <figcaption>
+            <h4 @click="updateSubTitle(bloc._id, bloc.subtitle)">
+              {{ bloc.subtitle }}
+            </h4>
+            <!-- <h4 @click="updateSubTitle(bloc._id, bloc.subtitle)">
+                {{ bloc.subtitle }}
+              </h4> -->
+
+            <div class="tarif-description">
+              <div
+                class="paragraphe-tarif"
+                v-html="bloc.paragraphes"
+                @click="updateTexte(bloc._id, bloc.paragraphes)"
+              ></div>
+              <button v-on:click="setMessage(bloc._id)">Me Contacter</button>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -89,7 +148,7 @@ import Boutton from "../components/Boutton.vue";
 import FormPhotosPage from "@/components/FormPhotosPage.vue";
 import FormTextePage from "@/components/FormTextePage.vue";
 export default {
-  name: "ParticuliersTarifs",
+  name: "ProfessionnelsTarifs",
   components: {
     Boutton,
     FormPhotosPage,
@@ -257,5 +316,96 @@ img {
   height: 50%;
   width: 100%;
   object-fit: cover;
+}
+
+@media screen and (min-width: 768px) {
+  #tarif-section-web {
+    height: 100vh;
+    padding-bottom: 0%;
+    justify-content: space-evenly;
+    background-color: var(--primary-color);
+    color: var(--fourthly-color);
+    h3 {
+      font-size: 5vh;
+    }
+    #tarif-container {
+      height: 80%;
+      width: 80%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: 5%;
+      .tarif {
+        height: 70%;
+        width: 65%;
+        align-self: center;
+        justify-self: center;
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+          cursor: pointer;
+          border-radius: 5px;
+        }
+        h4 {
+          font-size: 2.5vh;
+        }
+      }
+    }
+  }
+
+  figure {
+    position: relative;
+    transition: all 0.8s ease-in-out;
+    &:hover img {
+      filter: grayscale(100%);
+    }
+    figcaption {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: space-evenly;
+      padding: 10%;
+      height: 90%;
+      width: 90%;
+      transition: all 0.8s ease-in-out;
+      &:hover {
+        background-color: var(--primary-color-6);
+        border-radius: 10px;
+      }
+      &:hover .tarif-description {
+        visibility: visible;
+        height: 80%;
+      }
+      .tarif-description {
+        justify-self: flex-end;
+        visibility: hidden;
+        transition: all 0.5s ease-in-out;
+        display: flex;
+        font-size: 1.7vh;
+        height: 0%;
+        text-align: start;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        button {
+          cursor: pointer;
+          font-size: 2vh;
+          background-color: var(--primary-color);
+          color: var(--fourthly-color);
+          transition: all 0.5s ease-in-out;
+
+          &:hover {
+            background-color: var(--fourthly-color);
+            color: var(--primary-color);
+          }
+        }
+      }
+    }
+  }
 }
 </style>

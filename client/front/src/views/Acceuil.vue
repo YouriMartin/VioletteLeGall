@@ -36,18 +36,18 @@
         {{ blocs[1].subtitle }}
       </h3>
       <div id="float-container">
-        <img
+        <!-- <img
           :src="`http://localhost:9000/static/${blocs[1].img.categorie}/${blocs[1].img.src}`"
           :alt="blocs[1].img.alt"
           @click="updatePhoto(blocs[1]._id)"
-        />
+        /> -->
         <div
           @click="updateTexte(blocs[1]._id, blocs[1].paragraphes)"
           v-html="blocs[1].paragraphes"
         ></div>
       </div>
       <Boutton
-        :texte="'Me Contacter'"
+        :texte="'ME CONTACTER'"
         :css="'primary-big'"
         :route="'/contact'"
         :type="'router'"
@@ -72,10 +72,10 @@
           />
         </div>
       </div>
-      <h3>Ma dernière vidéo :</h3>
+      <!-- <h3>Ma dernière vidéo :</h3> -->
       <iframe
         width="80%"
-        height="20%"
+        height="10%"
         :src="'https://www.youtube.com/embed/' + lienYoutube"
         title="YouTube video player"
         frameborder="0"
@@ -83,8 +83,8 @@
         allowfullscreen
       ></iframe>
       <Boutton
-        :texte="'Ma Chaine Youtube'"
-        :css="'primary-invert-big'"
+        :texte="'MA CHAINE YOUTUBE'"
+        :css="'primary-invert-small'"
         :route="'https://www.youtube.com/channel/UC2pZC0DhtKP-zjXmVC5AxaA'"
         :type="'a'"
       />
@@ -104,7 +104,7 @@
         @click="updateTexte(blocs[3]._id, blocs[3].paragraphes)"
       ></div>
       <Boutton
-        :texte="'Me contacter'"
+        :texte="'ME CONTACTER'"
         :css="'primary-big'"
         :route="'/contact'"
         :type="'router'"
@@ -112,15 +112,9 @@
     </section>
     <section id="fourth-section">
       <h3>Mon instagram</h3>
-      <Boutton
-        :texte="'Lien vers Instagram'"
-        :css="'primary-invert-big'"
-        :route="'https://www.instagram.com/violettelgpro/'"
-        :type="'a'"
-      />
     </section>
     <section id="fifth-section">
-      <h3>MES DERNIERS ARTICLES</h3>
+      <h3>Mes derniers articles</h3>
       <div class="articles-container">
         <div
           class="card-article"
@@ -272,24 +266,27 @@ Caroussel {
 }
 #first-section {
   padding: 2%;
+  font-size: 2vh;
+  letter-spacing: 0.3vh;
+  line-height: 3.5vh;
+  h3 {
+    letter-spacing: -2px;
+  }
   #float-container {
     padding: 10%;
   }
   img {
     float: left;
     margin-right: 5vw;
-    clip-path: circle(50%);
-    height: 20vh;
+    clip-path: circle(45%);
+    height: 25vh;
+    object-fit: cover;
     shape-outside: circle();
   }
-  margin-top: 2vh;
-  font-size: 2vh;
-  letter-spacing: 0.3vh;
-  line-height: 3.5vh;
 }
 
 #second-section {
-  padding: 2%;
+  padding: 1%;
   text-align: center;
   .inline-flex {
     width: 80%;
@@ -364,6 +361,7 @@ Caroussel {
 
 @media screen and (min-width: 768px) {
   #first-section {
+    justify-content: center;
     #float-container {
       display: flex;
       flex-direction: column;
@@ -371,29 +369,35 @@ Caroussel {
       align-items: center;
       height: 50%;
       width: 70%;
-      margin: 5%;
-      img {
+
+      /*img {
         float: none;
         height: 30vh;
-        margin: 5%;
-      }
+        margin: 3%;
+      }*/
     }
   }
   #second-section {
+    justify-content: space-between;
+    padding: 3%;
     img {
       height: 20vh;
       width: 30vh;
     }
     iframe {
-      height: 40%;
-      width: 45%;
+      height: 35%;
+      width: 40%;
+      margin-bottom: 3%;
+      margin-top: 8%;
     }
   }
   #third-section {
     line-height: 3.5vh;
     .texte {
       width: 60%;
-      transform: translateX(2%);
+      // transform: translateX(2%);
+      text-align: justify;
+      text-justify: auto;
     }
     img {
       height: 35%;

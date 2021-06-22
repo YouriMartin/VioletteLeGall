@@ -18,42 +18,12 @@
     <div id="first-section">
       <h2 v-if="$store.state.mobile" @click="updateTitle">{{ title }}</h2>
       <Caroussel
-        v-if="$store.state.mobile"
-        :size="'25vh'"
-        :idPage="pageId"
-        :idBloc="blocs[0]._id"
-        :contents="blocs[0].imgCaroussel"
-      />
-      <Caroussel
-        v-if="!$store.state.mobile"
         :size="'100vh'"
         :large="'100%'"
         :idPage="pageId"
         :idBloc="blocs[0]._id"
         :contents="blocs[0].imgCaroussel"
       />
-      <div class="modale-caroussel">
-        <h2 v-if="!$store.state.mobile" @click="updateTitle">{{ title }}</h2>
-        <div
-          class="texte"
-          @click="updateTexte(blocs[0]._id, blocs[0].paragraphes)"
-          v-html="blocs[0].paragraphes"
-        ></div>
-        <Boutton
-          v-if="$store.state.mobile"
-          :texte="'Accéder aux tarifs'"
-          :css="'primary-big'"
-          :route="'/professionnels/tarifs'"
-          :type="'router'"
-        />
-        <Boutton
-          v-if="!$store.state.mobile"
-          :texte="'Accéder aux tarifs'"
-          :css="'primary-big-borderless'"
-          :route="'/professionnels/tarifs'"
-          :type="'router'"
-        />
-      </div>
     </div>
     <section id="seconde-section">
       <h3 @click="updateSubTitle(blocs[1]._id, blocs[1].subtitle)">
@@ -83,17 +53,19 @@
       <h3 @click="updateSubTitle(blocs[2]._id, blocs[2].subtitle)">
         {{ blocs[2].subtitle }}
       </h3>
-      <div v-for="video in videos" :key="video.titre" class="video-bloc">
-        <h4>{{ video.titre }}</h4>
-        <iframe
-          width="100%"
-          height="80%"
-          :src="'https://www.youtube.com/embed/' + video.lien"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
+      <div class="videos-container">
+        <div v-for="video in videos" :key="video.titre" class="video-bloc">
+          <h5>{{ video.titre }}</h5>
+          <iframe
+            width="100%"
+            height="80%"
+            :src="'https://www.youtube.com/embed/' + video.lien"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
       </div>
       <Boutton
         :texte="'Ma Chaine Youtube'"
@@ -214,13 +186,17 @@ section:nth-child(even) {
 }
 
 #first-section {
-  background-color: var(--fourthly-color);
-  color: var(--thirdly-color);
+  color: var(--primary-color);
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
   text-align: center;
+  h2 {
+    position: absolute;
+    z-index: 2;
+    font-size: 6vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 #seconde-section {
   padding-top: 5%;
@@ -254,38 +230,20 @@ button {
   cursor: pointer;
 }
 
-.video-bloc {
+.videos-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
+  height: 60vh;
+  width: 80%;
+  .video-bloc {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  }
 }
 
 @media screen and (min-width: 768px) {
-  #first-section {
-    padding-bottom: 2%;
-    justify-content: space-between;
-    .modale-caroussel {
-      position: absolute;
-      background: var(--primary-color-5);
-      z-index: 2;
-      width: 60%;
-      height: 60vh;
-      color: var(--fourthly-color);
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      align-items: center;
-      .texte {
-        width: 50%;
-        text-align: start;
-        font-size: 2.5vh;
-      }
-    }
-  }
   #seconde-section {
     .inline-flex {
       width: 70%;
@@ -314,6 +272,18 @@ button {
           }
         }
       }
+    }
+  }
+  .videos-container {
+    flex-direction: row;
+    justify-content: space-between;
+    height: 50vh;
+    width: 80%;
+    .video-bloc {
+      h5 {
+        font-size: 3vh;
+      }
+      width: 45%;
     }
   }
 }

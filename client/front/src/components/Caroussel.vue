@@ -48,6 +48,7 @@
               v-if="categorie != null && categorie != 'Autres'"
               class="fas fa-filter"
             ></i>
+            &nbsp;
             <select
               v-if="categorie === 'Professionnels'"
               v-model="sousCategorie"
@@ -179,7 +180,6 @@ export default {
         .get("http://localhost:9000/photos/getPhotos/" + value + "/all")
         .then((resp) => {
           // console.log(resp.data);
-
           this.photos = resp.data;
           this.photosFiltered = resp.data;
         });
@@ -187,7 +187,10 @@ export default {
   },
   methods: {
     toggleModal() {
-      this.showModal = !this.showModal;
+      if (this.$store.state.admin) {
+        this.$store.commit("carousselModale");
+        this.showModal = !this.showModal;
+      }
     },
     onEnd(evt) {
       console.log(this.contentsForUpdate);
@@ -233,6 +236,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+img {
+  cursor: pointer;
+}
 #caroussel {
   z-index: 1;
 }
@@ -260,13 +266,14 @@ export default {
   margin-top: 5%;
   overflow: scroll;
   height: 35vh;
+  border: 1px solid var(--primary-color);
 }
 .select-group {
   margin: 5%;
 }
 #modal {
   border-radius: 5px;
-  z-index: 4;
+  // z-index: 5;
   min-height: 60vh;
   width: 80vw;
   position: fixed;
@@ -318,9 +325,24 @@ export default {
     padding: 5% 10%;
     background-color: var(--thirdly-color);
     color: var(--fourthly-color);
+    cursor: pointer;
   }
   .flip-list-move {
     transition: transform 0.5s;
+  }
+}
+@media screen and (min-width: 768px) {
+  #modal {
+    width: 50%;
+    .photo-container {
+      .imgDrag {
+        height: 10vh;
+      }
+    }
+    button {
+      font-size: 2.5vh;
+      padding: 1% 5%;
+    }
   }
 }
 </style>

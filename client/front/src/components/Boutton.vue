@@ -20,12 +20,12 @@ export default {
 a {
   text-decoration: none;
 }
-
 .primary-big {
   transition: all 0.5s ease;
   border: 5px solid var(--fourthly-color);
-  padding: 15px;
-  font-size: 3vh;
+  padding: 2.5vh 4vw;
+  font-size: 2vh;
+  font-weight: 600;
   background-color: var(--primary-color);
   color: var(--fourthly-color);
 }
@@ -35,6 +35,14 @@ a {
   font-size: 3vh;
   background-color: var(--primary-color);
   color: var(--fourthly-color);
+}
+.primary-invert-small {
+  transition: all 0.5s ease;
+  border: 5px solid var(--primary-color);
+  padding: 2.5vh 4vw;
+  font-size: 2vh;
+  background-color: var(--fourthly-color);
+  color: var(--primary-color);
 }
 .primary-invert-big {
   transition: all 0.5s ease;
@@ -100,6 +108,12 @@ a {
     color: var(--fourthly-color);
     border: 5px solid var(--fourthly-color);
   }
+  .primary-invert-small:hover {
+    border: 5px solid var(--fourthly-color);
+
+    background-color: var(--primary-color);
+    color: var(--fourthly-color);
+  }
   .primary-invert-borderless-small:hover {
     background-color: var(--primary-color);
     color: var(--fourthly-color);
@@ -113,7 +127,7 @@ a {
     background-color: var(--fourthly-color);
     color: var(--thirdly-color);
   }
-  .thirdly-invert-borderless-big {
+  .thirdly-invert-borderless-big:hover {
     background-color: var(--thirdly-color);
     color: var(--fourthly-color);
     border: 5px solid var(--fourthly-color);

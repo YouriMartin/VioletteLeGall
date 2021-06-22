@@ -156,11 +156,19 @@ button {
   color: var(--thirdly-color);
   border: none;
   padding: 2% 5%;
+  cursor: pointer;
 }
 #select-group {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   height: 40%;
+}
+
+@media screen and (min-width: 768px) {
+  button {
+    font-size: 2.5vh;
+    padding: 1% 4%;
+  }
 }
 </style>

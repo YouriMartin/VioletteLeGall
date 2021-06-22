@@ -62,4 +62,10 @@ button {
   color: var(--thirdly-color);
   font-size: 3vh;
 }
+
+@media screen and (min-width: 768px) {
+  section:first-child {
+    padding-top: 15vh;
+  }
+}
 </style>

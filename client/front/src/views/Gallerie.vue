@@ -17,7 +17,11 @@ export default {};
 #gallerie {
   min-height: 100vh;
   width: 100%;
-  padding: 20% 5% 0% 10%;
+  padding: 15% 5% 0% 10%;
 }
-
+@media screen and (min-width: 768px) {
+  #gallerie {
+    padding-top: 5%;
+  }
+}
 </style>

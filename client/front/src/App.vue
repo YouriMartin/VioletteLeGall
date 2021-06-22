@@ -22,7 +22,7 @@ export default {
       screenWidth: null,
     };
   },
-  mounted() {
+  beforeMount() {
     this.$store.dispatch("getScreenWidth", window.innerWidth);
     window.addEventListener("resize", () => {
       this.screenWidth = window.innerWidth;
@@ -98,17 +98,34 @@ export default {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "Lulo Clean One";
+  src: url("assets/fonts/Lulo Clean One Bold.otf") format("embedded-opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Futura Medium";
+  src: url("assets/fonts/Futura Medium/Futura Medium.otf")
+    format("embedded-opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 
 :root {
   //--primary-color: #eab996;
   --primary-color: rgb(234, 185, 150);
   --primary-color-2: rgba(234, 185, 150, 0.2);
   --primary-color-5: rgba(234, 185, 150, 0.5);
+  --primary-color-6: rgba(234, 185, 150, 0.8);
+
   --secondary-color: #a93d49;
   --thirdly-color: rgb(203, 118, 102);
   --thirdly-color-2: rgba(203, 118, 102, 0.2);
   --thirdly-color-5: rgba(203, 118, 102, 0.5);
-  --fourthly-color: #f1ece4;
+  --thirdly-color-7: rgba(203, 118, 102, 0.7);
+  //--fourthly-color: #f1ece4;
+  --fourthly-color: whitesmoke;
 }
 
 h1 {
@@ -120,21 +137,27 @@ h1 {
   font-size: 12vw;
 }
 h2 {
+  font-family: "Signatura Monoline Script";
   font-size: 6vh;
 }
 h3 {
-  font-size: 5vh;
+  font-family: "Signatura Monoline Script";
+  font-weight: 200;
+  font-size: 10vh;
 }
 h4 {
   font-size: 5vh;
 }
 body {
   font-family: "Lulo Clean One", sans-serif;
+  //font-family: "Futura Medium";
 }
+
 li {
   list-style: none;
 }
 section {
+  scroll-snap-align: start;
   height: 101vh;
   display: flex;
   flex-direction: column;
@@ -150,5 +173,12 @@ section {
 }
 .grecaptcha-badge {
   visibility: hidden;
+}
+
+.modale-caroussel {
+  z-index: 2;
+}
+#modal {
+  z-index: 1000;
 }
 </style>

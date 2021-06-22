@@ -33,7 +33,7 @@
               @click="ToggleNavLink('particulier')"
               class="nav-link"
             >
-              <p>Particuliers</p>
+              <p>PARTICULIERS</p>
               <i class="fas fa-chevron-down"></i>
             </div>
             <transition name="deroule">
@@ -42,13 +42,13 @@
                   v-on:click.native="ToggleNavBar()"
                   class="sous-link"
                   to="/particuliers/portfolio"
-                  >PortFolio</router-link
+                  >PORTFOLIO</router-link
                 >
                 <router-link
                   v-on:click.native="ToggleNavBar()"
                   class="sous-link"
                   to="/particuliers/tarifs"
-                  >Tarifs</router-link
+                  >TARIFS</router-link
                 >
               </div>
             </transition>
@@ -59,7 +59,7 @@
               @click="ToggleNavLink('professionnel')"
               class="nav-link"
             >
-              <p>Professionnels</p>
+              <p>PROFESSIONNELS</p>
               <i class="fas fa-chevron-down"></i>
             </div>
             <transition name="deroule">
@@ -68,13 +68,13 @@
                   v-on:click.native="ToggleNavBar()"
                   class="sous-link"
                   to="/professionnels/portfolio"
-                  >PortFolio</router-link
+                  >PORTFOLIO</router-link
                 >
                 <router-link
                   v-on:click.native="ToggleNavBar()"
                   class="sous-link"
                   to="/professionnels/tarifs"
-                  >Tarifs</router-link
+                  >TARIFS</router-link
                 >
               </div>
             </transition>
@@ -91,7 +91,7 @@
               v-on:click.native="ToggleNavBar()"
               class="nav-link"
               to="/contact"
-              >Contact</router-link
+              >CONTACT</router-link
             >
           </li>
           <li>
@@ -99,7 +99,7 @@
               v-on:click.native="ToggleNavBar()"
               class="nav-link"
               to="/blog"
-              >Blog</router-link
+              >JOURNAL</router-link
             >
           </li>
           <li>
@@ -108,7 +108,7 @@
               to="/gallerie"
               v-on:click="ToggleNavBar()"
             >
-              Galerie Client
+              GALERIES CLIENTS
             </router-link>
           </li>
         </ul>
@@ -236,6 +236,7 @@ a {
 }
 .nav-link {
   font-size: 3vh;
+  font-weight: 600;
   display: inline-flex;
   justify-content: space-between;
   width: 100%;
@@ -333,6 +334,9 @@ a {
     align-items: center;
     justify-content: center;
     color: white;
+    i {
+      margin-left: 1vw;
+    }
   }
   #logo {
     height: 100%;
@@ -353,7 +357,7 @@ a {
       flex-direction: column;
       width: 80%;
       height: 13vh;
-      background: var(--thirdly-color-5);
+      //background: var(--thirdly-color-5);
       border-radius: 10px;
       padding: 3% 0%;
       margin: 2% 0%;
@@ -362,6 +366,7 @@ a {
     .sous-link {
       transition: none;
       align-content: center;
+      font-weight: 600;
       &::after {
         display: none;
       }
