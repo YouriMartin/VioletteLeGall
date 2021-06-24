@@ -173,5 +173,13 @@ export default {
     height: 50%;
     object-fit: cover;
   }
+  h3 {
+    font-size: 8vh;
+  }
+}
+@media screen and (min-width: 768px) {
+  img {
+    margin: 1%;
+  }
 }
 </style>

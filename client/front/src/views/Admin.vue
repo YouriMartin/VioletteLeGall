@@ -61,6 +61,7 @@ button {
   background-color: var(--fourthly-color);
   color: var(--thirdly-color);
   font-size: 3vh;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 768px) {

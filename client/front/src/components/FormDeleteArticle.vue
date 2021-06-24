@@ -67,6 +67,11 @@ export default {
   text-align: center;
   h3 {
     color: Red;
+    font-family: "Lulo Clean One", sans-serif;
+    font-size: 5vh;
+  }
+  h4 {
+    font-size: 4vh;
   }
   button {
     border: 2px solid var(--thirdly-color);
@@ -75,6 +80,16 @@ export default {
     align-self: center;
     font-size: 3vh;
     padding: 2% 10%;
+  }
+}
+@media screen and (min-width: 768px) {
+  .modal {
+    width: 55%;
+    button {
+      font-size: 2vh;
+      padding: 1% 5%;
+      cursor: pointer;
+    }
   }
 }
 </style>

@@ -142,11 +142,32 @@ export default {
   justify-content: space-evenly;
   align-items: center;
 }
+h3 {
+  font-size: 7vh;
+}
 button {
   margin-top: 10%;
   border: none;
   padding: 5% 10%;
   color: var(--fourthly-color);
   background-color: var(--thirdly-color);
+}
+
+@media screen and (min-width: 768px) {
+  button {
+    cursor: pointer;
+    padding: 1% 5%;
+    margin-top: 0%;
+  }
+  textarea {
+    height: 60%;
+    width: 60%;
+  }
+  .modal {
+    padding: 2% 5%;
+    #TipTap {
+      height: 100%;
+    }
+  }
 }
 </style>

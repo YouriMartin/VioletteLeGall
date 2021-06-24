@@ -153,9 +153,9 @@ h2 {
     position: absolute;
     right: 5%;
     margin-top: 5%;
-    color: var(--thirdly-color);
+    color: black;
     font-size: 5vh;
-    text-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    z-index: 2;
   }
   img {
     height: 50%;
@@ -229,6 +229,11 @@ h2 {
   }
   .card-article {
     border-radius: 5px;
+    i {
+      margin-top: -30%;
+      cursor: pointer;
+      right: 5%;
+    }
     &:nth-child(odd) {
       flex-direction: row;
       img {

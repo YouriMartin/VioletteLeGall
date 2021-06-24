@@ -4,7 +4,7 @@
       <div class="overlay" @click="toggleModal"></div>
       <div id="modal">
         <h4>Caroussel</h4>
-        <div class="photo-container">
+        <div class="photo-container" v-if="!showAddPhoto">
           <draggable
             v-model="contentsForUpdate"
             ghost-class="ghost"
@@ -333,6 +333,7 @@ img {
 }
 @media screen and (min-width: 768px) {
   #modal {
+    padding: 1%;
     width: 50%;
     .photo-container {
       .imgDrag {

@@ -132,11 +132,13 @@ export default {
 @media screen and (min-width: 768px) {
   #TipTap {
     height: 50%;
-    overflow-y: hidden;
+    // overflow-y: hidden;
   }
   ::v-deep .ProseMirror {
-    height: 89%;
     width: 100%;
+  }
+  .content {
+    height: 80%;
   }
   #tool-bar {
     background-color: white;
@@ -147,6 +149,7 @@ export default {
     justify-content: space-evenly;
     padding: 1%;
     height: 18%;
+
     i {
       cursor: pointer;
     }
