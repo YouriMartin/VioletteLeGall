@@ -1,2 +1,2 @@
 # VioletteLeGall
-Site vitrine de photographie pour VioletteLeGall
+Site vitrine pour la photographe Violette Le Gall
