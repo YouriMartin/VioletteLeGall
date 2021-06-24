@@ -17,32 +17,32 @@
       :elementChange="elementChange"
     />
     <section id="first-section">
-      <div id="title-img-container">
-        <h2 @click="updateTitle">{{ title }}</h2>
+      <h2 @click="updateTitle">{{ title }}</h2>
+      <div id="texte-img-container">
         <img
           :src="`http://localhost:9000/static/${blocs[0].img.categorie}/${blocs[0].img.src}`"
           :alt="blocs[0].img.alt"
           @click="updatePhoto(blocs[0]._id)"
         />
-      </div>
-      <h3>Mes Prestations</h3>
-      <div class="bloc-text">
-        <h5 @click="updateSubTitle(blocs[0]._id, blocs[0].subtitle)">
-          {{ blocs[0].subtitle }}
-        </h5>
-        <div
-          class="paragraphe"
-          v-html="blocs[0].paragraphes"
-          @click="updateTexte(blocs[0]._id, blocs[0].paragraphes)"
-        ></div>
-        <h5>Vous ne trouvez pas la formule qu'il vous faut ci-dessous ?</h5>
-        <p>Contactez-moi directement et parlons en ensembre !</p>
-        <Boutton
-          :texte="'Me Contacter'"
-          :css="'thirdly-big'"
-          :route="'/contact'"
-          :type="'router'"
-        />
+        <div class="bloc-text">
+          <h3>Mes Prestations</h3>
+          <h5 @click="updateSubTitle(blocs[0]._id, blocs[0].subtitle)">
+            {{ blocs[0].subtitle }}
+          </h5>
+          <div
+            class="paragraphe"
+            v-html="blocs[0].paragraphes"
+            @click="updateTexte(blocs[0]._id, blocs[0].paragraphes)"
+          ></div>
+          <h5>Vous ne trouvez pas la formule qu'il vous faut ci-dessous ?</h5>
+          <p>Contactez-moi directement et parlons en ensembre !</p>
+          <Boutton
+            :texte="'Me Contacter'"
+            :css="'thirdly-big'"
+            :route="'/contact'"
+            :type="'router'"
+          />
+        </div>
       </div>
     </section>
     <section
@@ -89,11 +89,6 @@
             :alt="bloc.img.alt"
             @click="updatePhoto(bloc._id)"
           />
-          <i
-            v-if="$store.state.admin"
-            class="fas fa-envelope"
-            @click="updateMessage(bloc._id, bloc.message)"
-          ></i>
           <figcaption>
             <h4 @click="updateSubTitle(bloc._id, bloc.subtitle)">
               {{ bloc.subtitle }}
@@ -110,6 +105,11 @@
               ></div>
               <button v-on:click="setMessage(bloc._id)">Me Contacter</button>
             </div>
+            <i
+              v-if="$store.state.admin"
+              class="fas fa-envelope"
+              @click="updateMessage(bloc._id, bloc.message)"
+            ></i>
           </figcaption>
         </figure>
       </div>
@@ -256,6 +256,7 @@ section {
     align-items: center;
     text-align: center;
     padding: 0% 1%;
+
     .paragraphe {
       text-align: start;
       font-size: 1.8vh;
@@ -275,28 +276,54 @@ section {
     }
   }
 }
+#first-section {
+  justify-content: space-evenly;
+  padding: 5% 0;
+  h2 {
+    height: 10%;
+  }
+  #texte-img-container {
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+    img {
+      height: 20%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}
 img {
   height: 40%;
   width: 100%;
   object-fit: cover;
   justify-self: start;
 }
-#title-img-container {
-  height: 40%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  text-align: center;
-}
-#img-acceuil {
-  height: 50%;
-  width: 100%;
-  object-fit: cover;
-}
 
 @media screen and (min-width: 768px) {
   #first-section {
-    padding-top: 12vh;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10% 0% 0% 0%;
+    h2 {
+      height: 10%;
+    }
+    #texte-img-container {
+      height: 90%;
+      flex-direction: row;
+      img {
+        height: 90%;
+        width: 35%;
+        object-fit: cover;
+      }
+      .bloc-text {
+        height: 90%;
+
+        width: 40%;
+      }
+    }
   }
   #tarif-section-web {
     height: 190vh;
@@ -304,6 +331,11 @@ img {
     justify-content: space-evenly;
     h3 {
       font-size: 5vh;
+    }
+    i {
+      right: -25%;
+      font-size: 5vh;
+      cursor: pointer;
     }
     #tarif-container {
       height: 80%;
