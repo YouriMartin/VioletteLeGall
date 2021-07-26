@@ -135,15 +135,17 @@ export default {
     font-weight: bold;
     font-size: 2.8vh;
     text-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
   }
 }
 button {
   background-color: var(--thirdly-color);
   color: var(--fourthly-color);
-  border: none;
+  border: solid 3px var(--fourthly-color);
   padding: 5%;
   margin: 5%;
   font-size: 2.5vh;
+  border-radius: 5px;
 }
 img {
   margin: 5%;
@@ -164,6 +166,21 @@ img {
     border-radius: 5px;
     color: var(--thirdly-color);
     padding: 2%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #collectionPhotos {
+    padding-top: 4vh;
+  }
+  button {
+    padding: 1% 3%;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--fourthly-color);
+      color: var(--thirdly-color);
+      border: solid 3px var(--thirdly-color);
+    }
   }
 }
 </style>

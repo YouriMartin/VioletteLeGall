@@ -22,13 +22,14 @@ app.use(
   })
 );
 app.use(express.json());
+
+//MongoDB and Mongoose
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 mongoose.set("useUnifiedTopology", true);
 
-//MongoDB and Mongoose
-let db = mongoose.connect("mongodb://localhost:27017/TestVioletteSite");
+let db = mongoose.connect("mongodb://localhost:27017/VioletteLeGallSite");
 
 //requêtes
 app.use("/articles", articlesRoutes);

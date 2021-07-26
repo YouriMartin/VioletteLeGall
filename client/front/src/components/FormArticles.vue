@@ -48,7 +48,7 @@ export default {
       article.append("alt", this.alt);
 
       console.log("article", this.texte);
-      /* this.$store.commit("loading");
+       this.$store.commit("loading");
       this.http
         .post("http://localhost:9000/articles/addArticle/Articles", article, {
           headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
@@ -66,7 +66,7 @@ export default {
           console.log("erreur", err.response);
           this.$store.commit("loading");
           window.alert(err.response.data);
-        });*/
+        });
     },
   },
 };

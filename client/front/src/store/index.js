@@ -13,7 +13,7 @@ export default new Vuex.Store({
   },
   mutations: {
     isMobile(state, width) {
-      if (width <= 768) {
+      if (width < 768) {
         state.mobile = true;
       } else {
         state.mobile = false;

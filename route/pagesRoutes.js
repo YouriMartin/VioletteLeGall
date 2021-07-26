@@ -20,7 +20,7 @@ router.post("/addPage", (req, res) => {
 });
 
 router.get("/getPage/:id", (req, res) => {
-  // console.log("param", req.params);
+   console.log("param", req.params);
   Pages.findById(req.params.id, function (err, page) {
     if (err) {
       res.status(500).send(err);

@@ -7,6 +7,8 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
+require("dotenv").config();
+const jwtSecreteKey = process.env.JWT_SECRETE_KEY;
 
 router.post("/inscription", (req, res) => {
   bcrypt
@@ -53,14 +55,9 @@ router.post("/connexion", (req, res) => {
                   }
                   res.status(200).json({
                     message: "connexion réussie",
-                    userId: admin._id,
-                    token: jwt.sign(
-                      { admin: admin._id },
-                      "CleSecreteDencodage",
-                      {
-                        expiresIn: "3h",
-                      }
-                    ),
+                    token: jwt.sign({ admin: admin._id }, jwtSecreteKey, {
+                      expiresIn: "3h",
+                    }),
                   });
                 });
             }

@@ -35,17 +35,12 @@
       <h3 @click="updateSubTitle(blocs[1]._id, blocs[1].subtitle)">
         {{ blocs[1].subtitle }}
       </h3>
-      <div id="float-container">
-        <!-- <img
-          :src="`http://localhost:9000/static/${blocs[1].img.categorie}/${blocs[1].img.src}`"
-          :alt="blocs[1].img.alt"
-          @click="updatePhoto(blocs[1]._id)"
-        /> -->
-        <div
-          @click="updateTexte(blocs[1]._id, blocs[1].paragraphes)"
-          v-html="blocs[1].paragraphes"
-        ></div>
-      </div>
+      <div
+        class="paragraphes"
+        @click="updateTexte(blocs[1]._id, blocs[1].paragraphes)"
+        v-html="blocs[1].paragraphes"
+      ></div>
+
       <Boutton
         :texte="'ME CONTACTER'"
         :css="'primary-big'"
@@ -93,16 +88,18 @@
       <h3 @click="updateSubTitle(blocs[3]._id, blocs[3].subtitle)">
         {{ blocs[3].subtitle }}
       </h3>
-      <img
-        :src="`http://localhost:9000/static/${blocs[3].img.categorie}/${blocs[3].img.src}`"
-        :alt="blocs[3].img.alt"
-        @click="updatePhoto(blocs[3]._id)"
-      />
-      <div
-        class="texte"
-        v-html="blocs[3].paragraphes"
-        @click="updateTexte(blocs[3]._id, blocs[3].paragraphes)"
-      ></div>
+      <div class="float-container">
+        <img
+          :src="`http://localhost:9000/static/${blocs[3].img.categorie}/${blocs[3].img.src}`"
+          :alt="blocs[3].img.alt"
+          @click="updatePhoto(blocs[3]._id)"
+        />
+        <div
+          class="paragraphes"
+          v-html="blocs[3].paragraphes"
+          @click="updateTexte(blocs[3]._id, blocs[3].paragraphes)"
+        ></div>
+      </div>
       <Boutton
         :texte="'ME CONTACTER'"
         :css="'primary-big'"
@@ -182,9 +179,9 @@ export default {
   },
   mounted() {
     //les vidéos youtube
-    // this.http.get("http://localhost:9000/youtube/getLastvideo").then((resp) => {
-    //   this.lienYoutube = resp.data;
-    // });
+    this.http.get("http://localhost:9000/youtube/getLastvideo").then((resp) => {
+      this.lienYoutube = resp.data;
+    });
     //les articles
     this.http
       .get("http://localhost:9000/articles/getAll")
@@ -272,16 +269,8 @@ Caroussel {
   h3 {
     letter-spacing: -2px;
   }
-  #float-container {
+  .paragraphes {
     padding: 10%;
-  }
-  img {
-    float: left;
-    margin-right: 5vw;
-    clip-path: circle(45%);
-    height: 25vh;
-    object-fit: cover;
-    shape-outside: circle();
   }
 }
 
@@ -305,15 +294,21 @@ Caroussel {
 }
 
 #third-section {
-  padding: 2%;
-  img {
-    height: 25%;
-    object-fit: cover;
+  .float-container {
+    height: 70%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    .paragraphes {
+      padding: 0% 8%;
+      line-height: 2.6vh;
+    }
+    img {
+      height: 35%;
+      object-fit: cover;
+    }
   }
-  letter-spacing: 0.3vh;
-  line-height: 2.5vh;
-  font-size: 2vh;
-  padding: 0% 5%;
 }
 
 #fifth-section {
@@ -392,22 +387,27 @@ Caroussel {
     }
   }
   #third-section {
-    line-height: 3.5vh;
-    .texte {
-      width: 60%;
-      // transform: translateX(2%);
-      text-align: justify;
-      text-justify: auto;
-    }
-    img {
-      height: 35%;
-      object-fit: cover;
+    .float-container {
+      flex-direction: row;
+      height: 60%;
+      padding: 0% 2%;
+      .paragraphes {
+        line-height: 3.5vh;
+        width: 60%;
+        text-align: justify;
+        text-justify: auto;
+        font-size: 1.7vh;
+      }
+      img {
+        height: 90%;
+        object-fit: cover;
+      }
     }
   }
   #fifth-section {
     .articles-container {
       flex-direction: row;
-      width: 70%;
+      width: 80%;
       .card-article {
         height: 80%;
         width: 40%;

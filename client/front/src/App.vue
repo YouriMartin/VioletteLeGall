@@ -18,14 +18,13 @@ export default {
     Loading,
   },
   data() {
-    return {
-      screenWidth: null,
-    };
+    return {};
   },
   beforeMount() {
     this.$store.dispatch("getScreenWidth", window.innerWidth);
     window.addEventListener("resize", () => {
-      this.screenWidth = window.innerWidth;
+      // this.screenWidth = window.innerWidth;
+      this.$store.dispatch("getScreenWidth", window.innerWidth);
     });
 
     this.http
@@ -40,12 +39,6 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-  },
-  watch: {
-    screenWidth: function (value) {
-      console.log(value);
-      this.$store.dispatch("getScreenWidth", value);
-    },
   },
 };
 </script>
@@ -143,7 +136,7 @@ h2 {
 h3 {
   font-family: "Signatura Monoline Script";
   font-weight: 200;
-  font-size: 10vh;
+  font-size: 9vh;
 }
 h4 {
   font-size: 5vh;

@@ -24,7 +24,6 @@
               </div>
             </transition-group>
           </draggable>
-
           <i
             v-if="!showAddPhoto"
             class="far fa-plus-square"
@@ -108,7 +107,6 @@
         fade
         :touchable="false"
         :fixedHeight="size"
-        :width="large"
         :arrows="true"
       >
         <vueper-slide

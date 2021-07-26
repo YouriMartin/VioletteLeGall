@@ -1,17 +1,14 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
+const jwtSecreteKey = process.env.JWT_SECRETE_KEY;
 
 module.exports = (req, res, next) => {
   //console.log(req.headers.authorization);
   try {
     const token = req.headers.authorization.split(" ")[1];
-    const decodeToken = jwt.verify(token, "CleSecreteDencodage");
-
-    const userIdDecode = decodeToken.userId;
-    if (req.headers.userid != userIdDecode) {
-      throw "Id User non valable !";
-    } else {
-      next();
-    }
+    jwt.verify(token, jwtSecreteKey);
+    next();
   } catch (error) {
     if (error) {
       res.send(error);
